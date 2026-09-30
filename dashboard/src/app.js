@@ -3,7 +3,7 @@ import { COUNTRIES, GLOBALS, GLOBAL_NOTES } from "./countries.js";
 import MARKETS from "./markets.json";
 
 const $ = (id) => document.getElementById(id);
-const TOTAL = 200000, BATCH = 20000, SEED = 20260929;
+const TOTAL = 200000, BATCH = 20000, FIRST_BATCH = 5000, SEED = 20260929;
 const YEARS_SHOWN = [2030, 2035, 2040, 2045, 2050];
 const G7 = ["USA", "GBR", "CAN", "DEU", "FRA", "JPN", "ITA"];
 const NAMES = { ITA: "Italy" };
@@ -54,7 +54,7 @@ function writeHash() {
   for (const k of ["shift", "appetite", "generosity"]) if (state[k]) h.set(k, state[k]);
   if (state.exposure !== "model") h.set("exposure", state.exposure);
   if (state.risks.length) h.set("risks", state.risks.join(","));
-  history.replaceState(null, "", `#${h}`);
+  history.replaceState(null, "", `#${h.toString().replace(/%2C/g, ",")}`);   // readable commas in shared links
 }
 const controlsFrom = (s) => ({
   shockShiftYears: s.shift, appetite: 2 ** s.appetite, generosity: 2 ** s.generosity, exposureMode: s.exposure,
@@ -79,7 +79,9 @@ function startRun() {
   requestBatch();
 }
 function requestBatch() {
-  const msg = { id: run.id, countries: COUNTRIES, globals: GLOBALS, controls: run.controls, n: Math.min(BATCH, TOTAL - run.filled), seed: SEED, start: run.filled };
+  // A small first batch puts a number on screen quickly on slower (phone) processors.
+  const size = run.filled === 0 ? FIRST_BATCH : BATCH;
+  const msg = { id: run.id, countries: COUNTRIES, globals: GLOBALS, controls: run.controls, n: Math.min(size, TOTAL - run.filled), seed: SEED, start: run.filled };
   if (worker) worker.postMessage(msg);
   else setTimeout(() => onBatch({ id: msg.id, start: msg.start, sim: simulate(msg) }), 0);   // no Worker: same batches on the main thread
 }
@@ -137,7 +139,7 @@ function subjectText() {
 function buildHeroControls() {
   const hc = $("hero-country");
   hc.innerHTML = COUNTRIES.map((c) => `<option value="${c.iso3}">${esc(c.inName)}</option>`).join("") +
-    `<option value="__multi">${state.sel.length > 1 ? esc(subjectText()) : "several countries (choose in the country list)"}</option>`;
+    `<option value="__multi">${state.sel.length > 1 ? esc(subjectText()) : "all ten countries"}</option>`;
   hc.value = state.sel.length === 1 ? state.sel[0] : "__multi";
   const one = state.sel.length === 1 ? COUNTRIES[byIso[state.sel[0]]] : null;
   $("hero-threshold").innerHTML = THRESHOLDS.map((t, i) => `<option value="${i}">${esc(one ? `${money((t / 100) * one.gdppc)} a year` : `${shareLabel(t)} a year`)}</option>`).join("");
@@ -181,7 +183,7 @@ function lineChart(el, { series, yMax, height = 260, markYear, compact = false, 
   el.innerHTML = svg;
   const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; el.appendChild(tip);
   const hit = el.querySelector(".hit"), cross = el.querySelector(".cross");
-  hit.addEventListener("pointermove", (ev) => {
+  const show = (ev) => {
     const r = el.getBoundingClientRect(), px = ev.clientX - r.left;
     const yr = Math.round(FIRST_YEAR + ((px - m.l) / (W - m.l - m.r)) * (LAST_YEAR - FIRST_YEAR));
     if (yr < FIRST_YEAR || yr > LAST_YEAR) return;
@@ -189,7 +191,9 @@ function lineChart(el, { series, yMax, height = 260, markYear, compact = false, 
     tip.hidden = false;
     tip.innerHTML = `<b>By ${yr}</b>` + series.map((s) => `<div><span style="background:${s.color};display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px"></span>${esc(s.label)}: ${fmtP(s.points.find((p) => p.year === yr).p, s.n)}</div>`).join("");
     tip.style.left = `${Math.max(0, Math.min(px + 12, W - tip.offsetWidth - 4))}px`; tip.style.top = `${compact ? 4 : 10}px`;
-  });
+  };
+  hit.addEventListener("pointermove", show);
+  hit.addEventListener("pointerdown", show);   // touch screens: tap to read a value
   hit.addEventListener("pointerleave", () => { tip.hidden = true; cross.setAttribute("visibility", "hidden"); });
 }
 const niceMax = (v) => [0.01, 0.02, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8, 1].find((s) => s >= v * 1.05) ?? 1;
@@ -398,6 +402,7 @@ function boot() {
   };
   writeHash();   // normalizes a hand-edited link
   buildControls();
+  buildHeroControls();   // fill the check's blanks before the first batch lands
   renderHow();
   renderAssumptions();
   worker = makeWorker();

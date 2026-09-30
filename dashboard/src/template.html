@@ -104,7 +104,7 @@ header.top .meta { color: var(--muted); font-size: 13px; }
 .cond-note { margin: 10px 2px 0; font-size: 13.5px; color: var(--ink-2); min-height: 1.4em; }
 .cond-note button { margin-left: 6px; }
 
-.layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 20px; margin-top: 18px; align-items: start; }
+.layout { display: grid; grid-template-columns: minmax(230px, 290px) minmax(0, 1fr); gap: 20px; margin-top: 18px; align-items: start; }
 aside.controls { position: sticky; top: 12px; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; padding: 14px 14px 10px; max-height: calc(100vh - 24px); overflow: auto; }
 aside.controls h2 { font-size: 13px; font-weight: 600; margin: 14px 0 6px; color: var(--ink); }
 aside.controls h2:first-child { margin-top: 0; }
@@ -162,7 +162,21 @@ details.country ul { padding-left: 18px; margin: 6px 0; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 .busy { opacity: 0.55; transition: opacity 120ms; }
 @media (prefers-reduced-motion: reduce) { .busy { transition: none; } }
-@media (max-width: 860px) {
+@media (max-width: 1000px) {
+  .wrap { padding-top: 12px; }
+  header.top { margin-bottom: 10px; }
+  header.top h1 { font-size: 14px; }
+  .layout { gap: 14px; margin-top: 12px; }
+  aside.controls { padding: 12px 12px 8px; }
+  main section { padding: 14px 14px; }
+  .check { padding: 14px 16px 10px; gap: 4px 18px; }
+  .check .lines { font-size: 20px; line-height: 1.45; }
+  .check .lbl { min-width: 6.6em; }
+  .amount .box { font-size: 46px; padding: 6px 10px 4px; }
+  .check .memo { font-size: 11.5px; padding-top: 6px; }
+  .cond-note { margin-top: 6px; }
+}
+@media (max-width: 680px) {
   .layout { grid-template-columns: 1fr; }
   aside.controls { position: static; max-height: none; }
   .check { grid-template-columns: 1fr; padding: 18px 16px 14px; }
