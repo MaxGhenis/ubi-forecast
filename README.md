@@ -1,6 +1,6 @@
 # When will countries enact a universal basic income?
 
-A Bayesian forecast of universal basic income adoption in ten countries (the United States, the United Kingdom, Canada, Germany, France, Spain, Japan, South Korea, Australia and Brazil), running at [maxghenis.com/ubi](https://maxghenis.com/ubi/).
+A Bayesian forecast of universal basic income adoption in ten countries (the United States, the United Kingdom, Canada, Germany, France, Spain, Japan, South Korea, Australia and Brazil), running at [maxghenis.com/ubi-forecast](https://maxghenis.com/ubi-forecast/).
 
 The question: when does a country enact a national law paying every adult citizen a recurring, unconditional cash amount at or above a threshold? The threshold is set as a share of GDP per head, so it means the same thing everywhere. The default of 6.7% is $6,000 a year in the US.
 
