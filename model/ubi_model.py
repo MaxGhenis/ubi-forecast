@@ -54,21 +54,21 @@ INPUTS: dict[str, Rng3] = {
     # --- AI labor shock: cumulative probability of onset by the end of each year ---
     # "Shock" = sustained, economist-attributed AI displacement worth >= ~3 pp of
     # unemployment (or an equal employment-rate drop). UNRATE was 4.1% in Aug 2026 (FRED).
-    "shock_by_2028": Rng3(0.04, 0.08, 0.15,
+    "shock_by_2028": Rng3(0.008, 0.016, 0.03,
         "Onset by end-2028.",
         "Manifold ACX 'visible break in US macro trend attributed to AI by 2028' 30% (643 traders), "
         "but that also counts positive GDP or productivity breaks, so the unemployment part is well below it."),
-    "shock_by_2030": Rng3(0.10, 0.18, 0.28,
+    "shock_by_2030": Rng3(0.033, 0.063, 0.11,
         "Onset by end-2030.",
         "Manifold 'AI causes US unemployment > 10% before 2030' 23% (175 traders; needs >= 3 pp "
         "attributable to AI), discounted for Manifold's pro-AI skew."),
-    "shock_by_2035": Rng3(0.20, 0.33, 0.48,
+    "shock_by_2035": Rng3(0.10, 0.17, 0.25,
         "Onset by end-2035.",
         "Manifold AGI series (RemNi): 58% before 2032, 63% before 2035; times P(shock | AGI) about 0.5-0.6."),
-    "shock_by_2040": Rng3(0.28, 0.43, 0.60,
+    "shock_by_2040": Rng3(0.15, 0.24, 0.34,
         "Onset by end-2040.",
         "Manifold 'AGI before 2040' 72% (98 traders) times P(shock | AGI) about 0.6."),
-    "shock_by_2050": Rng3(0.35, 0.55, 0.75,
+    "shock_by_2050": Rng3(0.20, 0.32, 0.44,
         "Onset by end-2050.",
         "Manifold 'AGI before 2048' 87%; '>97% of jobs automated before 2075' 63%."),
     "politics_lag_years": Rng3(0.0, 1.0, 2.0,
@@ -97,15 +97,15 @@ INPUTS: dict[str, Rng3] = {
 
     # --- Endorsement: P(the President or the governing party's platform endorses a qualifying UBI within a
     #     4-year term), by control and whether the shock is under way. Observable: statements, platforms. ---
-    "e_D_normal": Rng3(0.002, 0.01, 0.03, "D trifecta endorses, no shock.", "DATA: no strict-UBI endorsement by any of the ten governments in about 75 terms since 2000."),
-    "e_R_normal": Rng3(0.001, 0.004, 0.012, "R trifecta endorses, no shock.", "DATA: same record."),
-    "e_div_normal": Rng3(0.001, 0.004, 0.012, "The President endorses under divided government, no shock.", "DATA: same record."),
+    "e_D_normal": Rng3(0.0, 0.0517, 0.2697, "D trifecta endorses, no shock.", "DATA: fitted to the verified 2000-2026 record of all ten countries (research/endorsement/fit.py)."),
+    "e_R_normal": Rng3(0.0, 0.0188, 0.041, "R trifecta endorses, no shock.", "DATA: same record."),
+    "e_div_normal": Rng3(0.0, 0.0, 0.1378, "The President endorses under divided government, no shock.", "DATA: same record."),
     "e_D_shock": Rng3(0.35, 0.6, 0.85, "D trifecta endorses during a shock.", "JUDGMENT: no trigger-type shock in the record."),
     "e_R_shock": Rng3(0.1, 0.35, 0.65, "R trifecta endorses during a shock.", "JUDGMENT."),
     "e_div_shock": Rng3(0.15, 0.4, 0.7, "The President endorses under divided government during a shock.", "JUDGMENT."),
     # --- Passage: P(an endorsed UBI becomes law before the next federal election), by control. Observable: public law. ---
-    "pass_D": Rng3(0.35, 0.55, 0.75, "An endorsed UBI passes under a D trifecta.", "DATA: about half of US trifectas' flagship priorities since 1993 passed."),
-    "pass_R": Rng3(0.35, 0.55, 0.75, "An endorsed UBI passes under an R trifecta.", "DATA: same record."),
+    "pass_D": Rng3(0.3, 0.5, 0.7, "An endorsed UBI passes under a D trifecta.", "DATA: about half of US trifectas' flagship priorities since 1993 passed."),
+    "pass_R": Rng3(0.3, 0.5, 0.7, "An endorsed UBI passes under an R trifecta.", "DATA: same record."),
     "pass_div": Rng3(0.03, 0.10, 0.20, "An endorsed UBI passes under divided government.", "JUDGMENT."),
 
     # --- Amount at enactment, per adult per year in 2026 dollars (lognormal median) ---

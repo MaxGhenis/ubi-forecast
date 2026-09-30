@@ -11,7 +11,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent.parent
 VERSION = sys.argv[1] if len(sys.argv) > 1 else "r2-20260930"
-REVISION, DATE = "Model revision 2", "30 September 2026"
+REVISION, DATE = "Model revision 2", "1 October 2026"
 V = dict(re.findall(r'^(\w+): "([^"]*)"$', (HERE / "_variables.yml").read_text(), re.M))
 OG = json.loads((HERE.parent / "dashboard" / "og" / "og.json").read_text())   # rendered by dashboard/og/build_og.py
 

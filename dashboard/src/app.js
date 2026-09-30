@@ -279,7 +279,7 @@ function renderSignposts(S, t) {
     rows.map(({ d, r, nYes }) => `<tr class="${state.cond === d.id ? "active" : ""}">${narrow
       ? `<td>${esc(d.label)}<div class="sp-row">${plot(r, nYes)}${button(d)}</div></td>${nums(r, nYes)}`
       : `<td>${esc(d.label)}</td>${nums(r, nYes)}<td>${plot(r, nYes)}</td><td>${button(d)}</td>`}</tr>`).join("")}</tbody></table>
-    <p class="help">Filled dot: forecast if yes. Hollow dot: if no. Tick: today's forecast. Scale 0 to ${fmtTick(top)}. The US trigger: the 12-month average unemployment rate 3 points above its 2025 level while real GDP is at or above its previous peak.</p>`;
+    <p class="help">Filled dot: forecast if yes. Hollow dot: if no. Tick: today's forecast. Scale 0 to ${fmtTick(top)}. The US trigger: the 12-month average unemployment rate rises 3 points or more above its lowest level of the previous three years, while real GDP never falls more than 1% below its previous peak during the rise.</p>`;
   for (const b of document.querySelectorAll("[data-cond]")) b.onclick = () => { state.cond = state.cond === b.dataset.cond ? null : b.dataset.cond; update(); };
 }
 
@@ -325,7 +325,7 @@ function renderSoon() {
 function renderShiftHelp() {
   if (!sim) return;
   const c = cumulativeOf(sim, sim.triggerYear, [byIso.USA]).curve, at = (y) => fmtP(c.find((r) => r.year === y).p, sim.n);
-  $("h-shift").textContent = `Trigger: US unemployment (12-month average) at least 3 points above its 2025 level while real GDP is at or above its previous peak. Chance it is met by 2030: ${at(2030)}; by 2035: ${at(2035)}; by 2040: ${at(2040)}.`;
+  $("h-shift").textContent = `Trigger: the 12-month average unemployment rate rises 3 points or more above its lowest level of the previous three years, while real GDP never falls more than 1% below its previous peak during the rise. Chance it is met by 2030: ${at(2030)}; by 2035: ${at(2035)}; by 2040: ${at(2040)}.`;
 }
 
 const GLOBAL_LABELS = {
@@ -337,13 +337,13 @@ function renderAssumptions() {
   const qty = (r, f) => `${f(r.lo)}–${f(r.hi)}, most likely ${f(r.mode)}`;
   const tr = (a, b, c, k, n) => `<tr><td>${esc(a)}</td><td>${esc(b)}</td><td>${esc(c)}</td><td>${badge(k)} ${esc(n || "")}</td></tr>`;
   const head = `<thead><tr><th>Assumption</th><th>Value</th><th>Resolves</th><th>Basis</th></tr></thead>`;
-  let g = Object.entries(GLOBAL_LABELS).map(([k, lab]) => tr(lab, pctIn(pertMean(GLOBALS[k])), `31 December ${k.slice(-4)}, from BLS unemployment (FRED UNRATE) and BEA real GDP (FRED GDPC1)`, "judgment", `Anchored to markets. ${GLOBAL_NOTES[k]}`)).join("");
+  let g = Object.entries(GLOBAL_LABELS).map(([k, lab]) => tr(lab, pctIn(pertMean(GLOBALS[k])), `31 December ${k.slice(-4)}, from BLS unemployment (FRED UNRATE) and BEA real GDP (FRED GDPC1), each month judged on the day BEA first estimates GDP for its quarter`, "judgment", `Anchored to markets. ${GLOBAL_NOTES[k]}`)).join("");
   g += tr("A country's shock counts as under way from this many calendar years after its trigger is met, and stays under way through 2050 even if unemployment later falls", `${qty(GLOBALS.politics_lag_years, (x) => `${x + 1}`)}`, "Only in aggregate, by when governments start endorsing after triggers", "judgment", GLOBAL_NOTES.politics_lag_years);
   g += tr("No country meets its trigger in a history where the US never meets its own", "certain (structural)", "False if a country meets its trigger and the US does not meet its own within that country's lag range", "judgment", "The model has no independent trigger for other countries: a shock confined to Europe or to Korea is ruled out.");
   let html = `<h3 style="font-size:14px;margin:4px 0">Shared by every country</h3><div class="tablewrap"><table>${head}<tbody>${g}</tbody></table></div>`;
   for (const iso of state.sel) {
     const c = COUNTRIES[byIso[iso]], term = c.termYears ?? 4, rows = [];
-    if (c.trigger) rows.push(tr(`${c.name}'s trigger: ${c.trigger.series} 12-month average at or above ${c.trigger.level}% while real GDP is at or above its previous peak`,
+    if (c.trigger) rows.push(tr(`${c.name}'s trigger: the ${c.trigger.series} 12-month average rises 3 points or more above its lowest level of the previous three years, while real GDP never falls more than 1% below its previous peak during the rise`,
       `2025 average: ${c.trigger.baseline}%`, `Monthly, from ${c.trigger.source}`, "data", c.trigger.note || ""));
     if (iso !== "USA") {
       rows.push(tr(`If the US trigger is met, ${c.name}'s is met too, within the years below`, pctIn(pertMean(c.exposure)), `When the US trigger is met, plus ${Math.max(0, Math.ceil(c.lag.hi))} years`, "judgment", c.exposureNote || ""));
@@ -381,13 +381,13 @@ function renderAssumptions() {
 function renderHow() {
   $("how").innerHTML = `
     <p>The model covers ten countries: the United States, the United Kingdom, Canada, Germany, France, Spain, Japan, South Korea, Australia and Brazil. For each, a research agent gathered the current government, election calendar, party positions on basic income, polling, existing programs and election markets. A second agent re-fetched the cited sources for 332 of those claims: 264 held, 42 needed corrections, 7 were wrong and 19 could not be checked. The corrections are applied, and each fact in the ledger links to a source that states it.</p>
-    <p>Each simulated history runs from 2027 to 2050. It first decides when, if at all by 2050, the US meets its trigger: a 12-month average unemployment rate 3 points above its 2025 level while real GDP is at or above its previous peak. In all eleven episodes on record across the ten countries (for the US, since 1948) in which the 12-month unemployment rate rose 3 points or more, real GDP was below its previous peak, so the second condition separates a labor-displacing technology shock from an ordinary recession. Each other country may meet its own version of the trigger, with its own chance and lag. Each election decides whether the government is left-led, right-led or of another type. Each year, a government that has not endorsed a UBI may endorse one, with a chance that depends on its type and on whether a shock is under way; an endorsement lapses when the type of government changes. An endorsed UBI may then become law. If one passes, its size is drawn relative to GDP per head, and during a shock a governing majority can raise it later.</p>
+    <p>Each simulated history runs from 2027 to 2050. It first decides when, if at all by 2050, the US meets its trigger: the 12-month average unemployment rate rises 3 points or more above its lowest level of the previous three years, while real GDP never falls more than 1% below its previous peak during the rise. The rise is measured the way the Sahm recession rule measures one, against a recent low, and the output test is peak-relative. No agency or market uses this exact rule, but nobody has adopted any rule for an AI labor shock, and this one is built from established parts. In the records of the ten countries (for the US, since 1951) it has never been met: every rise of 3 points or more came with an output fall, so it separates jobless growth from an ordinary recession. It is not specific to AI; any cause of jobless growth would meet it. Each other country meets its own trigger only if the US does, with its own chance and lag. Each election decides whether the government is left-led, right-led or of another type. Each year, a government that has not endorsed a UBI may endorse one, with a chance that depends on its type and on whether a shock is under way; an endorsement stands until an election hands the head of government to the other side. While it stands, the UBI may become law before each election. If one passes, its size is drawn relative to GDP per head, and during a shock a governing majority can raise it later.</p>
     <p>A forecast here is the share of histories where the event happens. Every history carries its own draw of the inputs, so that share already averages over what we don't know about them. The signposts above show how far it would move if we learned something.</p>
     <p>Every assumption is stated so it can turn out wrong: triggers resolve from official statistics each year, government types at each election, endorsements from what governments say, and enactment from statute. The ledger gives each assumption's resolution, and "Checkable soon" lists the predictions due first. The sliders and risk switches edit those explicit values; a supposition keeps them and filters to the histories where it comes true, which is Bayes' rule applied to the simulation. The page starts with a small batch of histories and adds batches up to 200,000; a decimal place appears once the simulation's own noise is below 0.1 points.</p>
     <h3>What it leaves out</h3>
     <p>AI timing and elections are independent here, though a shock would move elections; that assumption fails if incumbents lose markedly more often after a trigger. Party labels compress real coalitions into left-led, right-led and other. Endorsement and passage chances are judgments informed by the base rates in the ledger. The US version matches a separate Python model to within simulation noise. The engine is tested for invariants: probabilities are nested by year, amount and country set, and every signpost averages back to today's forecast. The Python model's tests check the same for year and amount.</p>
     <h3>Revisions</h3>
-    <p>Revision 2 (30 September 2026) splits enactment into two observable steps, endorsement and passage, replaces the "political appetite" and "generosity" multipliers with explicit probabilities and amounts, defines the AI shock as a measurable unemployment trigger, and calibrates the no-shock endorsement rate to the record: no endorsement of a strict UBI by any of the ten governments in about 75 terms since 2000. Revision 1 (29 September) put a US UBI worth $6,000 a year at 9.6% by 2040; revision 2 puts it lower, because endorsing first and passing later takes time, an endorsement lapses when the government changes, and the record rules out the no-shock rates revision 1 implied.</p>
+    <p>Revision 2 (1 October 2026) splits enactment into two observable steps, endorsement and passage, states every input as a proposition with a resolution, defines the AI shock as a trigger that has never been met in the ten countries' records, fits the no-shock endorsement rates to a verified record of every government since 2000, and states passage as the chance of becoming law before the next election. Revision 1 (dated 29 September, published 30 September) put a US UBI worth $6,000 a year at 9.6% by 2040. The two versions differ in structure, trigger and priors at once, so the change in the headline is not attributed to any one of them.</p>
     <p>Code, research and tests: <a href="https://github.com/MaxGhenis/ubi-forecast">github.com/MaxGhenis/ubi-forecast</a>.</p>`;
 }
 
@@ -442,7 +442,7 @@ function update() {
 
 // ---------------------------------------------------------------- boot
 function boot() {
-  $("asof").textContent = "Revision 2, 30 September 2026.";
+  $("asof").textContent = "Revision 2, 1 October 2026.";
   const root = document.documentElement;
   const current = () => root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   const setThemeLabel = () => { const next = current() === "dark" ? "Light" : "Dark"; $("theme").textContent = next; $("theme").setAttribute("aria-label", `${next} theme`); };

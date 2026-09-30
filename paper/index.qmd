@@ -39,7 +39,7 @@ Three findings stand out. First, almost the whole forecast depends on a labor sh
 
 # What forecasters say now
 
-@fig-markets compares nine open Manifold markets with this model's answer to the nearest question it can express. The markets price every question at eight or more times the model's answer.
+@fig-markets compares nine open Manifold markets with this model's answer to the nearest question it can express. Every market prices its question above the model's answer, from about twice as high (the OECD market) to more than thirty times.
 
 ![Manifold prices and this model's answer to each market's nearest question, as of 29 September 2026. Trader counts in parentheses.](figures/fig_markets.png){#fig-markets}
 
@@ -71,7 +71,7 @@ The model forecasts the year a country enacts a national law paying every adult 
 
 ## The trigger
 
-The model's labor shock is a measurable event. The US trigger is met in the first month that the 12-month average of the BLS unemployment rate reaches 7.3%, three points above its 2025 average of 4.26%, while real GDP is at or above its previous peak. The second condition separates a labor-displacing technology shock from an ordinary recession: in a recession output falls along with employment. In the official records of all ten countries, eleven episodes saw the 12-month unemployment rate rise three points or more above its level two years earlier: the United States in 1975, 2009 and 2020, Canada three times, Australia twice, and the United Kingdom, Spain and South Korea once each. In all eleven, real GDP was below its previous peak.
+The model's labor shock is a measurable event. The US trigger is met in the first month in which the 12-month average of the BLS unemployment rate is at least 3 points above its lowest level of the previous three years, while real GDP (BEA) never fell more than 1% below its previous peak during that rise; each month is judged on the day BEA first estimates GDP for its quarter. No agency, market or bill uses a rule for an AI labor shock, so this one is assembled from established parts: the rise is measured against a recent low, as in the Sahm recession rule, and the output test is peak-relative. The output test separates jobless growth from an ordinary recession, in which output falls along with employment. In the official records of the ten countries, fifteen rises of 3 points or more occurred (the United States in 1975, 1982, 2009 and 2020; Canada four times; Australia and Spain twice; the United Kingdom, Brazil and South Korea once), and every one for which output data exist came with an output fall of more than 1%, so the rule has never been met: not in the United States since 1951 and not in 395 country-years across the ten. The rule is not specific to AI; any cause of jobless growth would meet it. Because a 12-month average takes one to three years to rise 3 points and the output test blocks shocks that come with an output fall, the market-anchored timing prior is moved 1.5 years later and scaled by 0.6.
 
 The chance the trigger is met by each year is a prior anchored to markets on artificial general intelligence and AI-driven unemployment. A 175-trader Manifold market gives 23% to AI pushing US unemployment above 10% before 2030, and a series of AGI markets gives 53% to AGI before 2030 and 72% before 2040. The model discounts both: it needs a shock of a specific size and shape, not AGI as such. Surveys of AI researchers place full automation of labor much later than these markets do [@grace2025thousands], and exposure estimates suggest that large language models touch a large share of tasks without saying how fast employment adjusts [@eloundou2024gpts; @cazzaniga2024genai]. Economic theory allows both outcomes: automation that displaces labor faster than new tasks reinstate it, or complementarity that raises wages [@acemoglu2019automation; @autor2015why; @korinek2024scenarios].
 
@@ -113,7 +113,7 @@ For each country, a research agent gathered the government, election calendar, p
 
 {{< include _includes/table_trigger.md >}}
 
-: Trigger and amount priors by country. Trigger levels are each country's 2025 average unemployment rate plus three points, from official series named in the dashboard's ledger. {#tbl-trigger}
+: Trigger and amount priors by country. Each country's trigger applies the same rule to its own official unemployment and GDP series, named in the dashboard's ledger. {#tbl-trigger}
 
 Public opinion enters through judgment. In the 2016 European Social Survey, support for a basic income ranged from about a third to four-fifths across countries [@roosma2020public], and was broadest where social spending is lowest, the countries least able to afford one [@parolin2020support]. Individual exposure to automation has not predicted support [@dermont2020automation], so the model gives no weight to exposure before a shock arrives.
 
@@ -129,7 +129,7 @@ Evidence on effects enters only through feasibility. Finland's experiment had no
 
 ![Chance of a UBI worth at least 6.7% of GDP per head by each year, one country per panel on a shared scale.](figures/fig_countries.png){#fig-countries}
 
-Australia ({{< var aus_2040 >}} by 2040), Canada ({{< var can_2040 >}}), the United Kingdom ({{< var gbr_2040 >}}) and the United States ({{< var usa_2040 >}}) lead; @tbl-countries gives the rest. At least one of the ten gets there with probability {{< var all_t2_2040 >}} by 2040 and {{< var all_t2_2050 >}} by 2050. The countries move together because they share one trigger timing.
+Canada ({{< var can_2040 >}} by 2040), Australia ({{< var aus_2040 >}}), Brazil ({{< var bra_2040 >}}) and the United Kingdom ({{< var gbr_2040 >}}) lead, and the United States is at {{< var usa_2040 >}}; @tbl-countries gives the rest. At least one of the ten gets there with probability {{< var all_t2_2040 >}} by 2040 and {{< var all_t2_2050 >}} by 2050. The countries move together because they share one trigger timing.
 
 ## The trigger carries the forecast
 
@@ -151,7 +151,7 @@ The threshold changes the answer. The United States has {{< var usa_any_2040 >}}
 
 : The chance by 2040 under alternative assumptions, each from 100,000 histories (so the default row can differ slightly from the 200,000-history figures elsewhere). Each row changes explicit inputs; the dashboard shows the resulting values. {#tbl-scenarios}
 
-Passage is the strongest lever. Doubling how often an endorsed UBI becomes law raises the US forecast to {{< var sc_endorsed_ubis_pass_twice_as_often_usa >}}; halving it cuts the forecast to {{< var sc_endorsed_ubis_pass_half_as_often_usa >}}. Doubling how often left-led governments endorse raises it to {{< var sc_left_led_governments_endorse_twice_as_often_usa >}}. Moving the US trigger five years later cuts it to {{< var sc_us_trigger_5_years_later_usa >}}, and halving amounts cuts it to {{< var sc_amounts_half_as_large_usa >}}, because fewer programs clear the $6,000 bar.
+Endorsement, passage and amounts are levers of similar size for the United States. Doubling how often an endorsed UBI becomes law raises the US forecast to {{< var sc_endorsed_ubis_pass_twice_as_often_usa >}}; halving it cuts the forecast to {{< var sc_endorsed_ubis_pass_half_as_often_usa >}}. Doubling how often left-led governments endorse raises it to {{< var sc_left_led_governments_endorse_twice_as_often_usa >}}. Moving the US trigger five years later cuts it to {{< var sc_us_trigger_5_years_later_usa >}}, and halving amounts cuts it to {{< var sc_amounts_half_as_large_usa >}}, because fewer programs clear the $6,000 bar.
 
 # What would prove it wrong
 
@@ -163,7 +163,7 @@ Every input is a proposition that can turn out false. @tbl-soon lists the predic
 
 The trigger probabilities resolve every December. The model gives {{< var usa_trig2028 >}} that the US trigger is met by the end of 2028 and {{< var usa_trig2030 >}} by 2030; if the trigger arrives much earlier, the AI-market anchors were too pessimistic about timing. The endorsement probabilities are the sharpest test: {{< var all_end2030 >}} that some government among the ten endorses a qualifying UBI by 2030. An endorsement without a trigger would say the no-shock priors are too low; several endorsements after a trigger with no passage would say the passage priors are too high.
 
-The conditional inputs resolve only when their condition occurs. "If a left-led government holds power during a shock, it endorses a UBI within its term" cannot be tested until such a government faces such a shock. The dashboard's ledger lists each one with its condition, and scores will be added as they resolve.
+The conditional inputs resolve only when their condition occurs. "A left-led government holding power during a shock endorses a UBI at a given yearly rate" cannot be tested until such a government faces such a shock. The dashboard's ledger lists each one with its condition, and scores will be added as they resolve.
 
 # Validation
 
@@ -173,7 +173,7 @@ Property-based tests, written with fast-check and Hypothesis, check invariants f
 
 # Limitations
 
-Elections and the trigger are independent in the model, though a labor shock would likely move elections; if incumbents lose markedly more often after a trigger, that assumption fails. Three government types compress real coalitions. Endorsement and passage priors are judgments informed by the base rates in the ledger, not estimates from data, because no country has enacted a qualifying UBI at scale. The model does not include repeal, the threshold ignores differences in existing benefits, and the ten countries omit Italy and every country outside the OECD except Brazil.
+Elections and the trigger are independent in the model, though a labor shock would likely move elections; if incumbents lose markedly more often after a trigger, that assumption fails. Three government types compress real coalitions. No-shock endorsement rates are fitted to the record; shock-state endorsement and passage priors are judgments informed by the base rates in the ledger, because no country has enacted a qualifying UBI at scale. The model does not include repeal, the threshold ignores differences in existing benefits, and the ten countries omit Italy and every country outside the OECD except Brazil.
 
 Theory gives reason for doubt about the premise itself. Task-based models let new work absorb displaced labor [@acemoglu2019automation], one careful estimate puts AI's ten-year productivity effect below 1% [@acemoglu2025simple], and past automation left most jobs standing [@autor2015why]. If none of the ten countries meets its trigger by 2040, the model's own signposts say a UBI is unlikely there by then.
 
@@ -183,7 +183,7 @@ The question "when will the US adopt a universal basic income?" has a simple str
 
 # Revisions {.appendix}
 
-The first version of this model, published on the dashboard on 29 and 30 September 2026, put a US UBI worth $6,000 a year at 9.6% by 2040. It collapsed endorsement and passage into one per-term enactment chance and scaled it with a single "political appetite" multiplier that no observation could contradict. This version splits enactment into the two observable steps above and calibrates the no-shock endorsement rate to the record, which has no endorsement of a strict UBI by any of the ten governments in about 75 terms since 2000. Both changes lower the forecast: endorsing first and passing later takes time, an endorsement lapses when the government changes, and the record rules out the no-shock rates the first version implied.
+The first version of this model, dated 29 September and published on the dashboard on 30 September 2026, put a US UBI worth $6,000 a year at 9.6% by 2040. It collapsed endorsement and passage into one per-term enactment chance and scaled it with a single "political appetite" multiplier that no observation could contradict. This version splits enactment into the two observable steps above, states passage as the chance of becoming law before the next election, replaces the unemployment-level trigger (which, as a pre-publication review found, would have been met in ordinary recession recoveries) with one that has never been met, and fits the no-shock endorsement rates to a verified record of every government since 2000. That record has four new endorsements: Brazil in 2004, 2021 and 2023, when presidents of both sides signed laws describing their programs as steps toward a universal basic income, and South Korea's governing party in 2022. The versions differ in structure, trigger and priors at once, so the change in the headline is not attributed to any one of them.
 
 # Reproducibility {.appendix}
 
