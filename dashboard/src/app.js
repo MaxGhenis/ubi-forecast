@@ -1,4 +1,4 @@
-import { THRESHOLDS, FIRST_YEAR, LAST_YEAR, RISKS, simulate, cumulative, cumulativeOf, eventMask, maskFrom, signpost, pertMean } from "./engine.js";
+import { THRESHOLDS, FIRST_YEAR, LAST_YEAR, RISKS, simulate, cumulative, cumulativeOf, eventMask, maskFrom, signpost, pertMean, perYear } from "./engine.js";
 import { COUNTRIES, GLOBALS, GLOBAL_NOTES } from "./countries.js";
 import MARKETS from "./markets.json";
 
@@ -72,7 +72,7 @@ function makeWorker() {
 }
 function startRun() {
   run = { id: (run?.id || 0) + 1, filled: 0, t0: performance.now(), controls: controlsFrom(state),
-          onset: new Float32Array(TOTAL), firstYear: new Int16Array(TOTAL * C * T), stateNext: new Int8Array(TOTAL * C),
+          onset: new Float64Array(TOTAL), firstYear: new Int16Array(TOTAL * C * T), stateNext: new Int8Array(TOTAL * C),
           firstEndorse: new Int16Array(TOTAL * C), triggerYear: new Int16Array(TOTAL * C) };
   sim = null;
   for (const el of document.querySelectorAll("main section, .check")) el.classList.add("busy");
@@ -212,8 +212,9 @@ const fmtTick = (t) => `${Math.round(t * 1000) / 10}%`;
 function render() {
   buildHeroControls();
   if (!sim) return;
-  const S = subset(), t = state.t, cd = conditionDef();
-  const cond = cd ? cd.mask() : null;
+  const S = subset(), t = state.t;
+  let cd = conditionDef(), cond = cd ? cd.mask() : null, cleared = null;
+  if (cond && !cond.some((v) => v)) { cleared = cd.label; state.cond = null; writeHash(); cd = null; cond = null; }   // impossible under these assumptions
   const prior = cumulative(sim, S, t);
   const post = cond ? cumulative(sim, S, t, cond) : null;
   const at = (curve, y) => curve.find((r) => r.year === y).p;
@@ -222,7 +223,8 @@ function render() {
   $("hero-p").textContent = post ? fmtP(at(post.curve, state.year), post.n) : fmtP(pNow, sim.n);
   $("hero-sub").textContent = post ? `If ${lowerFirst(cd.label)}. Today's forecast: ${fmtP(pNow, sim.n)}.` : "Chance, averaged over every assumption's range";
   $("hero-hist").textContent = `${sim.n.toLocaleString("en-US")} simulated histories${post ? `, ${post.n.toLocaleString("en-US")} of them matching the supposition` : ""}`;
-  $("cond-note").innerHTML = post ? `Supposing ${esc(lowerFirst(cd.label))}. <button class="btn" type="button" id="clear-cond">Clear supposition</button>` : "";
+  $("cond-note").innerHTML = post ? `Supposing ${esc(lowerFirst(cd.label))}. <button class="btn" type="button" id="clear-cond">Clear supposition</button>`
+    : cleared ? `No simulated history matches the supposition “${esc(cleared)}” under these assumptions, so it was cleared.` : "";
   if (post) $("clear-cond").onclick = () => { state.cond = null; update(); };
 
   const series = [{ label: post ? "Today's forecast" : subjectCap(), color: "var(--series-1)", points: prior.curve, n: prior.n, endLabel: post ? "Today" : "" }];
@@ -328,19 +330,20 @@ function renderAssumptions() {
   const tr = (a, b, c, k, n) => `<tr><td>${esc(a)}</td><td>${esc(b)}</td><td>${esc(c)}</td><td>${badge(k)} ${esc(n || "")}</td></tr>`;
   const head = `<thead><tr><th>Assumption</th><th>Value</th><th>Resolves</th><th>Basis</th></tr></thead>`;
   let g = Object.entries(GLOBAL_LABELS).map(([k, lab]) => tr(lab, pctIn(pertMean(GLOBALS[k])), `31 December ${k.slice(-4)}, from BLS unemployment (FRED UNRATE) and BEA real GDP (FRED GDPC1)`, "judgment", `Anchored to markets. ${GLOBAL_NOTES[k]}`)).join("");
-  g += tr("Shock-driven endorsements begin 1 to 3 years after a country's trigger is met", `${qty(GLOBALS.politics_lag_years, (x) => `${x + 1}`)} years`, "By the timing of the first endorsement after a trigger", "judgment", GLOBAL_NOTES.politics_lag_years);
+  g += tr("A country's shock counts as under way from this many calendar years after its trigger is met, and stays under way through 2050 even if unemployment later falls", `${qty(GLOBALS.politics_lag_years, (x) => `${x + 1}`)}`, "Only in aggregate, by when governments start endorsing after triggers", "judgment", GLOBAL_NOTES.politics_lag_years);
+  g += tr("No country meets its trigger in a history where the US never meets its own", "certain (structural)", "False if a country meets its trigger and the US does not meet its own within that country's lag range", "judgment", "The model has no independent trigger for other countries: a shock confined to Europe or to Korea is ruled out.");
   let html = `<h3 style="font-size:14px;margin:4px 0">Shared by every country</h3><div class="tablewrap"><table>${head}<tbody>${g}</tbody></table></div>`;
   for (const iso of state.sel) {
     const c = COUNTRIES[byIso[iso]], term = c.termYears ?? 4, rows = [];
     if (c.trigger) rows.push(tr(`${c.name}'s trigger: ${c.trigger.series} 12-month average at or above ${c.trigger.level}% while real GDP is at or above its previous peak`,
       `2025 average: ${c.trigger.baseline}%`, `Monthly, from ${c.trigger.source}`, "data", c.trigger.note || ""));
     if (iso !== "USA") {
-      rows.push(tr(`If the US trigger is met, ${c.name}'s is met too`, pctIn(pertMean(c.exposure)), "When the US trigger is met", "judgment", c.exposureNote || ""));
-      rows.push(tr(`…and within this many years of the US`, `${qty(c.lag, (x) => `${Math.round(x * 10) / 10}`)}`, "When both triggers are met", "judgment", ""));
+      rows.push(tr(`If the US trigger is met, ${c.name}'s is met too, within the years below`, pctIn(pertMean(c.exposure)), `When the US trigger is met, plus ${Math.max(0, Math.ceil(c.lag.hi))} years`, "judgment", c.exposureNote || ""));
+      rows.push(tr(`…${c.name}'s trigger comes this many years after the US's (negative = before)`, `${qty(c.lag, (x) => `${Math.round(x * 10) / 10}`)}`, "When both triggers are met", "judgment", ""));
     }
     c.periods.forEach((p, i) => {
       const nextStart = c.periods[i + 1]?.start;
-      if (p.kind === "fixed") rows.push(tr(`The government is ${STATE_WORD[p.state]}${nextStart ? ` until ${nextStart}` : ""}`, "certain", "Already true", "data", p.note || ""));
+      if (p.kind === "fixed") rows.push(tr(`The government is ${STATE_WORD[p.state]}${nextStart ? ` until ${nextStart}` : ""}`, "assumed (an early election is not modeled)", `Already true today; false if the government changes type before ${nextStart ?? "the next election"}`, "data", p.note || ""));
       if (p.kind === "keep") rows.push(tr(`The governing majority survives the midterm (government from ${p.start})`, pctIn(pertMean(p.keep)), `When that government takes office in ${p.start}`, p.source || "judgment", p.note || "Judgment from how often majorities survive mid-term elections."));
       if (p.kind === "draw") {
         let pL = pertMean(p.pL), pR = pertMean(p.pR); const sum = pL + pR;
@@ -349,15 +352,15 @@ function renderAssumptions() {
       }
     });
     for (const st of ["L", "R", "O"]) for (const cond of ["shock", "normal"]) {
-      const k = `${st}_${cond}`;
-      rows.push(tr(`If ${GOV[st]} holds power ${cond === "shock" ? "while the shock is under way" : "with no shock under way"}, it endorses a qualifying UBI within its ${term}-year term`,
-        pctIn(pertMean(c.endorse[k])), "Only if that government holds power under that condition", c.endorseSource?.[k] || "judgment", k === "L_shock" ? c.endorseNote : k === "L_normal" ? c.endorseBaseNote : ""));
+      const k = `${st}_${cond}`, e = pertMean(c.endorse[k]);
+      rows.push(tr(`If ${GOV[st]} holds power ${cond === "shock" ? "while its country's shock is under way" : "with no shock under way"} and has not endorsed a UBI, it endorses one in a given year`,
+        `${pctIn(perYear(e, term))} a year (${pctIn(e)} over ${term} years in office)`, "Only in aggregate, over the years such governments hold office", c.endorseSource?.[k] || "judgment", k === "L_shock" ? c.endorseNote : k === "L_normal" ? c.endorseBaseNote : ""));
     }
     for (const st of ["L", "R", "O"])
-      rows.push(tr(`If ${GOV[st]} has endorsed a UBI, it becomes law within the term`, pctIn(pertMean(c.pass[st])), "Only if that government endorses one", c.passSource?.[st] || "judgment", st === "L" ? c.passNote : ""));
-    rows.push(tr("If a UBI passes with no shock under way, its first-year amount per adult", `${qty(c.amount.normal, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head`, "Only if one passes in normal times", "judgment", ""));
-    rows.push(tr("If a UBI passes during a shock, its first-year amount per adult", `${qty(c.amount.shock, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head (most likely ${money((c.amount.shock.mode / 100) * c.gdppc)})`, "Only if one passes during a shock", "judgment", c.amountNote || ""));
-    rows.push(tr("If a UBI exists during a shock, a governing majority raises it in a given year", pctIn(pertMean(c.ratchet)), "Only if a UBI exists during a shock", "judgment", ""));
+      rows.push(tr(`If ${GOV[st]} holds power with a standing endorsement, the UBI becomes law before the next election`, pctIn(pertMean(c.pass[st])), "At each election, for governments with a standing endorsement", c.passSource?.[st] || "judgment", st === "L" ? c.passNote : ""));
+    rows.push(tr("If a UBI passes with no shock under way, the median first-year amount per adult", `${qty(c.amount.normal, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head; a given law's amount varies around the median by a factor of about 1.8, and is at least 1.1%`, "The amount in the law, if one passes in normal times", "judgment", ""));
+    rows.push(tr("If a UBI passes during a shock, the median first-year amount per adult", `${qty(c.amount.shock, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head (most likely ${money((c.amount.shock.mode / 100) * c.gdppc)}); a given law's amount varies around the median by a factor of about 1.6`, "The amount in the law, if one passes during a shock", "judgment", c.amountNote || ""));
+    rows.push(tr("During a shock, a governing majority reconsiders an existing UBI's amount in a given year, and raises it when a fresh draw is larger", pctIn(pertMean(c.ratchet)), "Only in aggregate: the raises it produces are observable, the reconsiderations are not", "judgment", ""));
     html += `<details class="country" ${state.sel.length === 1 ? "open" : ""}><summary>${esc(c.name)}</summary>
       ${c.facts ? `<ul>${c.facts.map((f) => `<li>${esc(f.text)} <a href="${esc(f.url)}" target="_blank" rel="noopener">source</a></li>`).join("")}</ul>` : ""}
       ${c.electionNote ? `<p>${esc(c.electionNote)}</p>` : ""}
@@ -404,10 +407,10 @@ function buildControls() {
     el.oninput = () => { state[key] = +el.value; show(); update(); };
   };
   bind("c-shift", "shift", (v) => (v === 0 ? "as estimated" : v < 0 ? `${-v} years earlier` : `${v} years later`));
-  const US = COUNTRIES[byIso.USA], cap = (x) => Math.min(0.98, x);
+  const US = COUNTRIES[byIso.USA], cap = (x) => Math.min(1, x);
   bind("c-eL", "eL", (v) => pctIn(cap(pertMean(US.endorse.L_shock) * 2 ** v)));
   bind("c-eR", "eR", (v) => pctIn(cap(pertMean(US.endorse.R_shock) * 2 ** v)));
-  bind("c-pass", "pass", (v) => pctIn(Math.min(1, pertMean(US.pass.L) * 2 ** v)));
+  bind("c-pass", "pass", (v) => pctIn(cap(pertMean(US.pass.L) * 2 ** v)));
   bind("c-amt", "amt", (v) => money((US.amount.shock.mode / 100) * US.gdppc * 2 ** v));
   $("c-exposure").value = state.exposure; $("c-exposure").onchange = (e) => { state.exposure = e.target.value; update(); };
   $("reset").onclick = () => { Object.assign(state, { shift: 0, exposure: "model", eL: 0, eR: 0, pass: 0, amt: 0, risks: [], cond: null }); buildControls(); update(); };

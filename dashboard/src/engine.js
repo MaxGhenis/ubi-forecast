@@ -88,7 +88,8 @@ const isoKey = (iso) => { let h = 7; for (const ch of iso) h = Math.imul(h ^ ch.
 
 // A prior range: "between lo and hi, probably around mode", as a PERT (scaled beta)
 // distribution. Draws use a cached inverse-CDF table (2,048-step numerical CDF, 1,024
-// quantiles, linear interpolation): one uniform per draw, accurate to well under 0.1% of the range.
+// quantiles, linear interpolation): one uniform per draw, accurate to well under 0.1% of the range except
+// in the outer 0.1% tails, where the interpolation is coarser.
 const tables = new WeakMap();
 function pertTable(r) {
   let q = tables.get(r);
@@ -160,8 +161,9 @@ function stateInYear(periodStates, periods, year) {
 // ---------------------------------------------------------------- simulation
 // Election, midterm and exposure inputs each feed exactly one yes/no draw per history, so drawing
 // the probability from its range and then flipping a coin equals flipping a coin at the range's
-// mean. The engine uses the mean: same distribution, far fewer random draws. Left + right is capped
-// at 0.98; the US never reaches the Python model's 0.9 cap. Enactment chances, amounts, lags and shock timing are drawn once
+// mean. The engine uses the mean: same distribution, far fewer random draws. Where left + right can
+// exceed 0.98 the cap is applied to the means, so there the equivalence is approximate; the US never
+// reaches the Python model's 0.9 cap. Enactment chances, amounts, lags and shock timing are drawn once
 // per history and shared by all its years, so their spread matters and they are drawn in full.
 function planFor(c) {
   const periods = c.periods.map((p) => {
@@ -211,7 +213,7 @@ export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 
   const ctl = { ...DEFAULT_CONTROLS, ...controls, endorse: { ...DEFAULT_CONTROLS.endorse, ...(controls.endorse || {}) } };
   const risks = { ...DEFAULT_CONTROLS.risks, ...(controls.risks || {}) };
   const shift = ctl.shockShiftYears || 0;
-  const onset = new Float32Array(n);                         // US trigger onset (continuous year; Infinity = none by 2051)
+  const onset = new Float64Array(n);                         // US trigger onset (continuous year; Infinity = none by 2051)
   const firstYear = new Int16Array(n * C * T).fill(NEVER);   // [history][country][threshold]: first year amount >= threshold
   const firstEndorse = new Int16Array(n * C).fill(NEVER);    // first year a government endorses a UBI
   const triggerYear = new Int16Array(n * C).fill(NEVER);     // first year the country's trigger is met
@@ -250,7 +252,7 @@ export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 
       let lag = pert(r, c.lag);
       if (ctl.exposureMode === "all") { exposed = true; lag = 0; }
       if (ctl.exposureMode === "us-only") exposed = c.iso3 === "USA";
-      const met = exposed && Number.isFinite(on) ? on + lag : Infinity;   // continuous date the trigger is met
+      const met = exposed && Number.isFinite(on) ? Math.max(on + lag, 2026.75) : Infinity;   // continuous date the trigger is met; none has been as of October 2026
       x.shockFrom = Math.ceil(met) + polLag;                                // governments respond from the next year, plus the lag
       if (met < LAST_YEAR + 1) triggerYear[s * C + ci] = Math.max(FIRST_YEAR - 1, Math.floor(met));   // calendar year it is met
       for (let i = 0; i < plan.periods.length; i++) {

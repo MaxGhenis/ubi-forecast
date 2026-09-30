@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>UBI adoption forecast</title>
-<meta name="description" content="A Bayesian forecast of when countries enact a universal basic income, with every assumption adjustable.">
+<meta name="description" content="A Bayesian forecast of when ten countries enact a universal basic income, with every input stated as something that can turn out wrong and the key assumptions adjustable.">
 <link rel="canonical" href="https://maxghenis.com/ubi-forecast/">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://maxghenis.com/ubi-forecast/">
 <meta property="og:title" content="When will countries enact a universal basic income?">
-<meta property="og:description" content="A Bayesian forecast for ten countries, with every assumption adjustable and every input sourced.">
+<meta property="og:description" content="A Bayesian forecast of when ten countries enact a universal basic income, with every input stated as something that can turn out wrong.">
 <meta property="og:image" content="https://maxghenis.com/ubi-forecast/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -240,24 +240,24 @@ details.country ul { padding-left: 18px; margin: 6px 0; }
       <div class="ctl">
         <label class="name" for="c-eL">Left-led government endorses a UBI <span class="val" id="v-eL"></span></label>
         <input type="range" id="c-eL" min="-2" max="2" step="0.25" value="0">
-        <p class="help">Chance within a term during a shock. US value shown: a Democratic trifecta.</p>
+        <p class="help">Scales every left-led government's chance of endorsing, in a shock and in normal times. US value shown: a Democratic trifecta during a shock, per 4 years in office.</p>
       </div>
       <div class="ctl">
         <label class="name" for="c-eR">Right-led government endorses a UBI <span class="val" id="v-eR"></span></label>
         <input type="range" id="c-eR" min="-2" max="2" step="0.25" value="0">
-        <p class="help">Same, for a Republican trifecta. Divided governments and coalitions move by the average of the two.</p>
+        <p class="help">Same, for right-led governments; US value shown: a Republican trifecta. Divided governments and coalitions move by the average of the two.</p>
       </div>
       <div class="ctl">
         <label class="name" for="c-pass">An endorsed UBI becomes law <span class="val" id="v-pass"></span></label>
         <input type="range" id="c-pass" min="-1.5" max="1.5" step="0.25" value="0">
-        <p class="help">Chance within the same term. US value shown: under a trifecta.</p>
+        <p class="help">Chance an endorsed UBI becomes law before the next election, for every government type. US value shown: a trifecta, per two-year Congress.</p>
       </div>
       <div class="ctl">
-        <label class="name" for="c-amt">Amount if enacted during a shock <span class="val" id="v-amt"></span></label>
+        <label class="name" for="c-amt">Amount if enacted <span class="val" id="v-amt"></span></label>
         <input type="range" id="c-amt" min="-1" max="1" step="0.125" value="0">
-        <p class="help">Typical amount per adult per year. US value shown; other countries move by the same factor.</p>
+        <p class="help">Scales every amount, in a shock and in normal times. US value shown: the most likely median per adult per year during a shock.</p>
       </div>
-      <p class="help">Each slider scales every country's explicit value by the same factor; the ledger below lists them all.</p>
+      <p class="help">Each slider scales every country's explicit values by the same factor (chances are capped at 100%). The ledger below lists the default values.</p>
 
       <h2>Risks</h2>
       <div id="risks"></div>
@@ -301,7 +301,7 @@ details.country ul { padding-left: 18px; margin: 6px 0; }
 
       <section aria-labelledby="h-assump">
         <h2 id="h-assump">Assumption ledger</h2>
-        <p class="lede">Every input, stated so that it can turn out wrong. "Resolves" says when and how: a date and a data source, or, for conditional assumptions, the condition that must occur first. Labels say where each value comes from: <span class="badge market">market</span> a prediction-market price, <span class="badge data">data</span> an official record, poll or historical base rate, <span class="badge judgment">judgment</span> an estimate from the evidence listed, drafted by a research agent and checked by a second. Probabilities show their mean.</p>
+        <p class="lede">Every input, stated so that it can turn out wrong. "Resolves" says when and how: a date and a data source; for conditional assumptions, the condition that must occur first; and for yearly rates, "only in aggregate", meaning they can be scored only by pooling many governments or years. Labels say where each value comes from: <span class="badge market">market</span> a prediction-market price, <span class="badge data">data</span> an official record, poll or historical base rate, <span class="badge judgment">judgment</span> my estimate from the evidence listed. Facts and records behind the estimates were gathered by one research agent and checked by a second. Probabilities show their mean.</p>
         <div id="assumptions"></div>
       </section>
 
