@@ -205,3 +205,27 @@ describe("the ledger's chances are what the model does", () => {
     expect(Math.abs(by(2034) - 0.75)).toBeLessThan(0.02);
   });
 });
+
+describe("a standing endorsement from before 2027", () => {
+  // Left-led before 2027 with a standing endorsement; no new endorsements; passes for sure if endorsed.
+  const base = { ...US, iso3: "TST_STAND", signpostPeriod: 0, exposure: fixedR(0), termYears: 4, standingEndorsement: { type: "L" },
+                 endorse: { ...ZERO_E }, pass: { L: fixedR(1), R: fixedR(1), O: fixedR(1) } };
+  const run = (periods) => simulate({ countries: [{ ...base, periods }], globals: GLOBALS, n: 4000, seed: 9 });
+  it("carries into 2027 when the first election keeps the same side, and never counts as a new endorsement", () => {
+    const sim = run([{ start: 2027, kind: "draw", pL: fixedR(0.5), pR: fixedR(0.5) }]);
+    let passed = 0, keptLeft = 0;
+    for (let s = 0; s < sim.n; s++) {
+      if (sim.firstYear[s * sim.T] !== 9999) passed++;
+      if (sim.stateNext[s] === 1) keptLeft++;
+      expect(sim.firstEndorse[s]).toBe(9999);
+    }
+    expect(passed).toBe(keptLeft);           // passes exactly when the left kept office
+    expect(Math.abs(keptLeft / sim.n - 0.5)).toBeLessThan(0.03);
+  });
+  it("carries through a fixed period or an election that can't change the head of government", () => {
+    for (const first of [{ start: 2027, kind: "fixed", state: "O" }, { start: 2027, kind: "draw", hog: false, pL: fixedR(0), pR: fixedR(1) }]) {
+      const sim = run([first]);
+      expect(Array.from({ length: sim.n }, (_, s) => sim.firstYear[s * sim.T]).every((y) => y !== 9999)).toBe(true);
+    }
+  });
+});

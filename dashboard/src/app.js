@@ -310,9 +310,17 @@ function renderSoon() {
   };
   const rows = S.map((ci) => row(COUNTRIES[ci].name, [ci]));
   if (S.length > 1) rows.push(row(`At least one of the ${S.length}`, S));
-  $("soon").innerHTML = `<table class="grouped"><thead><tr><th rowspan="2">Country</th><th class="num" colspan="2">Trigger met</th><th class="num" colspan="2">A government endorses a UBI</th><th class="num">A UBI of any size enacted</th></tr>
+  // A sharp falsifier: several new endorsements by 2030 with no trigger met anywhere.
+  const all = COUNTRIES.map((_, i) => i);
+  const sharp = maskFrom(sim.n, (s) => {
+    let endorsed = 0;
+    for (const ci of all) { if (sim.triggerYear[s * sim.C + ci] <= 2030) return false; if (sim.firstEndorse[s * sim.C + ci] <= 2030) endorsed++; }
+    return endorsed >= 2;
+  });
+  let k = 0; for (const v of sharp) k += v;
+  $("soon").innerHTML = `<table class="grouped"><thead><tr><th rowspan="2">Country</th><th class="num" colspan="2">Trigger met</th><th class="num" colspan="2">A government newly endorses a UBI</th><th class="num">A UBI of at least 1.1% of GDP per head enacted</th></tr>
     <tr><th class="num">by 2028</th><th class="num">by 2030</th><th class="num">by 2028</th><th class="num">by 2030</th><th class="num">by 2030</th></tr></thead><tbody>${rows.join("")}</tbody></table>
-    <p class="help">Triggers resolve from each country's official unemployment and GDP series, named in the ledger. An endorsement is a statement by the head of government, or the governing party's platform or coalition agreement, backing a qualifying UBI. Enactment resolves from statute.</p>`;
+    <p class="help">Triggers resolve from each country's official unemployment and GDP series, named in the ledger. An endorsement is a public commitment to a national, universal, unconditional, recurring cash payment to all adults, of any amount, by the head of government, in the leading party's election platform, or in a coalition agreement; pilots and means-tested, age-limited or conditional schemes don't count, and a standing endorsement from before 2027 (Brazil's) isn't a new one. Enactment resolves from statute; 1.1% of GDP per head is about $1,000 a year in the US. Each row is scored with the logarithmic score when it resolves. A sharp test of the whole model: two or more of the ten governments newly endorsing a UBI by 2030 with no country's trigger met, which the model gives ${fmtP(k / sim.n, sim.n)}.</p>`;
 }
 function renderShiftHelp() {
   if (!sim) return;

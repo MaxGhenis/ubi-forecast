@@ -190,7 +190,10 @@ function planFor(c) {
     periodEnd[i] = c.periods[i].start + len - 1;
     hog[i] = c.periods[i].kind === "draw" && c.periods[i].hog !== false ? 1 : 0;
   }
-  return { periods, idxOfYear, signpost, periodEnd, hog, exposure: pertMean(c.exposure), termYears: c.termYears ?? 4, key: isoKey(c.iso3) };
+  // A standing endorsement by the government in office before 2027 (e.g. Brazil's 2023 Bolsa Família law)
+  // carries into 2027 unless the first election hands the head of government to the other side.
+  const standing = c.standingEndorsement ? STATES[c.standingEndorsement.type] : -1;
+  return { periods, idxOfYear, signpost, periodEnd, hog, standing, exposure: pertMean(c.exposure), termYears: c.termYears ?? 4, key: isoKey(c.iso3) };
 }
 
 const E_KEYS = ["O_normal", "L_normal", "R_normal", "O_shock", "L_shock", "R_shock"]; // index = state + 3 * shock
@@ -215,7 +218,7 @@ export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 
   const shift = ctl.shockShiftYears || 0;
   const onset = new Float64Array(n);                         // US trigger onset (continuous year; Infinity = none by 2051)
   const firstYear = new Int16Array(n * C * T).fill(NEVER);   // [history][country][threshold]: first year amount >= threshold
-  const firstEndorse = new Int16Array(n * C).fill(NEVER);    // first year a government endorses a UBI
+  const firstEndorse = new Int16Array(n * C).fill(NEVER);    // first year a government newly endorses a UBI (a standing one doesn't count)
   const triggerYear = new Int16Array(n * C).fill(NEVER);     // first year the country's trigger is met
   const stateNext = new Int8Array(n * C);                    // government after each country's signpost election
   const g = globals;
@@ -294,6 +297,7 @@ export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 
         const shock = y >= x.shockFrom;
         const idx = plan.idxOfYear[y - FIRST_YEAR], st = x.states[idx];
         if (idx !== x.idx) {                            // a new period
+          if (x.idx === -1 && plan.standing !== -1) x.endorsed = plan.standing;   // carried in from before 2027
           x.idx = idx;
           if (x.endorsed !== -1 && plan.hog[idx] && x.endorsed !== st) x.endorsed = -1;   // the other side took office
           if (x.endorsed !== -1) x.hPass = perYear(x.qP[st], plan.periodEnd[idx] - y + 1);
