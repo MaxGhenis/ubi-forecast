@@ -1,0 +1,29 @@
+{
+ "note": "Opening odds of the five Manifold markets created 2026-09-29, from revision 1 of the model (origin/main model/results.json at creation). Frozen so the repo records what the markets opened at.",
+ "seeds": {
+  "m1": {
+   "2026–2028": 1,
+   "2029–2032": 1,
+   "2033–2036": 3,
+   "2037–2040": 5,
+   "2041–2050": 13,
+   "Not by the end of 2050": 77
+  },
+  "m2": {
+   "$1,000/year": 9,
+   "$3,000/year": 7,
+   "$6,000/year": 5,
+   "$12,000/year": 2
+  },
+  "m3": 7,
+  "m4": {
+   "2026": 1,
+   "2027": 1,
+   "2028": 1,
+   "2029–2030": 13,
+   "2031–2035": 17,
+   "Not by tax year 2035": 67
+  },
+  "m5": 11
+ }
+}

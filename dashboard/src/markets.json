@@ -87,7 +87,7 @@
    "platform": "Manifold",
    "traders": "0",
    "price": "10% by 2040",
-   "definition": "Max's market: at least $500 a month per adult, same definition as this dashboard. Opened at this model's odds.",
+   "definition": "Max's market: at least $500 a month per adult, close to this dashboard's $6,000 line. Opened at revision 1's odds.",
    "model": {
     "countries": [
      "USA"
@@ -103,7 +103,7 @@
    "platform": "Manifold",
    "traders": "0",
    "price": "9% $1,000+ by 2036",
-   "definition": "Max's ladder market, $1,000 rung. Opened at this model's odds.",
+   "definition": "Max's ladder market, $1,000 rung. Opened at revision 1's odds.",
    "model": {
     "countries": [
      "USA"
