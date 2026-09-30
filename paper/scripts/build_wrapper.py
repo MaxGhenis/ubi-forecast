@@ -4,6 +4,7 @@ The version parameter must be identical on the iframe and every standalone link,
 never serve a stale manuscript behind a fresh wrapper; tests/test_paper_embed.py enforces it.
 Numbers in the description come from _variables.yml, the same file the manuscript reads.
 """
+import json
 import re
 import sys
 from pathlib import Path
@@ -12,6 +13,7 @@ HERE = Path(__file__).resolve().parent.parent
 VERSION = sys.argv[1] if len(sys.argv) > 1 else "r2-20260930"
 REVISION, DATE = "Model revision 2", "30 September 2026"
 V = dict(re.findall(r'^(\w+): "([^"]*)"$', (HERE / "_variables.yml").read_text(), re.M))
+OG = json.loads((HERE.parent / "dashboard" / "og" / "og.json").read_text())   # rendered by dashboard/og/build_og.py
 
 desc = (f"A Monte Carlo decomposition of when ten countries enact a universal basic income, with every input stated as "
         f"something that can turn out wrong. It puts a US UBI worth $6,000 a year at {V['usa_2040']} by 2040 and "
@@ -32,7 +34,7 @@ html = f"""<!doctype html>
 <meta property="og:url" content="https://maxghenis.com/ubi-forecast/paper/">
 <meta property="og:title" content="When will countries enact a universal basic income? A falsifiable Bayesian forecast">
 <meta property="og:description" content="{desc}">
-<meta property="og:image" content="https://maxghenis.com/ubi-forecast/og-image.png">
+<meta property="og:image" content="https://maxghenis.com/ubi-forecast/{OG["file"]}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
