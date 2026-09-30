@@ -51,12 +51,12 @@ describe("engine invariants (any priors, any controls)", () => {
     expect(cumulativeOf(sim, sim.firstEndorse, [0, 1]).curve.at(-1).p).toBeGreaterThan(0);
   });
 
-  it("every enactment follows an endorsement in an earlier year", () => {
+  it("every enactment comes no earlier than the first endorsement", () => {
     fc.assert(fc.property(fc.integer({ min: 1, max: 1e6 }), (seed) => {
       const sim = simulate({ countries: [US, TWIN], globals: GLOBALS, n: 2000, seed });
       for (let s = 0; s < sim.n; s++) for (let ci = 0; ci < sim.C; ci++) {
         const enacted = sim.firstYear[(s * sim.C + ci) * sim.T], endorsed = sim.firstEndorse[s * sim.C + ci];
-        if (enacted !== 9999) expect(endorsed).toBeLessThan(enacted);
+        if (enacted !== 9999) expect(endorsed).toBeLessThanOrEqual(enacted);
       }
     }), { numRuns: 10 });
   });
@@ -140,5 +140,68 @@ describe("common random numbers on the real ten countries", () => {
     const b = simulate({ countries: COUNTRIES, globals: GLOBALS, controls: { ...base, exposureMode: "us-only" }, n: 4000, seed: 6 });
     const us = (sim) => cumulative(sim, [0], 2).curve.map((r) => r.p);
     expect(us(b)).toEqual(us(a));
+  });
+});
+
+// ---------------------------------------------------------------- stated chances are realized chances
+// Fixtures: a country that is always left-led, with elections every `len` years from 2027.
+const fixedR = (v) => ({ lo: v, mode: v, hi: v });
+const ZERO_E = { L_normal: fixedR(0), R_normal: fixedR(0), O_normal: fixedR(0), L_shock: fixedR(0), R_shock: fixedR(0), O_shock: fixedR(0) };
+function steadyLeft(len, qPass, qEndorse) {
+  const periods = [{ start: 2027, kind: "fixed", state: "L" }];
+  for (let y = 2027 + len; y <= 2050; y += len) periods.push({ start: y, kind: "draw", pL: fixedR(1), pR: fixedR(0) });
+  return { ...US, iso3: "TST_STEADY", periods, termYears: len, exposure: fixedR(0),
+           endorse: { ...ZERO_E, L_normal: fixedR(qEndorse) }, pass: { L: fixedR(qPass), R: fixedR(0), O: fixedR(0) } };
+}
+
+describe("the ledger's chances are what the model does", () => {
+  it("an endorsed UBI becomes law before the next election with the stated chance, wherever in the period it was endorsed", () => {
+    for (const [len, q] of [[2, 0.55], [4, 0.3], [5, 0.7], [3, 0.9]]) {
+      const c = steadyLeft(len, q, 0.5), n = 20000;
+      const sim = simulate({ countries: [c], globals: GLOBALS, n, seed: 7 });
+      let endorsed = 0, passedInPeriod = 0;
+      for (let s = 0; s < n; s++) {
+        const e = sim.firstEndorse[s], law = sim.firstYear[s * sim.T];
+        if (e === 9999) continue;
+        const periodEnd = 2027 + Math.floor((e - 2027) / len) * len + len - 1;
+        if (periodEnd > 2050) continue;                                   // the horizon cuts this period short
+        endorsed++;
+        if (law <= periodEnd) passedInPeriod++;
+      }
+      const p = passedInPeriod / endorsed, se = Math.sqrt(q * (1 - q) / endorsed);
+      expect(Math.abs(p - q)).toBeLessThan(5 * se + 1e-9);
+    }
+  });
+
+  it("a government endorses before the next election with its per-term chance scaled to the period length", () => {
+    for (const [len, term, q] of [[2, 4, 0.6], [5, 5, 0.3]]) {
+      const c = { ...steadyLeft(len, 0, q), termYears: term }, n = 20000;
+      const sim = simulate({ countries: [c], globals: GLOBALS, n, seed: 11 });
+      let hit = 0;
+      for (let s = 0; s < n; s++) if (sim.firstEndorse[s] <= 2027 + len - 1) hit++;
+      const expected = 1 - Math.pow(1 - q, len / term), se = Math.sqrt(expected * (1 - expected) / n);
+      expect(Math.abs(hit / n - expected)).toBeLessThan(5 * se);
+    }
+  });
+
+  it("a midterm never cancels an endorsement; an election that hands office to the other side does", () => {
+    // Left-led endorses in 2027 for sure and cannot pass; the next period is 'other', which can only pass.
+    const base = { ...US, iso3: "TST_LAPSE", exposure: fixedR(0), termYears: 2,
+                   endorse: { ...ZERO_E, L_normal: fixedR(1) }, pass: { L: fixedR(0), R: fixedR(0), O: fixedR(1) } };
+    const midterm = { ...base, periods: [{ start: 2027, kind: "fixed", state: "L" }, { start: 2029, kind: "keep", keep: fixedR(0) }] };
+    const assembly = { ...base, periods: [{ start: 2027, kind: "fixed", state: "L" }, { start: 2029, kind: "draw", hog: false, pL: fixedR(0), pR: fixedR(0) }] };
+    const election = { ...base, periods: [{ start: 2027, kind: "fixed", state: "L" }, { start: 2029, kind: "draw", pL: fixedR(0), pR: fixedR(0) }] };
+    const law = (c) => simulate({ countries: [c], globals: GLOBALS, n: 500, seed: 3 }).firstYear;
+    for (const c of [midterm, assembly]) expect(Array.from(law(c)).filter((_, i) => i % THRESHOLDS.length === 0).every((y) => y === 2029)).toBe(true);
+    expect(Array.from(law(election)).every((y) => y === 9999)).toBe(true);
+  });
+
+  it("a re-elected government keeps its endorsement and gets the passage chance afresh each period", () => {
+    const c = steadyLeft(4, 0.5, 0.999999), n = 20000;
+    const sim = simulate({ countries: [c], globals: GLOBALS, n, seed: 5 });
+    // Endorsed in 2027 almost surely; passes by 2030 w.p. 0.5 and by 2034 w.p. 0.75.
+    const by = (y) => Array.from({ length: n }, (_, s) => sim.firstYear[s * sim.T] <= y).filter(Boolean).length / n;
+    expect(Math.abs(by(2030) - 0.5)).toBeLessThan(0.02);
+    expect(Math.abs(by(2034) - 0.75)).toBeLessThan(0.02);
   });
 });

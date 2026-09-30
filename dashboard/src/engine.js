@@ -118,8 +118,11 @@ export function pert(rng, r) {
 }
 export const pertMean = (r) => (r.lo + 4 * r.mode + r.hi) / 6;
 
-// Enactment chances are stated per term of office; termYears converts them to a yearly chance.
-const perYear = (qTerm, termYears) => 1 - Math.pow(1 - Math.min(Math.max(qTerm, 0), 1), 1 / termYears);
+// A chance over `years` years as a constant yearly chance. Endorsement chances are stated per term of
+// office (termYears); passage chances are stated per period, "before the next election".
+export const perYear = (q, years) => 1 - Math.pow(1 - Math.min(Math.max(q, 0), 1), 1 / Math.max(years, 1));
+// The chance of an event over `years` years at the yearly chance implied by `q` per `termYears`.
+export const overYears = (q, termYears, years) => 1 - Math.pow(1 - Math.min(Math.max(q, 0), 1), years / termYears);
 
 // ---------------------------------------------------------------- controls
 // Every control edits a stated, checkable assumption. The sliders scale each country's
@@ -127,7 +130,7 @@ const perYear = (qTerm, termYears) => 1 - Math.pow(1 - Math.min(Math.max(qTerm, 
 export const DEFAULT_CONTROLS = {
   shockShiftYears: 0,                  // moves every trigger date earlier (-) or later (+)
   endorse: { L: 1, R: 1, O: 1 },       // scales the chance a government endorses a UBI, by government type
-  pass: 1,                             // scales the chance an endorsed UBI becomes law within the term
+  pass: 1,                             // scales the chance an endorsed UBI becomes law before the next election
   amount: 1,                           // scales the amount enacted
   exposureMode: "model",               // "model" | "all" (every country hits its trigger with the US) | "us-only"
   risks: { fiscal: false, meansTested: false, diffusion: false, gridlock: false },
@@ -137,14 +140,17 @@ export const RISKS = {
   fiscal: { label: "Fiscal squeeze", detail: "An endorsed UBI becomes law with 0.6 times the usual chance, and enacted amounts are 15% smaller." },
   meansTested: { label: "Means-tested route wins", detail: "Governments endorse a UBI 0.6 times as often in normal times and 0.8 times as often during a shock, choosing a targeted income floor instead." },
   diffusion: { label: "Policy diffusion", detail: "Once any of the ten countries enacts a UBI, every other government endorses one 1.5 times as often from the next year." },
-  gridlock: { label: "Gridlock", detail: "An endorsed UBI becomes law 0.3 times as often under divided government, cross-bloc coalitions and hung parliaments." },
+  gridlock: { label: "Gridlock", detail: "An endorsed UBI becomes law before the next election 0.3 times as often under divided government, cross-bloc coalitions and hung parliaments." },
 };
 
 // ---------------------------------------------------------------- periods
-// A country's political calendar is a list of periods, each starting in a year:
+// A country's political calendar is a list of periods, each starting in a year and ending the year
+// before the next one starts (the last lasts as long as the one before it):
 //   {start, kind: "fixed", state}           state known (current government)
 //   {start, kind: "draw", pL, pR}           an election: left-led w.p. pL, right-led w.p. pR, else other
 //   {start, kind: "keep", keep}             a midterm: the previous state survives w.p. keep, else other
+// A draw can change the head of government unless it sets hog: false (a US midterm drawn from markets,
+// a Korean Assembly election); a keep never does.
 function stateInYear(periodStates, periods, year) {
   let idx = 0;
   for (let i = 0; i < periods.length; i++) if (periods[i].start <= year) idx = i;
@@ -175,7 +181,14 @@ function planFor(c) {
     idxOfYear[y - FIRST_YEAR] = idx;
   }
   const signpost = c.signpostPeriod ?? c.periods.findIndex((p) => p.kind === "draw");
-  return { periods, idxOfYear, signpost, exposure: pertMean(c.exposure), termYears: c.termYears ?? 4, key: isoKey(c.iso3) };
+  const P = c.periods.length;
+  const periodEnd = new Int16Array(P), hog = new Uint8Array(P);
+  for (let i = 0; i < P; i++) {
+    const len = i + 1 < P ? c.periods[i + 1].start - c.periods[i].start : P > 1 ? c.periods[i].start - c.periods[i - 1].start : c.termYears ?? 4;
+    periodEnd[i] = c.periods[i].start + len - 1;
+    hog[i] = c.periods[i].kind === "draw" && c.periods[i].hog !== false ? 1 : 0;
+  }
+  return { periods, idxOfYear, signpost, periodEnd, hog, exposure: pertMean(c.exposure), termYears: c.termYears ?? 4, key: isoKey(c.iso3) };
 }
 
 const E_KEYS = ["O_normal", "L_normal", "R_normal", "O_shock", "L_shock", "R_shock"]; // index = state + 3 * shock
@@ -185,10 +198,13 @@ const S_KEYS = ["O", "L", "R"];
 //   1. trigger: the country's unemployment trigger is met from year `trigger` (unless it never is);
 //      governments respond from `trigger + politics lag`, which is when the shock counts as under way;
 //   2. endorsement: a government that hasn't endorsed a UBI endorses one with a yearly chance set by
-//      its type and whether a shock is under way; an endorsement lapses when the type changes;
-//   3. passage: an endorsed UBI becomes law with a yearly chance set by the government type;
+//      its type and whether a shock is under way (per-term chances over the country's term length);
+//      an endorsement lapses at an election that changes the head of government's side, and survives
+//      midterms and assembly elections;
+//   3. passage: once endorsed, the UBI becomes law before the period's election with the stated chance
+//      for the current government type, spread evenly over the years left in the period, starting in
+//      the year of endorsement; a standing endorsement gets that chance afresh each period;
 //   4. amount: drawn at passage; during a shock a governing majority can raise it later.
-// Per-term chances convert to yearly ones over the country's term length.
 // `start` offsets the history index, so batches [0, k) + [k, 2k) equal one run of 2k histories.
 export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 40000, seed = 20260929, start = 0 }) {
   const C = countries.length, T = THRESHOLDS.length;
@@ -206,7 +222,7 @@ export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 
   const gr = makeRng();
   const rs = countries.map(() => makeRng());
   const cs = countries.map((c) => ({ shockFrom: 0, states: new Int8Array(c.periods.length), hE: new Float64Array(6), hEd: new Float64Array(6),
-                                     hP: new Float64Array(3), amtN: 0, amtS: 0, ratchet: 0, amount: 0, endorsed: -1 }));
+                                     qP: new Float64Array(3), hPass: 0, idx: -1, amtN: 0, amtS: 0, ratchet: 0, amount: 0, endorsed: -1 }));
 
   for (let s = 0; s < n; s++) {
     const h = s + start;
@@ -253,13 +269,15 @@ export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 
         let p = pert(r, c.pass[S_KEYS[st]]) * ctl.pass;
         if (risks.fiscal) p *= 0.6;
         if (risks.gridlock && st === 0) p *= 0.3;
-        x.hP[st] = perYear(p, plan.termYears);
+        x.qP[st] = Math.min(Math.max(p, 0), 1);          // chance per period, before the next election
       }
       x.amtN = pert(r, c.amount.normal) * ctl.amount;
       x.amtS = pert(r, c.amount.shock) * ctl.amount;
       x.ratchet = pert(r, c.ratchet);
       x.amount = 0;
       x.endorsed = -1;                                  // government type that endorsed; -1 = none
+      x.idx = -1;                                       // index of the current period
+      x.hPass = 0;                                      // yearly passage chance for the rest of the period
     }
 
     let anyEnactedYear = NEVER;
@@ -272,17 +290,23 @@ export function simulate({ countries, globals, controls = DEFAULT_CONTROLS, n = 
         // normals come from the inverse CDF only when needed.
         const uEndorse = r.next(), uPass = r.next(), uAmt = r.next() || 1e-12, uRatchet = r.next(), uRedraw = r.next() || 1e-12;
         const shock = y >= x.shockFrom;
-        const st = x.states[plan.idxOfYear[y - FIRST_YEAR]];
-        if (x.endorsed !== -1 && x.endorsed !== st) x.endorsed = -1;   // a new type of government must endorse anew
+        const idx = plan.idxOfYear[y - FIRST_YEAR], st = x.states[idx];
+        if (idx !== x.idx) {                            // a new period
+          x.idx = idx;
+          if (x.endorsed !== -1 && plan.hog[idx] && x.endorsed !== st) x.endorsed = -1;   // the other side took office
+          if (x.endorsed !== -1) x.hPass = perYear(x.qP[st], plan.periodEnd[idx] - y + 1);
+        }
         if (x.amount === 0) {
           if (x.endorsed === -1) {
             const hk = st + (shock ? 3 : 0);
             if (uEndorse < (risks.diffusion && anyEnactedYear < y ? x.hEd[hk] : x.hE[hk])) {
               x.endorsed = st;
+              x.hPass = perYear(x.qP[st], plan.periodEnd[idx] - y + 1);
               const at = s * C + ci;
               if (firstEndorse[at] === NEVER) firstEndorse[at] = y;
             }
-          } else if (uPass < x.hP[st]) {
+          }
+          if (x.endorsed !== -1 && uPass < x.hPass) {
             const med = (shock ? x.amtS : x.amtN) * fiscalAmt;
             x.amount = Math.max(med * Math.exp((shock ? 0.5 : 0.6) * probit(uAmt)), THRESHOLDS[0]);   // a qualifying program is at least ~1.1% of GDP per head
             enactedThisYear = true;

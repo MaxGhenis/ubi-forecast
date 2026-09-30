@@ -47,7 +47,7 @@ export const US = {
   endorseBaseNote: "None of the ten governments endorsed a strict UBI in about 75 government terms since 2000, so no-shock endorsement is near 1% per term; with that rate the clean record had about a 47% chance, against 11% under a 3% rate.",
   electionNote: "Left-led = Democratic trifecta; right-led = Republican trifecta; other = divided government. Congress periods start in odd years.",
   periods: [
-    { start: 2027, kind: "draw", pL: R(0, 0, 0), pR: R(0.03, 0.05, 0.08),
+    { start: 2027, kind: "draw", hog: false, pL: R(0, 0, 0), pR: R(0.03, 0.05, 0.08),
       source: "market", note: "Polymarket, 2026-09-29: Democrats 92.5% for the House and 62.5% for the Senate, so a Republican trifecta in 2027-28 is about 5%." },
     { start: 2029, kind: "draw", pL: R(0.22, 0.32, 0.42), pR: R(0.10, 0.16, 0.24),
       source: "market", note: "Polymarket: 2028 presidency Democratic 64.5%, times the chance the same party takes both chambers." },
@@ -310,7 +310,7 @@ export const KOR = {
   electionNote: "Left-led = a Democratic Party president with an Assembly majority; right-led = the same for the People Power Party; other = divided government. The president serves one five-year term.",
   periods: [
     fixed(2027, "L", "President Lee (DP) with a DP majority of 161 of 300 seats."),
-    draw(2028, R(0.35, 0.52, 0.72), R(0, 0.02, 0.05), "Gallup Korea (September 2026): DP 40%, PPP 27%, but Lee's approval is at a record low of 37%.", "data"),
+    { ...draw(2028, R(0.35, 0.52, 0.72), R(0, 0.02, 0.05), "Gallup Korea (September 2026): DP 40%, PPP 27%, but Lee's approval is at a record low of 37%.", "data"), hog: false },
     draw(2030, R(0.28, 0.40, 0.52), R(0.20, 0.30, 0.42), "Open presidential election; power changed hands in 2017, 2022 and 2025."),
     keep(2032, R(0.30, 0.50, 0.70), "Assembly election two years into a presidency."),
     draw(2035, R(0.28, 0.40, 0.52), R(0.20, 0.30, 0.42)), keep(2036, R(0.30, 0.50, 0.70)),

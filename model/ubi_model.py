@@ -103,7 +103,7 @@ INPUTS: dict[str, Rng3] = {
     "e_D_shock": Rng3(0.35, 0.6, 0.85, "D trifecta endorses during a shock.", "JUDGMENT: no trigger-type shock in the record."),
     "e_R_shock": Rng3(0.1, 0.35, 0.65, "R trifecta endorses during a shock.", "JUDGMENT."),
     "e_div_shock": Rng3(0.15, 0.4, 0.7, "The President endorses under divided government during a shock.", "JUDGMENT."),
-    # --- Passage: P(an endorsed UBI becomes law within the term), by control. Observable: public law. ---
+    # --- Passage: P(an endorsed UBI becomes law before the next federal election), by control. Observable: public law. ---
     "pass_D": Rng3(0.35, 0.55, 0.75, "An endorsed UBI passes under a D trifecta.", "DATA: about half of US trifectas' flagship priorities since 1993 passed."),
     "pass_R": Rng3(0.35, 0.55, 0.75, "An endorsed UBI passes under an R trifecta.", "DATA: same record."),
     "pass_div": Rng3(0.03, 0.10, 0.20, "An endorsed UBI passes under divided government.", "JUDGMENT."),
@@ -193,6 +193,7 @@ def simulate(n_param: int = 200_000, n_scen: int = 5, seed: int = 20260929) -> d
 
     amount = np.zeros(M)                                     # current program amount (0 = none)
     endorsed = np.full(M, -1)                                # control type that endorsed a UBI (-1 = none)
+    h_pass = np.zeros(M)                                     # yearly passage chance for the rest of the Congress
     first_endorse = np.full(M, 9999)
     first_year_at = {t: np.full(M, 9999) for t in (1000, 3000, 6000, 12000)}
     floor_year = np.full(M, 9999)
@@ -207,16 +208,24 @@ def simulate(n_param: int = 200_000, n_scen: int = 5, seed: int = 20260929) -> d
         c = control_in(y)
         isD, isR, isDiv = c == 1, c == 2, c == 0
 
-        # A new type of control must endorse anew; then endorsement, then passage (never both in one year).
-        endorsed = np.where((endorsed >= 0) & (endorsed != c), -1, endorsed)
+        # An endorsement lapses when a presidential election hands control to another type; a midterm
+        # never cancels it. Passage chances are per Congress, spread over the years left in it, from the
+        # year of endorsement; a standing endorsement gets the chance afresh each Congress.
+        first_yr = ((y - 2027) % 2) == 0
+        if first_yr and (y - 2029) % 4 == 0:
+            endorsed = np.where((endorsed >= 0) & (endorsed != c), -1, endorsed)
         e = np.select([isD & ~shock, isR & ~shock, isDiv & ~shock, isD & shock, isR & shock],
                       [p["e_D_normal"], p["e_R_normal"], p["e_div_normal"], p["e_D_shock"], p["e_R_shock"]], p["e_div_shock"])
         pz = np.select([isD, isR], [p["pass_D"], p["pass_R"]], p["pass_div"])
+        left = 2 if first_yr else 1                              # years left in this Congress, this one included
+        if first_yr:
+            h_pass = np.where(endorsed >= 0, per_year(pz, left), h_pass)
         u_e, u_p = rng.random(M), rng.random(M)
         open_ = amount == 0
         do_endorse = open_ & (endorsed < 0) & (u_e < per_year(e))
-        new = open_ & (endorsed >= 0) & (u_p < per_year(pz))
         endorsed = np.where(do_endorse, c, endorsed)
+        h_pass = np.where(do_endorse, per_year(pz, left), h_pass)
+        new = open_ & (endorsed >= 0) & (u_p < h_pass)
         first_endorse = np.where(do_endorse & (first_endorse == 9999), y, first_endorse)
         med = np.where(shock, p["amount_median_shock"], p["amount_median_normal"])
         sig = np.where(shock, 0.5, 0.6)
@@ -242,7 +251,6 @@ def simulate(n_param: int = 200_000, n_scen: int = 5, seed: int = 20260929) -> d
 
         q_ct = np.select([isD, isR], [p["q_ctc_D"], p["q_ctc_R"]], p["q_ctc_div"])
         # Reconciliation front-loads action into a Congress's first year.
-        first_yr = ((y - 2027) % 2) == 0
         q2 = q_ct                                             # already per Congress
         h = np.where(first_yr, 0.7 * q2, 0.3 * q2 / np.maximum(1 - 0.7 * q2, 1e-9))
         ct_hit = (ctc_year == 9999) & (rng.random(M) < h)
