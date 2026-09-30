@@ -1,0 +1,13 @@
+UBI references awaiting the Subfleet verifier (job ubi-cite-verify, queued until lanes reopen):
+hoynes2019universal
+banerjee2019universal
+dewispelaere2012feasibility
+roosma2020public
+parolin2020support
+dermont2020automation
+steensland2008failed
+kangas2021feasibility
+verho2022removing
+vivalt2024employment
+jones2022labor
+salehiisfahani2018cash

@@ -1,4 +1,4 @@
-import { THRESHOLDS, FIRST_YEAR, LAST_YEAR, RISKS, simulate, cumulative, eventMask, maskFrom, signpost, pertMean } from "./engine.js";
+import { THRESHOLDS, FIRST_YEAR, LAST_YEAR, RISKS, simulate, cumulative, cumulativeOf, eventMask, maskFrom, signpost, pertMean } from "./engine.js";
 import { COUNTRIES, GLOBALS, GLOBAL_NOTES } from "./countries.js";
 import MARKETS from "./markets.json";
 
@@ -26,7 +26,8 @@ function fmtP(p, n) {
 const pctIn = (x) => `${Math.round(x * 1000) / 10}%`;   // inputs, not forecasts
 
 // ---------------------------------------------------------------- state (mirrored in the URL hash)
-const DEFAULT_STATE = { sel: ["USA"], t: 2, year: 2040, cond: null, shift: 0, exposure: "model", appetite: 0, generosity: 0, risks: [] };
+const DEFAULT_STATE = { sel: ["USA"], t: 2, year: 2040, cond: null, shift: 0, exposure: "model", eL: 0, eR: 0, pass: 0, amt: 0, risks: [] };
+const KNOBS = { eL: [-2, 2, 0.25], eR: [-2, 2, 0.25], pass: [-1.5, 1.5, 0.25], amt: [-1, 1, 0.125] };
 let state = readHash();
 function num(v, lo, hi, step, fallback) {
   const x = Number(v);
@@ -41,8 +42,7 @@ function readHash() {
   s.t = num(h.get("t"), 0, THRESHOLDS.length - 1, 1, s.t);
   s.year = num(h.get("y"), 2028, LAST_YEAR, 1, s.year);
   s.shift = num(h.get("shift"), -5, 10, 1, 0);
-  s.appetite = num(h.get("appetite"), -2, 2, 0.25, 0);
-  s.generosity = num(h.get("generosity"), -1, 1, 0.125, 0);
+  for (const [k, [lo, hi, step]] of Object.entries(KNOBS)) s[k] = num(h.get(k), lo, hi, step, 0);
   if (["model", "all", "us-only"].includes(h.get("exposure"))) s.exposure = h.get("exposure");
   s.risks = (h.get("risks") || "").split(",").filter((r) => r in RISKS);
   s.cond = h.get("if") || null;
@@ -51,16 +51,16 @@ function readHash() {
 function writeHash() {
   const h = new URLSearchParams({ c: state.sel.join(","), t: state.t, y: state.year });
   if (state.cond) h.set("if", state.cond);
-  for (const k of ["shift", "appetite", "generosity"]) if (state[k]) h.set(k, state[k]);
+  for (const k of ["shift", ...Object.keys(KNOBS)]) if (state[k]) h.set(k, state[k]);
   if (state.exposure !== "model") h.set("exposure", state.exposure);
   if (state.risks.length) h.set("risks", state.risks.join(","));
   history.replaceState(null, "", `#${h.toString().replace(/%2C/g, ",")}`);   // readable commas in shared links
 }
 const controlsFrom = (s) => ({
-  shockShiftYears: s.shift, appetite: 2 ** s.appetite, generosity: 2 ** s.generosity, exposureMode: s.exposure,
+  shockShiftYears: s.shift, endorse: { L: 2 ** s.eL, R: 2 ** s.eR, O: 2 ** ((s.eL + s.eR) / 2) }, pass: 2 ** s.pass, amount: 2 ** s.amt, exposureMode: s.exposure,
   risks: Object.fromEntries(Object.keys(RISKS).map((k) => [k, s.risks.includes(k)])),
 });
-const simKey = (s) => JSON.stringify([s.shift, s.exposure, s.appetite, s.generosity, s.risks]);
+const simKey = (s) => JSON.stringify([s.shift, s.exposure, s.eL, s.eR, s.pass, s.amt, s.risks]);
 
 // ---------------------------------------------------------------- progressive simulation
 // Batches of 20,000 histories accumulate to 200,000. Batches use consecutive history
@@ -72,7 +72,8 @@ function makeWorker() {
 }
 function startRun() {
   run = { id: (run?.id || 0) + 1, filled: 0, t0: performance.now(), controls: controlsFrom(state),
-          onset: new Float32Array(TOTAL), firstYear: new Int16Array(TOTAL * C * T), stateNext: new Int8Array(TOTAL * C) };
+          onset: new Float32Array(TOTAL), firstYear: new Int16Array(TOTAL * C * T), stateNext: new Int8Array(TOTAL * C),
+          firstEndorse: new Int16Array(TOTAL * C), triggerYear: new Int16Array(TOTAL * C) };
   sim = null;
   for (const el of document.querySelectorAll("main section, .check")) el.classList.add("busy");
   $("status").textContent = "Simulating…";
@@ -90,9 +91,12 @@ function onBatch({ id, start, sim: b }) {
   run.onset.set(b.onset, start);
   run.firstYear.set(b.firstYear, start * C * T);
   run.stateNext.set(b.stateNext, start * C);
+  run.firstEndorse.set(b.firstEndorse, start * C);
+  run.triggerYear.set(b.triggerYear, start * C);
   run.filled = start + b.n;
   const n = run.filled;
-  sim = { n, C, T, onset: run.onset.subarray(0, n), firstYear: run.firstYear.subarray(0, n * C * T), stateNext: run.stateNext.subarray(0, n * C) };
+  sim = { n, C, T, onset: run.onset.subarray(0, n), firstYear: run.firstYear.subarray(0, n * C * T), stateNext: run.stateNext.subarray(0, n * C),
+          firstEndorse: run.firstEndorse.subarray(0, n * C), triggerYear: run.triggerYear.subarray(0, n * C) };
   if (state.cond && !signpostDefs().some((d) => d.id === state.cond)) state.cond = null;
   render();
   const secs = ((performance.now() - run.t0) / 1000).toFixed(1);
@@ -113,14 +117,19 @@ function maybeResimulate() {
 const subset = () => state.sel.map((iso) => byIso[iso]);
 function signpostDefs() {
   const out = [
-    { id: "ai2030", label: "An AI labor shock starts by the end of 2030", mask: () => maskFrom(sim.n, (s) => sim.onset[s] < 2031) },
-    { id: "ai2035", label: "An AI labor shock starts by the end of 2035", mask: () => maskFrom(sim.n, (s) => sim.onset[s] < 2036) },
-    { id: "noai2040", label: "No AI labor shock has started by 2040", mask: () => maskFrom(sim.n, (s) => !(sim.onset[s] < 2041)) },
+    { id: "ai2030", label: "The US trigger is met by the end of 2030", mask: () => maskFrom(sim.n, (s) => sim.onset[s] < 2031) },
+    { id: "ai2035", label: "The US trigger is met by the end of 2035", mask: () => maskFrom(sim.n, (s) => sim.onset[s] < 2036) },
+    { id: "noai2040", label: "The US trigger has not been met by 2040", mask: () => maskFrom(sim.n, (s) => !(sim.onset[s] < 2041)) },
   ];
   if (state.sel.length <= 3) for (const iso of state.sel) {
     const ci = byIso[iso], c = COUNTRIES[ci];
     if (c.leftWins) out.push({ id: `L-${iso}`, label: c.leftWins, mask: () => maskFrom(sim.n, (s) => sim.stateNext[s * sim.C + ci] === 1) });
     if (c.rightWins) out.push({ id: `R-${iso}`, label: c.rightWins, mask: () => maskFrom(sim.n, (s) => sim.stateNext[s * sim.C + ci] === 2) });
+  }
+  {
+    const S = subset(), who = state.sel.length === 1 ? COUNTRIES[byIso[state.sel[0]]].inName : "a selected country";
+    out.push({ id: "endorse2030", label: `A government in ${who} endorses a UBI by the end of 2030`,
+               mask: () => maskFrom(sim.n, (s) => S.some((ci) => sim.firstEndorse[s * sim.C + ci] <= 2030)) });
   }
   if (state.t > 0) {
     const where = state.sel.length === 1 ? COUNTRIES[byIso[state.sel[0]]].inName : "a selected country";
@@ -235,6 +244,8 @@ function render() {
     if (el) el.textContent = fmtP(at(cumulative(sim, [byIso[c.iso3]], t).curve, state.year), sim.n);
   }
   renderSignposts(S, t);
+  renderSoon();
+  renderShiftHelp();
   renderMarkets();
   for (const el of document.querySelectorAll(".busy")) el.classList.remove("busy");
 }
@@ -259,7 +270,7 @@ function renderSignposts(S, t) {
         <circle cx="${sx(r.pIfNo)}" cy="9" r="4" fill="var(--surface)" stroke="var(--series-1)" stroke-width="2"/>
         <circle cx="${sx(r.pIfYes)}" cy="9" r="4" fill="var(--series-1)" stroke="var(--surface)" stroke-width="1.5"/></svg></td>
       <td><button class="btn" type="button" data-cond="${d.id}" aria-pressed="${state.cond === d.id}">${state.cond === d.id ? "Supposed" : "Suppose this"}</button></td></tr>`).join("")}</tbody></table>
-    <p class="help">Filled dot: forecast if yes. Hollow dot: if no. Tick: today's forecast. Scale 0 to ${fmtTick(top)}. An AI labor shock is a sustained rise in US unemployment of about 3 points that economists attribute to AI; each country gets it with its own chance and lag.</p>`;
+    <p class="help">Filled dot: forecast if yes. Hollow dot: if no. Tick: today's forecast. Scale 0 to ${fmtTick(top)}. The US trigger: the 12-month average unemployment rate 3 points above its 2025 level while real GDP is at or above its previous peak.</p>`;
   for (const b of document.querySelectorAll("[data-cond]")) b.onclick = () => { state.cond = state.cond === b.dataset.cond ? null : b.dataset.cond; update(); };
 }
 
@@ -279,41 +290,69 @@ function renderMarkets() {
 }
 
 const STATE_WORD = { L: "left-led", R: "right-led", O: "other" };
+const GOV = { L: "a left-led government", R: "a right-led government", O: "a government of another type (divided, coalition or minority)" };
+function renderSoon() {
+  const S = subset();
+  const row = (label, set) => {
+    const tr = cumulativeOf(sim, sim.triggerYear, set).curve, en = cumulativeOf(sim, sim.firstEndorse, set).curve;
+    const ub = cumulative(sim, set, 0).curve, at = (c, y) => c.find((r) => r.year === y).p;
+    return `<tr><td>${esc(label)}</td>${[at(tr, 2028), at(tr, 2030), at(en, 2028), at(en, 2030), at(ub, 2030)].map((p) => `<td class="num">${fmtP(p, sim.n)}</td>`).join("")}</tr>`;
+  };
+  const rows = S.map((ci) => row(COUNTRIES[ci].name, [ci]));
+  if (S.length > 1) rows.push(row(`At least one of the ${S.length}`, S));
+  $("soon").innerHTML = `<table><thead><tr><th>Country</th><th class="num">Trigger met by 2028</th><th class="num">By 2030</th><th class="num">A government endorses a UBI by 2028</th><th class="num">By 2030</th><th class="num">A UBI of any size enacted by 2030</th></tr></thead><tbody>${rows.join("")}</tbody></table>
+    <p class="help">Triggers resolve from each country's official unemployment and GDP series, named in the ledger. An endorsement is a statement by the head of government, or the governing party's platform or coalition agreement, backing a qualifying UBI. Enactment resolves from statute.</p>`;
+}
+function renderShiftHelp() {
+  if (!sim) return;
+  const c = cumulativeOf(sim, sim.triggerYear, [byIso.USA]).curve, at = (y) => fmtP(c.find((r) => r.year === y).p, sim.n);
+  $("h-shift").textContent = `Trigger: US unemployment (12-month average) at least 3 points above its 2025 level while real GDP is at or above its previous peak. Chance it is met by 2030: ${at(2030)}; by 2035: ${at(2035)}; by 2040: ${at(2040)}.`;
+}
+
 const GLOBAL_LABELS = {
-  shock_by_2028: "AI labor shock started by the end of 2028", shock_by_2030: "…by the end of 2030", shock_by_2035: "…by the end of 2035",
-  shock_by_2040: "…by the end of 2040", shock_by_2050: "…by the end of 2050", politics_lag_years: "Years from shock to legislation",
+  shock_by_2028: "The US trigger is met by the end of 2028", shock_by_2030: "The US trigger is met by the end of 2030", shock_by_2035: "The US trigger is met by the end of 2035",
+  shock_by_2040: "The US trigger is met by the end of 2040", shock_by_2050: "The US trigger is met by the end of 2050",
 };
 function renderAssumptions() {
   const badge = (k) => `<span class="badge ${k}">${k}</span>`;
   const qty = (r, f) => `${f(r.lo)}–${f(r.hi)}, most likely ${f(r.mode)}`;
-  const g = Object.entries(GLOBALS).map(([k, r]) => k === "politics_lag_years"
-    ? `<tr><td>${esc(GLOBAL_LABELS[k])}</td><td>${qty(r, (x) => `${x}`)} years</td><td>${badge("judgment")} ${esc(GLOBAL_NOTES[k])}</td></tr>`
-    : `<tr><td>${esc(GLOBAL_LABELS[k])}</td><td>${pctIn(pertMean(r))}</td><td>${badge("judgment")} Anchored to markets. ${esc(GLOBAL_NOTES[k])}</td></tr>`).join("");
-  let html = `<h3 style="font-size:14px;margin:4px 0">Shared by every country</h3><div class="tablewrap"><table><thead><tr><th>Input</th><th>Value</th><th>Source</th></tr></thead><tbody>${g}</tbody></table></div>`;
+  const tr = (a, b, c, k, n) => `<tr><td>${esc(a)}</td><td>${esc(b)}</td><td>${esc(c)}</td><td>${badge(k)} ${esc(n || "")}</td></tr>`;
+  const head = `<thead><tr><th>Assumption</th><th>Value</th><th>Resolves</th><th>Basis</th></tr></thead>`;
+  let g = Object.entries(GLOBAL_LABELS).map(([k, lab]) => tr(lab, pctIn(pertMean(GLOBALS[k])), `31 December ${k.slice(-4)}, from BLS unemployment (FRED UNRATE) and BEA real GDP (FRED GDPC1)`, "judgment", `Anchored to markets. ${GLOBAL_NOTES[k]}`)).join("");
+  g += tr("Shock-driven endorsements begin 1 to 3 years after a country's trigger is met", `${qty(GLOBALS.politics_lag_years, (x) => `${x + 1}`)} years`, "By the timing of the first endorsement after a trigger", "judgment", GLOBAL_NOTES.politics_lag_years);
+  let html = `<h3 style="font-size:14px;margin:4px 0">Shared by every country</h3><div class="tablewrap"><table>${head}<tbody>${g}</tbody></table></div>`;
   for (const iso of state.sel) {
-    const c = COUNTRIES[byIso[iso]], term = c.termYears ?? 4;
-    const rows = [];
-    c.periods.forEach((p) => {
-      if (p.kind === "fixed") rows.push([`Government from ${p.start}`, STATE_WORD[p.state], "data", p.note || ""]);
-      if (p.kind === "keep") rows.push([`Majority survives the midterm (government from ${p.start})`, pctIn(pertMean(p.keep)), p.source || "judgment", p.note || "Judgment from how often majorities survive mid-term elections."]);
+    const c = COUNTRIES[byIso[iso]], term = c.termYears ?? 4, rows = [];
+    if (c.trigger) rows.push(tr(`${c.name}'s trigger: ${c.trigger.series} 12-month average at or above ${c.trigger.level}% while real GDP is at or above its previous peak`,
+      `2025 average: ${c.trigger.baseline}%`, `Monthly, from ${c.trigger.source}`, "data", c.trigger.note || ""));
+    if (iso !== "USA") {
+      rows.push(tr(`If the US trigger is met, ${c.name}'s is met too`, pctIn(pertMean(c.exposure)), "When the US trigger is met", "judgment", c.exposureNote || ""));
+      rows.push(tr(`…and within this many years of the US`, `${qty(c.lag, (x) => `${Math.round(x * 10) / 10}`)}`, "When both triggers are met", "judgment", ""));
+    }
+    c.periods.forEach((p, i) => {
+      const nextStart = c.periods[i + 1]?.start;
+      if (p.kind === "fixed") rows.push(tr(`The government is ${STATE_WORD[p.state]}${nextStart ? ` until ${nextStart}` : ""}`, "certain", "Already true", "data", p.note || ""));
+      if (p.kind === "keep") rows.push(tr(`The governing majority survives the midterm (government from ${p.start})`, pctIn(pertMean(p.keep)), `When that government takes office in ${p.start}`, p.source || "judgment", p.note || "Judgment from how often majorities survive mid-term elections."));
       if (p.kind === "draw") {
         let pL = pertMean(p.pL), pR = pertMean(p.pR); const sum = pL + pR;
         if (sum > 0.98) { pL *= 0.98 / sum; pR *= 0.98 / sum; }
-        rows.push([`Election starting ${p.start}: left-led / right-led`, `${pctIn(pL)} / ${pctIn(pR)}`, p.source || "judgment", p.note || "Judgment from how often power has alternated in recent decades."]);
+        rows.push(tr(`The government from ${p.start} is left-led / right-led / other`, `${pctIn(pL)} / ${pctIn(pR)} / ${pctIn(1 - pL - pR)}`, `When that government takes office in ${p.start}`, p.source || "judgment", p.note || "Judgment from how often power has alternated in recent decades."));
       }
     });
-    const qn = { L_normal: "left-led, no shock", R_normal: "right-led, no shock", O_normal: "other, no shock", L_shock: "left-led, during a shock", R_shock: "right-led, during a shock", O_shock: "other, during a shock" };
-    for (const [k, lab] of Object.entries(qn)) rows.push([`Chance of enacting in a ${term}-year term: ${lab}`, pctIn(pertMean(c.q[k])), "judgment", k === "L_shock" ? c.qNote : ""]);
-    rows.push(["Chance a US-scale AI shock reaches it", pctIn(pertMean(c.exposure)), c.iso3 === "USA" ? "data" : "judgment", c.exposureNote || ""]);
-    rows.push(["Lag behind the US shock", `${qty(c.lag, (x) => `${Math.round(x * 10) / 10}`)} years`, c.iso3 === "USA" ? "data" : "judgment", ""]);
-    rows.push(["Amount if enacted without a shock", `${qty(c.amount.normal, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head`, "judgment", ""]);
-    rows.push(["Amount if enacted during a shock", `${qty(c.amount.shock, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head`, "judgment", c.amountNote || ""]);
-    rows.push(["Yearly chance a governing majority raises an existing program during a shock", pctIn(pertMean(c.ratchet)), "judgment", ""]);
+    for (const st of ["L", "R", "O"]) for (const cond of ["shock", "normal"]) {
+      const k = `${st}_${cond}`;
+      rows.push(tr(`If ${GOV[st]} holds power ${cond === "shock" ? "while the shock is under way" : "with no shock under way"}, it endorses a qualifying UBI within its ${term}-year term`,
+        pctIn(pertMean(c.endorse[k])), "Only if that government holds power under that condition", c.endorseSource?.[k] || "judgment", k === "L_shock" ? c.endorseNote : k === "L_normal" ? c.endorseBaseNote : ""));
+    }
+    for (const st of ["L", "R", "O"])
+      rows.push(tr(`If ${GOV[st]} has endorsed a UBI, it becomes law within the term`, pctIn(pertMean(c.pass[st])), "Only if that government endorses one", c.passSource?.[st] || "judgment", st === "L" ? c.passNote : ""));
+    rows.push(tr("If a UBI passes with no shock under way, its first-year amount per adult", `${qty(c.amount.normal, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head`, "Only if one passes in normal times", "judgment", ""));
+    rows.push(tr("If a UBI passes during a shock, its first-year amount per adult", `${qty(c.amount.shock, (x) => `${Math.round(x * 10) / 10}%`)} of GDP per head (most likely ${money((c.amount.shock.mode / 100) * c.gdppc)})`, "Only if one passes during a shock", "judgment", c.amountNote || ""));
+    rows.push(tr("If a UBI exists during a shock, a governing majority raises it in a given year", pctIn(pertMean(c.ratchet)), "Only if a UBI exists during a shock", "judgment", ""));
     html += `<details class="country" ${state.sel.length === 1 ? "open" : ""}><summary>${esc(c.name)}</summary>
       ${c.facts ? `<ul>${c.facts.map((f) => `<li>${esc(f.text)} <a href="${esc(f.url)}" target="_blank" rel="noopener">source</a></li>`).join("")}</ul>` : ""}
       ${c.electionNote ? `<p>${esc(c.electionNote)}</p>` : ""}
-      <div class="tablewrap"><table><thead><tr><th>Input</th><th>Value</th><th>Source</th></tr></thead><tbody>${
-        rows.map(([a, b, k, n]) => `<tr><td>${esc(a)}</td><td>${esc(b)}</td><td>${badge(k)} ${esc(n)}</td></tr>`).join("")}</tbody></table></div>
+      <div class="tablewrap"><table>${head}<tbody>${rows.join("")}</tbody></table></div>
       ${c.sources?.length ? `<p>Sources: ${c.sources.map((s) => `<a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.label)}</a>`).join("; ")}</p>` : ""}</details>`;
   }
   $("assumptions").innerHTML = html;
@@ -321,12 +360,14 @@ function renderAssumptions() {
 
 function renderHow() {
   $("how").innerHTML = `
-    <p>The model covers ten countries: the United States, the United Kingdom, Canada, Germany, France, Spain, Japan, South Korea, Australia and Brazil. For each, a research agent gathered the current government, election calendar, party positions on basic income, polling, existing programs and election markets. A second agent re-fetched the cited sources for 332 of those claims: 264 held, 42 needed corrections, 7 were wrong and 19 could not be checked. The corrections are applied, and each fact above links to a source that states it.</p>
-    <p>The model simulates histories from 2027 to 2050. In each one it draws the inputs from their ranges and decides when, if at all by 2050, an AI labor shock starts. The shock is the same for every country, so their fates are linked. It then decides whether and when the shock reaches each country and walks election by election. Each year a government has a chance of enacting a universal payment that depends on who governs and whether a shock is under way. If one passes, its size is drawn relative to GDP per head, and during a shock a governing majority can raise it later.</p>
+    <p>The model covers ten countries: the United States, the United Kingdom, Canada, Germany, France, Spain, Japan, South Korea, Australia and Brazil. For each, a research agent gathered the current government, election calendar, party positions on basic income, polling, existing programs and election markets. A second agent re-fetched the cited sources for 332 of those claims: 264 held, 42 needed corrections, 7 were wrong and 19 could not be checked. The corrections are applied, and each fact in the ledger links to a source that states it.</p>
+    <p>Each simulated history runs from 2027 to 2050. It first decides when, if at all by 2050, the US meets its trigger: a 12-month average unemployment rate 3 points above its 2025 level while real GDP is at or above its previous peak. In all eleven episodes on record across the ten countries (for the US, since 1948) in which the 12-month unemployment rate rose 3 points or more, real GDP was below its previous peak, so the second condition separates a labor-displacing technology shock from an ordinary recession. Each other country may meet its own version of the trigger, with its own chance and lag. Each election decides whether the government is left-led, right-led or of another type. Each year, a government that has not endorsed a UBI may endorse one, with a chance that depends on its type and on whether a shock is under way; an endorsement lapses when the type of government changes. An endorsed UBI may then become law. If one passes, its size is drawn relative to GDP per head, and during a shock a governing majority can raise it later.</p>
     <p>A forecast here is the share of histories where the event happens. Every history carries its own draw of the inputs, so that share already averages over what we don't know about them. The signposts above show how far it would move if we learned something.</p>
-    <p>The sliders and risk switches change the assumptions and rerun the simulation. A supposition keeps the assumptions and filters to the histories where it comes true, which is Bayes' rule applied to the simulation. The page starts with 20,000 histories and adds batches up to 200,000; a decimal place appears once the simulation's own noise is below 0.1 points.</p>
+    <p>Every assumption is stated so it can turn out wrong: triggers resolve from official statistics each year, government types at each election, endorsements from what governments say, and enactment from statute. The ledger gives each assumption's resolution, and "Checkable soon" lists the predictions due first. The sliders and risk switches edit those explicit values; a supposition keeps them and filters to the histories where it comes true, which is Bayes' rule applied to the simulation. The page starts with a small batch of histories and adds batches up to 200,000; a decimal place appears once the simulation's own noise is below 0.1 points.</p>
     <h3>What it leaves out</h3>
-    <p>AI timing and elections are independent here, though a shock would move elections. Party labels compress real coalitions into left-led, right-led and other. Enactment chances are judgments; the table above says which inputs rest on markets or data. The US version matches a separate Python model to within simulation noise. The engine is tested for invariants: probabilities are nested by year, amount and country set, and every signpost averages back to today's forecast. The Python model's tests check the same for year and amount.</p>
+    <p>AI timing and elections are independent here, though a shock would move elections; that assumption fails if incumbents lose markedly more often after a trigger. Party labels compress real coalitions into left-led, right-led and other. Endorsement and passage chances are judgments informed by the base rates in the ledger. The US version matches a separate Python model to within simulation noise. The engine is tested for invariants: probabilities are nested by year, amount and country set, and every signpost averages back to today's forecast. The Python model's tests check the same for year and amount.</p>
+    <h3>Revisions</h3>
+    <p>Revision 2 (30 September 2026) splits enactment into two observable steps, endorsement and passage, replaces the "political appetite" and "generosity" multipliers with explicit probabilities and amounts, defines the AI shock as a measurable unemployment trigger, and calibrates the no-shock endorsement rate to the record: no endorsement of a strict UBI by any of the ten governments in about 75 terms since 2000. Revision 1 (29 September) put a US UBI worth $6,000 a year at 9.6% by 2040; revision 2 puts it lower, because endorsing first and passing later takes time, an endorsement lapses when the government changes, and the record rules out the no-shock rates revision 1 implied.</p>
     <p>Code, research and tests: <a href="https://github.com/MaxGhenis/ubi-forecast">github.com/MaxGhenis/ubi-forecast</a>.</p>`;
 }
 
@@ -354,10 +395,13 @@ function buildControls() {
     el.oninput = () => { state[key] = +el.value; show(); update(); };
   };
   bind("c-shift", "shift", (v) => (v === 0 ? "as estimated" : v < 0 ? `${-v} years earlier` : `${v} years later`));
-  bind("c-appetite", "appetite", (v) => (v === 0 ? "as estimated" : `× ${fmtMult(2 ** v)}`));
-  bind("c-generosity", "generosity", (v) => (v === 0 ? "as estimated" : `× ${fmtMult(2 ** v)}`));
+  const US = COUNTRIES[byIso.USA], cap = (x) => Math.min(0.98, x);
+  bind("c-eL", "eL", (v) => pctIn(cap(pertMean(US.endorse.L_shock) * 2 ** v)));
+  bind("c-eR", "eR", (v) => pctIn(cap(pertMean(US.endorse.R_shock) * 2 ** v)));
+  bind("c-pass", "pass", (v) => pctIn(Math.min(1, pertMean(US.pass.L) * 2 ** v)));
+  bind("c-amt", "amt", (v) => money((US.amount.shock.mode / 100) * US.gdppc * 2 ** v));
   $("c-exposure").value = state.exposure; $("c-exposure").onchange = (e) => { state.exposure = e.target.value; update(); };
-  $("reset").onclick = () => { Object.assign(state, { shift: 0, exposure: "model", appetite: 0, generosity: 0, risks: [], cond: null }); buildControls(); update(); };
+  $("reset").onclick = () => { Object.assign(state, { shift: 0, exposure: "model", eL: 0, eR: 0, pass: 0, amt: 0, risks: [], cond: null }); buildControls(); update(); };
   $("hero-country").onchange = (e) => {
     if (e.target.value === "__multi") { if (state.sel.length === 1) state.sel = COUNTRIES.map((c) => c.iso3); }
     else state.sel = [e.target.value];
@@ -378,7 +422,7 @@ function update() {
 
 // ---------------------------------------------------------------- boot
 function boot() {
-  $("asof").textContent = `Forecast as of ${MARKETS.asOf}.`;
+  $("asof").textContent = "Revision 2, 30 September 2026.";
   const root = document.documentElement;
   const current = () => root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
   const setThemeLabel = () => { const next = current() === "dark" ? "Light" : "Dark"; $("theme").textContent = next; $("theme").setAttribute("aria-label", `${next} theme`); };

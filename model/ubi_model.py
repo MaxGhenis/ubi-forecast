@@ -95,25 +95,18 @@ INPUTS: dict[str, Rng3] = {
         "A trifecta survives the midterm.",
         "Of the six trifectas that started a presidential term from 1993 to 2021, only the 2001 one survived its midterm (2002); 1994, 2006, 2010, 2018 and 2022 each flipped a chamber."),
 
-    # --- Enactment: P(universal recurring cash payment >= $1k/adult/yr enacted within a 4-year term) ---
-    "q_any_D_normal": Rng3(0.01, 0.03, 0.07,
-        "D trifecta, no AI shock.",
-        "JUDGMENT; the 2009 and 2021 D trifectas enacted no UBI (2021: temporary CTC, one-time $1,400 checks)."),
-    "q_any_R_normal": Rng3(0.005, 0.02, 0.05,
-        "R trifecta, no AI shock.",
-        "JUDGMENT; recurring tariff or sovereign-fund 'dividends' are the plausible R route "
-        "(Kalshi: a new Trump dividend program by 2027 at 5.2%)."),
-    "q_any_div_normal": Rng3(0.0, 0.003, 0.01,
-        "Divided government, no AI shock.", "JUDGMENT."),
-    "q_any_D_shock": Rng3(0.25, 0.45, 0.70,
-        "D trifecta during an AI shock.",
-        "JUDGMENT; Manifold 'UBI policy after AI mass unemployment' puts 'No UBI' at 76% (21 traders; "
-        "that is over all governments)."),
-    "q_any_R_shock": Rng3(0.10, 0.25, 0.45,
-        "R trifecta during an AI shock.", "JUDGMENT; populist-right 'universal high income' route."),
-    "q_any_div_shock": Rng3(0.03, 0.08, 0.15,
-        "Divided government during an AI shock.",
-        "JUDGMENT; the 2020 CARES checks passed under divided government, but they were temporary."),
+    # --- Endorsement: P(the President or the governing party's platform endorses a qualifying UBI within a
+    #     4-year term), by control and whether the shock is under way. Observable: statements, platforms. ---
+    "e_D_normal": Rng3(0.002, 0.01, 0.03, "D trifecta endorses, no shock.", "DATA: no strict-UBI endorsement by any of the ten governments in about 75 terms since 2000."),
+    "e_R_normal": Rng3(0.001, 0.004, 0.012, "R trifecta endorses, no shock.", "DATA: same record."),
+    "e_div_normal": Rng3(0.001, 0.004, 0.012, "The President endorses under divided government, no shock.", "DATA: same record."),
+    "e_D_shock": Rng3(0.35, 0.6, 0.85, "D trifecta endorses during a shock.", "JUDGMENT: no trigger-type shock in the record."),
+    "e_R_shock": Rng3(0.1, 0.35, 0.65, "R trifecta endorses during a shock.", "JUDGMENT."),
+    "e_div_shock": Rng3(0.15, 0.4, 0.7, "The President endorses under divided government during a shock.", "JUDGMENT."),
+    # --- Passage: P(an endorsed UBI becomes law within the term), by control. Observable: public law. ---
+    "pass_D": Rng3(0.35, 0.55, 0.75, "An endorsed UBI passes under a D trifecta.", "DATA: about half of US trifectas' flagship priorities since 1993 passed."),
+    "pass_R": Rng3(0.35, 0.55, 0.75, "An endorsed UBI passes under an R trifecta.", "DATA: same record."),
+    "pass_div": Rng3(0.03, 0.10, 0.20, "An endorsed UBI passes under divided government.", "JUDGMENT."),
 
     # --- Amount at enactment, per adult per year in 2026 dollars (lognormal median) ---
     "amount_median_normal": Rng3(1000, 2000, 3500,
@@ -199,6 +192,8 @@ def simulate(n_param: int = 200_000, n_scen: int = 5, seed: int = 20260929) -> d
         return ctrl[year - ((year - 2027) % 2)]
 
     amount = np.zeros(M)                                     # current program amount (0 = none)
+    endorsed = np.full(M, -1)                                # control type that endorsed a UBI (-1 = none)
+    first_endorse = np.full(M, 9999)
     first_year_at = {t: np.full(M, 9999) for t in (1000, 3000, 6000, 12000)}
     floor_year = np.full(M, 9999)
     ctc_year = np.full(M, 9999)                              # enactment year
@@ -212,10 +207,17 @@ def simulate(n_param: int = 200_000, n_scen: int = 5, seed: int = 20260929) -> d
         c = control_in(y)
         isD, isR, isDiv = c == 1, c == 2, c == 0
 
-        q_any = np.select([isD & ~shock, isR & ~shock, isDiv & ~shock, isD & shock, isR & shock],
-                          [p["q_any_D_normal"], p["q_any_R_normal"], p["q_any_div_normal"],
-                           p["q_any_D_shock"], p["q_any_R_shock"]], p["q_any_div_shock"])
-        new = (amount == 0) & (rng.random(M) < per_year(q_any))
+        # A new type of control must endorse anew; then endorsement, then passage (never both in one year).
+        endorsed = np.where((endorsed >= 0) & (endorsed != c), -1, endorsed)
+        e = np.select([isD & ~shock, isR & ~shock, isDiv & ~shock, isD & shock, isR & shock],
+                      [p["e_D_normal"], p["e_R_normal"], p["e_div_normal"], p["e_D_shock"], p["e_R_shock"]], p["e_div_shock"])
+        pz = np.select([isD, isR], [p["pass_D"], p["pass_R"]], p["pass_div"])
+        u_e, u_p = rng.random(M), rng.random(M)
+        open_ = amount == 0
+        do_endorse = open_ & (endorsed < 0) & (u_e < per_year(e))
+        new = open_ & (endorsed >= 0) & (u_p < per_year(pz))
+        endorsed = np.where(do_endorse, c, endorsed)
+        first_endorse = np.where(do_endorse & (first_endorse == 9999), y, first_endorse)
         med = np.where(shock, p["amount_median_shock"], p["amount_median_normal"])
         sig = np.where(shock, 0.5, 0.6)
         draw = med * np.exp(sig * rng.standard_normal(M))

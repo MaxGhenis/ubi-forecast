@@ -1,0 +1,195 @@
+---
+title: "When will countries enact a universal basic income? A falsifiable Bayesian forecast for ten countries"
+author:
+  - name: Max Ghenis
+    url: https://maxghenis.com
+date: 2026-09-30
+abstract: |
+  Prediction markets price a US universal basic income at {{< var mk_usa_any_2040_price >}} by 2040, on {{< var mk_usa_any_2040_traders >}} traders and a definition that sets no minimum amount. This paper builds the forecast from parts that can each be checked. A Monte Carlo model simulates {{< var n_histories >}} histories from 2027 to 2050 for ten countries. Each history asks three questions: when a country's unemployment rate rises three points above its 2025 level without a recession; which kind of government holds power after each election; and whether that government endorses a universal basic income and passes it. Every input is stated as a proposition with a resolution date and a data source, and conditional inputs name the condition that must occur first. The model puts a US UBI worth at least $6,000 per adult per year (6.7% of GDP per head) at {{< var usa_2040 >}} by 2040 and {{< var usa_2050 >}} by 2050, and gives {{< var all_t2_2040 >}} that at least one of the ten countries enacts one by 2040. Nearly all of that probability runs through the unemployment trigger: if the US has not met it by 2040, the US forecast falls to {{< var usa_noshock_2040 >}}. The paper reports no intervals around these probabilities. It reports signposts, the observations that would move them and by how much, and near-term predictions that can prove the model wrong within four years.
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    embed-resources: true
+    theme: cosmo
+    fontsize: 1.02em
+    linestretch: 1.55
+    fig-width: 7
+  pdf:
+    documentclass: article
+    papersize: letter
+    geometry: margin=1in
+    number-sections: true
+    colorlinks: true
+    fig-pos: "H"
+bibliography: references.bib
+link-citations: true
+---
+
+# Introduction
+
+At least eight Manifold markets created by other people ask when, or whether, the United States will adopt a universal basic income. The most active has {{< var mk_usa_full_2040_traders >}} traders and puts a "full UBI" before 2040 at {{< var mk_usa_full_2040_price >}}. A sibling market run by the same creator, which counts a partial UBI, gives the same {{< var mk_usa_partial_2030_price >}} for 2030, a decade sooner. Neither states an amount. Two "any country" markets resolved YES in late 2025, when the Marshall Islands began paying every resident citizen, which says more about definitions than about the United States.
+
+This paper replaces one hard question with several easier ones, the move that decomposition-based forecasting recommends [@macgregor2001decomposition; @tetlock2015superforecasting], and it states each easier question so that the world can answer it. Will US unemployment rise three points while the economy keeps growing? Who will hold power after each election? If a party holds power while that happens, will its leader endorse a universal payment? If it endorses one, will it pass? Each of these has a data source and a date, or a stated condition under which it resolves.
+
+The model runs ten countries: the United States, the United Kingdom, Canada, Germany, France, Spain, Japan, South Korea, Australia and Brazil. It powers an interactive dashboard at [maxghenis.com/ubi-forecast](https://maxghenis.com/ubi-forecast/), and every number in this paper comes from the same engine, seed and history count as the dashboard's default view.
+
+Three findings stand out. First, almost the whole forecast depends on a labor shock of a kind the United States has not seen: without one, the chance of a US UBI by 2040 is {{< var usa_noshock_2040 >}}. Second, amounts matter as much as enactment: South Korea, led by the most prominent basic-income advocate among heads of government, has a {{< var kor_any_2040 >}} chance of a universal payment of any size by 2040 but {{< var kor_2040 >}} for one worth 6.7% of GDP per head, because its proposals are small. Third, the model makes predictions that resolve soon. It gives {{< var usa_end2030 >}} that a US government endorses a UBI by 2030 and {{< var all_end2030 >}} that some government among the ten does. If endorsements arrive much faster or slower than that, the assumptions below are wrong, and the model says which ones.
+
+# What forecasters say now
+
+@fig-markets compares nine open Manifold markets with this model's answer to the nearest question it can express. The markets price every question at eight or more times the model's answer.
+
+![Manifold prices and this model's answer to each market's nearest question, as of 29 September 2026. Trader counts in parentheses.](figures/fig_markets.png){#fig-markets}
+
+{{< include _includes/table_markets.md >}}
+
+: Manifold markets and the model's version of each question. {#tbl-markets}
+
+Three features of these markets explain part of the gap. The definitions vary: some count any universal payment, some require one that covers basic living costs, and one counts "a form of UBI". The markets are thin: none has more than 50 traders. And they run to 2033 or 2040, which ties up traders' currency for years, so a mispriced long-dated market can sit uncorrected. Play money is not obviously the problem: over 208 NFL games, a play-money market forecast as well as a real-money one [@servanschreiber2004prediction]. Long-shot outcomes, though, tend to be overpriced in betting markets [@snowberg2010explaining; @wolfers2004prediction], and a UBI by 2030 is a long shot.
+
+I created five further Manifold markets on this question on 29 September 2026, seeded at an earlier version of this model's odds; @tbl-markets omits them because they are not an independent check.
+
+Real-money markets say little about UBI directly. Neither Polymarket nor Kalshi lists one. The closest Kalshi contract, on whether a million Americans receive at least $100 under a new federal "dividend" program before 2027, traded at about 5%.
+
+# The question
+
+The model forecasts the year a country enacts a national law paying every adult citizen a recurring, unconditional cash amount at or above a threshold. Three choices define it.
+
+*Enactment*, the date a law passes, is the event, because it is observable and unambiguous; payments can start later.
+
+*Universal and unconditional* rules out means-tested floors, work requirements and child benefits. A tax that claws the payment back from higher earners is allowed, since the payment itself goes to everyone [@hoynes2019universal].
+
+*The threshold is a share of GDP per head*, so it means the same thing across countries. The default, 6.7%, equals $6,000 a year in the United States, whose 2025 GDP per head was {{< var gdppc_usa >}}. The dashboard offers 1.1%, the smallest program the model counts, up to 25%.
+
+# The model
+
+@fig-model shows the structure. Each simulated history draws every input from its prior range, a PERT distribution over a lowest, most likely and highest value [@malcolm1959application; @clark1962pert], then walks year by year from 2027 to 2050.
+
+![Model structure. Evidence (blue outline) sets the trigger timing and election priors. The dashed box marks where the dashboard's sliders and risk switches act.](figures/fig_model.png){#fig-model}
+
+## The trigger
+
+The model's labor shock is a measurable event. The US trigger is met in the first month that the 12-month average of the BLS unemployment rate reaches 7.3%, three points above its 2025 average of 4.26%, while real GDP is at or above its previous peak. The second condition separates a labor-displacing technology shock from an ordinary recession: in a recession output falls along with employment. In the official records of all ten countries, eleven episodes saw the 12-month unemployment rate rise three points or more above its level two years earlier: the United States in 1975, 2009 and 2020, Canada three times, Australia twice, and the United Kingdom, Spain and South Korea once each. In all eleven, real GDP was below its previous peak.
+
+The chance the trigger is met by each year is a prior anchored to markets on artificial general intelligence and AI-driven unemployment. A 175-trader Manifold market gives 23% to AI pushing US unemployment above 10% before 2030, and a series of AGI markets gives 53% to AGI before 2030 and 72% before 2040. The model discounts both: it needs a shock of a specific size and shape, not AGI as such. Surveys of AI researchers place full automation of labor much later than these markets do [@grace2025thousands], and exposure estimates suggest that large language models touch a large share of tasks without saying how fast employment adjusts [@eloundou2024gpts; @cazzaniga2024genai]. Economic theory allows both outcomes: automation that displaces labor faster than new tasks reinstate it, or complementarity that raises wages [@acemoglu2019automation; @autor2015why; @korinek2024scenarios].
+
+Each other country meets its own trigger, defined the same way on its own unemployment and GDP series, with a probability conditional on the US trigger and a lag in years. The research behind these inputs cites the IMF's estimate that about 60% of advanced-economy jobs are highly exposed to AI [@cazzaniga2024genai].
+
+## Governments
+
+Each country's political calendar is a list of periods. The current government is fixed; each election draws a left-led, right-led or other government. In the United States those are a Democratic trifecta, a Republican trifecta and divided government. Election probabilities come from Polymarket and Manifold where they exist and from recent base rates after that.
+
+## Endorsement and passage
+
+This is where the model replaces "political appetite" with observable steps. In each year, a government that has not endorsed a qualifying UBI endorses one with a probability that depends on its type and on whether the trigger's shock is under way. An endorsement means a statement by the head of government, or a governing party's platform or coalition agreement, backing a universal, unconditional, recurring payment. It lapses when the type of government changes. An endorsed UBI then becomes law with a probability that depends on the government type: high for a Westminster majority, lower for a US trifecta facing a filibuster, low under divided government. Both are stated per term of office and converted to yearly chances over each country's term length.
+
+Endorsements happen far more often than enactments, so they give the model evidence it can be tested on soon. The steps also map onto the political-feasibility framework of @dewispelaere2012feasibility: endorsement captures strategic feasibility among governing actors, and passage captures institutional feasibility. History warns that a willing government is not enough. Nixon's Family Assistance Plan had broad support and failed [@steensland2008failed].
+
+Shock-driven endorsements begin one to three years after a country's trigger is met.
+
+## Amounts
+
+When a UBI passes, its first-year amount is drawn relative to GDP per head from a lognormal centered on the country's prior: small without a shock (dividend-scale, like Alaska's) and larger during one. During a shock, a governing majority can raise an existing program in any year.
+
+## Risks
+
+Four switches change explicit inputs. A fiscal squeeze multiplies passage chances by 0.6 and amounts by 0.85. "Means-tested route wins" multiplies endorsement chances by 0.6 in normal times and 0.8 during a shock. Policy diffusion multiplies every other government's endorsement chance by 1.5 once any of the ten enacts. Gridlock multiplies passage by 0.3 for divided governments, cross-bloc coalitions and hung parliaments.
+
+## What the output means
+
+A forecast is the share of histories in which the event happens. Every history carries its own draw of the inputs, so that share already averages over what we do not know about them, and the paper reports no interval around it. What we do not know shows up instead as signposts: for an observable event $S$, the forecast if $S$ happens and if it does not. By the law of total probability these average back to today's forecast, $P(U) = P(S)\,P(U \mid S) + P(\neg S)\,P(U \mid \neg S)$ [@blitzstein2019introduction], which is conservation of expected evidence [@yudkowsky2007conservation], and the tests check it for every signpost. Conditioning on $S$ means keeping the histories where $S$ holds.
+
+Election, midterm and exposure inputs each feed a single yes-or-no draw per history, so the engine uses their means, which is exact. Endorsement, passage, amount, lag and timing inputs are drawn once per history and shared across its years, so their full ranges matter.
+
+# Inputs and evidence
+
+For each country, a research agent gathered the government, election calendar, party positions on basic income, polling, existing programs and election markets. A second agent re-fetched the sources for 332 claims: 264 held, 42 needed corrections, 7 were wrong and 19 could not be checked. A later pass re-checked each of the 37 facts that the dashboard shows against its own link; 16 were fully supported and 21 were trimmed, split or re-sourced. @tbl-inputs summarizes the priors.
+
+{{< include _includes/table_inputs.md >}}
+
+: Political priors by country (means). Election columns give left-led and right-led chances after the next election. Endorsement and passage chances are per term of the length shown. {#tbl-inputs}
+
+{{< include _includes/table_trigger.md >}}
+
+: Trigger and amount priors by country. Trigger levels are each country's 2025 average unemployment rate plus three points, from official series named in the dashboard's ledger. {#tbl-trigger}
+
+Public opinion enters through judgment. In the 2016 European Social Survey, support for a basic income ranged from about a third to four-fifths across countries [@roosma2020public], and was broadest where social spending is lowest, the countries least able to afford one [@parolin2020support]. Individual exposure to automation has not predicted support [@dermont2020automation], so the model gives no weight to exposure before a shock arrives.
+
+Evidence on effects enters only through feasibility. Finland's experiment raised employment slightly and improved wellbeing [@verho2022removing]; the OpenResearch trial found modest reductions in work [@vivalt2024employment]; Alaska's dividend has not reduced employment [@jones2022labor]; and Iran's near-universal transfers did not reduce labor supply [@salehiisfahani2018cash]. None of these settles the fiscal question that dominates political debate in advanced countries [@hoynes2019universal; @banerjee2019universal; @kangas2021feasibility].
+
+# Results
+
+## Ten countries
+
+{{< include _includes/table_countries.md >}}
+
+: Chance of a national UBI worth at least 6.7% of GDP per head. "Any size" counts the smallest qualifying program. The last column conditions on the US trigger not being met by 2040. {#tbl-countries}
+
+![Chance of a UBI worth at least 6.7% of GDP per head by each year, one country per panel on a shared scale.](figures/fig_countries.png){#fig-countries}
+
+Australia ({{< var aus_2040 >}} by 2040), Canada ({{< var can_2040 >}}), the United Kingdom ({{< var gbr_2040 >}}) and the United States ({{< var usa_2040 >}}) lead; @tbl-countries gives the rest. At least one of the ten gets there with probability {{< var all_t2_2040 >}} by 2040 and {{< var all_t2_2050 >}} by 2050. The countries move together because they share one trigger timing.
+
+## The trigger carries the forecast
+
+{{< include _includes/table_signposts_us.md >}}
+
+: Signposts for a US UBI worth at least 6.7% of GDP per head by 2040. {#tbl-signposts}
+
+![Signposts for a US UBI worth 6.7% of GDP per head by 2040. Filled dot: the forecast if the observation happens. Hollow dot: if it does not. Vertical line: today's forecast.](figures/fig_signposts_us.png){#fig-signposts}
+
+If the US trigger is met by 2030, the US forecast for 2040 rises to {{< var sp_usa_0_yes >}}; if it has not been met by 2040, the forecast falls to {{< var sp_usa_2_yes >}}. A US government endorsing a UBI by 2030 moves the forecast to {{< var sp_usa_3_yes >}}. Who wins the 2028 election matters far less: a Democratic trifecta gives {{< var sp_usa_5_yes >}} against {{< var sp_usa_5_no >}} otherwise, because without a shock even a trifecta rarely endorses.
+
+## Size matters
+
+The threshold changes the answer. The United States has {{< var usa_any_2040 >}} by 2040 for a universal payment of any size against {{< var usa_2040 >}} at 6.7% of GDP per head and {{< var usa_15_2040 >}} at 15%. South Korea shows the pattern most clearly: {{< var kor_any_2040 >}} for any size and {{< var kor_2040 >}} at 6.7%, since the proposals of its president's government have been worth about 2% of GDP per head.
+
+## Sensitivity
+
+{{< include _includes/table_scenarios.md >}}
+
+: The chance by 2040 under alternative assumptions, each from 100,000 histories (so the default row can differ slightly from the 200,000-history figures elsewhere). Each row changes explicit inputs; the dashboard shows the resulting values. {#tbl-scenarios}
+
+Passage is the strongest lever. Doubling how often an endorsed UBI becomes law raises the US forecast to {{< var sc_endorsed_ubis_pass_twice_as_often_usa >}}; halving it cuts the forecast to {{< var sc_endorsed_ubis_pass_half_as_often_usa >}}. Doubling how often left-led governments endorse raises it to {{< var sc_left_led_governments_endorse_twice_as_often_usa >}}. Moving the US trigger five years later cuts it to {{< var sc_us_trigger_5_years_later_usa >}}, and halving amounts cuts it to {{< var sc_amounts_half_as_large_usa >}}, because fewer programs clear the $6,000 bar.
+
+# What would prove it wrong
+
+Every input is a proposition that can turn out false. @tbl-soon lists the predictions that resolve first.
+
+{{< include _includes/table_soon.md >}}
+
+: Near-term predictions. Triggers resolve from each country's official statistics; endorsements from statements, platforms and coalition agreements; enactment from statute. {#tbl-soon}
+
+The trigger probabilities resolve every December. The model gives {{< var usa_trig2028 >}} that the US trigger is met by the end of 2028 and {{< var usa_trig2030 >}} by 2030; if the trigger arrives much earlier, the AI-market anchors were too pessimistic about timing. The endorsement probabilities are the sharpest test: {{< var all_end2030 >}} that some government among the ten endorses a qualifying UBI by 2030. An endorsement without a trigger would say the no-shock priors are too low; several endorsements after a trigger with no passage would say the passage priors are too high.
+
+The conditional inputs resolve only when their condition occurs. "If a left-led government holds power during a shock, it endorses a UBI within its term" cannot be tested until such a government faces such a shock. The dashboard's ledger lists each one with its condition, and scores will be added as they resolve.
+
+# Validation
+
+The ten-country engine is JavaScript, so that the dashboard can run it in a browser. A separate Python implementation of the US model serves as a reference, and a differential test requires the two to agree within five Monte Carlo standard errors at 2032, 2036, 2040, 2045 and 2050. The JavaScript run of {{< var n_histories >}} histories gives {{< var usa_2040 >}} for the United States by 2040 and the Python run of {{< var py_n >}} gives {{< var py_us_2040 >}}.
+
+Property-based tests, written with fast-check and Hypothesis, check invariants for arbitrary priors and controls. Probabilities are cumulative in time, nested by amount threshold and by country set, and every signpost averages back to today's forecast. Every enactment follows an endorsement in an earlier year. No endorsements means no UBI, and no passage means endorsements but no UBI. Each country and each history has its own random stream, so a change to one country's inputs leaves the others' results unchanged.
+
+# Limitations
+
+Elections and the trigger are independent in the model, though a labor shock would likely move elections; if incumbents lose markedly more often after a trigger, that assumption fails. Three government types compress real coalitions. Endorsement and passage priors are judgments informed by the base rates in the ledger, not estimates from data, because no country has enacted a qualifying UBI at scale. The model does not include repeal, the threshold ignores differences in existing benefits, and the ten countries omit Italy and every country outside the OECD except Brazil.
+
+Theory gives reason for doubt about the premise itself. Task-based models let new work absorb displaced labor [@acemoglu2019automation], one careful estimate puts AI's ten-year productivity effect below 1% [@acemoglu2025simple], and past automation left most jobs standing [@autor2015why]. If none of the ten countries meets its trigger by 2040, the model's own signposts say a UBI is unlikely there by then.
+
+# Conclusion
+
+The question "when will the US adopt a universal basic income?" has a simple structural answer: when a labor shock arrives that leaves output growing and employment falling, and a government that has endorsed a universal payment holds enough power to pass one. The model puts that at {{< var usa_2040 >}} by 2040 for a payment worth $6,000 a year, below every market that asks a similar question. It will be tested before 2040. Each December, the trigger either has or has not been met, and each election and party platform either does or does not produce an endorsement. Metaculus's [Radiant](https://radiant.metaculus.com) maps the predictions behind a decision as linked boxes [@metaculus2026radiant]; this paper builds such a map and requires that each box resolve.
+
+# Revisions {.appendix}
+
+The first version of this model, published on the dashboard on 29 and 30 September 2026, put a US UBI worth $6,000 a year at 9.6% by 2040. It collapsed endorsement and passage into one per-term enactment chance and scaled it with a single "political appetite" multiplier that no observation could contradict. This version splits enactment into the two observable steps above and calibrates the no-shock endorsement rate to the record, which has no endorsement of a strict UBI by any of the ten governments in about 75 terms since 2000. Both changes lower the forecast: endorsing first and passing later takes time, an endorsement lapses when the government changes, and the record rules out the no-shock rates the first version implied.
+
+# Reproducibility {.appendix}
+
+Code, research, tests and this paper's sources are at [github.com/MaxGhenis/ubi-forecast](https://github.com/MaxGhenis/ubi-forecast). `paper/scripts/results.mjs` runs the dashboard's engine with seed {{< var seed >}} and writes every number in this paper; `paper/scripts/build_assets.py` turns them into the variables, tables and figures used above.
+
+# References {.unnumbered}
+
+::: {#refs}
+:::

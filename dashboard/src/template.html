@@ -190,7 +190,7 @@ details.country ul { padding-left: 18px; margin: 6px 0; }
 <div class="wrap">
   <header class="top">
     <h1>When will countries enact a universal basic income?</h1>
-    <div class="meta"><a href="https://maxghenis.com/">Max Ghenis</a>. <span id="asof"></span> <button class="btn" id="share" type="button">Copy link to this view</button> <button class="btn" id="theme" type="button">Dark</button></div>
+    <div class="meta"><a href="https://maxghenis.com/">Max Ghenis</a>. <span id="asof"></span> <a href="paper/">Working paper</a> <button class="btn" id="share" type="button">Copy link to this view</button> <button class="btn" id="theme" type="button">Dark</button></div>
   </header>
 
   <div class="check" role="group" aria-label="Forecast question">
@@ -219,28 +219,39 @@ details.country ul { padding-left: 18px; margin: 6px 0; }
 
       <h2>Assumptions</h2>
       <div class="ctl">
-        <label class="name" for="c-shift">When an AI labor shock arrives <span class="val" id="v-shift"></span></label>
+        <label class="name" for="c-shift">When the US trigger is met <span class="val" id="v-shift"></span></label>
         <input type="range" id="c-shift" min="-5" max="10" step="1" value="0">
-        <p class="help">Moves every shock date earlier or later by this many years, never before October 2026. At 0 it follows AGI and AI-unemployment markets.</p>
+        <p class="help" id="h-shift">Trigger: US unemployment (12-month average) 3 points above its 2025 level while real GDP is at or above its previous peak.</p>
       </div>
       <div class="ctl">
-        <label class="name" for="c-exposure">Which countries a shock reaches</label>
+        <label class="name" for="c-exposure">Which countries meet their own trigger</label>
         <select id="c-exposure">
-          <option value="model">Each country's own exposure and lag</option>
-          <option value="all">Every country, at the same time</option>
+          <option value="model">Each country's own chance and lag</option>
+          <option value="all">Every country, in the same year as the US</option>
           <option value="us-only">The US only</option>
         </select>
       </div>
       <div class="ctl">
-        <label class="name" for="c-appetite">Political appetite <span class="val" id="v-appetite"></span></label>
-        <input type="range" id="c-appetite" min="-2" max="2" step="0.25" value="0">
-        <p class="help">Scales every government's chance of enacting a UBI in a term.</p>
+        <label class="name" for="c-eL">Left-led government endorses a UBI <span class="val" id="v-eL"></span></label>
+        <input type="range" id="c-eL" min="-2" max="2" step="0.25" value="0">
+        <p class="help">Chance within a term during a shock. US value shown: a Democratic trifecta.</p>
       </div>
       <div class="ctl">
-        <label class="name" for="c-generosity">Generosity <span class="val" id="v-generosity"></span></label>
-        <input type="range" id="c-generosity" min="-1" max="1" step="0.125" value="0">
-        <p class="help">Scales how large a program is when one passes.</p>
+        <label class="name" for="c-eR">Right-led government endorses a UBI <span class="val" id="v-eR"></span></label>
+        <input type="range" id="c-eR" min="-2" max="2" step="0.25" value="0">
+        <p class="help">Same, for a Republican trifecta. Divided governments and coalitions move by the average of the two.</p>
       </div>
+      <div class="ctl">
+        <label class="name" for="c-pass">An endorsed UBI becomes law <span class="val" id="v-pass"></span></label>
+        <input type="range" id="c-pass" min="-1.5" max="1.5" step="0.25" value="0">
+        <p class="help">Chance within the same term. US value shown: under a trifecta.</p>
+      </div>
+      <div class="ctl">
+        <label class="name" for="c-amt">Amount if enacted during a shock <span class="val" id="v-amt"></span></label>
+        <input type="range" id="c-amt" min="-1" max="1" step="0.125" value="0">
+        <p class="help">Typical amount per adult per year. US value shown; other countries move by the same factor.</p>
+      </div>
+      <p class="help">Each slider scales every country's explicit value by the same factor; the ledger below lists them all.</p>
 
       <h2>Risks</h2>
       <div id="risks"></div>
@@ -270,6 +281,12 @@ details.country ul { padding-left: 18px; margin: 6px 0; }
         <div class="tablewrap" id="signposts"></div>
       </section>
 
+      <section aria-labelledby="h-soon">
+        <h2 id="h-soon">Checkable soon</h2>
+        <p class="lede">Near-term predictions the model makes. Each resolves from the source named. If these miss by more than chance allows, the assumptions behind them are wrong.</p>
+        <div class="tablewrap" id="soon"></div>
+      </section>
+
       <section aria-labelledby="h-mkt">
         <h2 id="h-mkt">Markets and this model</h2>
         <p class="lede">Prediction markets that ask something close, next to this model's answer to the nearest question it can express. Some definitions are looser than the memo line and some stricter, and none has more than 50 traders. Two "any country" markets resolved YES in November and December 2025, when the Marshall Islands began quarterly payments to every resident citizen; the ones below are still open.</p>
@@ -277,8 +294,8 @@ details.country ul { padding-left: 18px; margin: 6px 0; }
       </section>
 
       <section aria-labelledby="h-assump">
-        <h2 id="h-assump">Assumptions and evidence</h2>
-        <p class="lede">Every input comes from a range. Labels say where it comes from: <span class="badge market">market</span> a prediction-market price, <span class="badge data">data</span> an official record or poll, <span class="badge judgment">judgment</span> an estimate from the evidence listed, drafted by a research agent and checked by a second. Probabilities that enter the model once per history show as one number: their mean.</p>
+        <h2 id="h-assump">Assumption ledger</h2>
+        <p class="lede">Every input, stated so that it can turn out wrong. "Resolves" says when and how: a date and a data source, or, for conditional assumptions, the condition that must occur first. Labels say where each value comes from: <span class="badge market">market</span> a prediction-market price, <span class="badge data">data</span> an official record, poll or historical base rate, <span class="badge judgment">judgment</span> an estimate from the evidence listed, drafted by a research agent and checked by a second. Probabilities show their mean.</p>
         <div id="assumptions"></div>
       </section>
 

@@ -1,0 +1,354 @@
+[
+ {
+  "topic": "ubi",
+  "refs": [
+   {
+    "key": "hoynes2019universal",
+    "bibtex": "@article{hoynes2019universal,\n  author  = {Hoynes, Hilary and Rothstein, Jesse},\n  title   = {Universal Basic Income in the {United States} and Advanced Countries},\n  journal = {Annual Review of Economics},\n  volume  = {11},\n  number  = {1},\n  pages   = {929--958},\n  year    = {2019},\n  doi     = {10.1146/annurev-economics-080218-030237}\n}",
+    "supports": "Supports the claim that a UBI would shift transfers toward childless, nonelderly, nondisabled and middle-income households compared with existing US programs. It also supports the claim that a UBI generous enough to raise transfers to low-income families would be 'enormously expensive'. That fiscal barrier is the one the enactment-hazard priors must price in advanced countries. The review also covers labor-supply evidence and argues that pilots will do little to settle the main open questions.",
+    "url_checked": "https://www.annualreviews.org/content/journals/10.1146/annurev-economics-080218-030237",
+    "verified": true
+   },
+   {
+    "key": "banerjee2019universal",
+    "bibtex": "@article{banerjee2019universal,\n  author  = {Banerjee, Abhijit and Niehaus, Paul and Suri, Tavneet},\n  title   = {Universal Basic Income in the Developing World},\n  journal = {Annual Review of Economics},\n  volume  = {11},\n  number  = {1},\n  pages   = {959--983},\n  year    = {2019},\n  doi     = {10.1146/annurev-economics-080218-030229}\n}",
+    "supports": "The developing-country counterpart to Hoynes and Rothstein. It reviews what is known and unknown about three questions: how recipients use extra income, whether a UBI would unlock growth, and whether universal payments beat targeted ones. Cite it for the argument that the economics and politics of a UBI differ between countries with and without mature safety nets. It does not give enactment probabilities.",
+    "url_checked": "https://www.annualreviews.org/content/journals/10.1146/annurev-economics-080218-030229",
+    "verified": true
+   },
+   {
+    "key": "dewispelaere2012feasibility",
+    "bibtex": "@incollection{dewispelaere2012feasibility,\n  author    = {De Wispelaere, Jurgen and Noguera, Jos{\\'e} Antonio},\n  title     = {On the Political Feasibility of Universal Basic Income: An Analytic Framework},\n  booktitle = {Basic Income Guarantee and Politics},\n  editor    = {Caputo, Richard K.},\n  publisher = {Palgrave Macmillan},\n  address   = {New York},\n  year      = {2012},\n  pages     = {17--38},\n  doi       = {10.1057/9781137045300_2}\n}",
+    "supports": "Defines political feasibility in probabilistic terms: a 'reasonable probability of the policy becoming actualized in the foreseeable future'. That definition motivates treating enactment as a forecastable probability. It crosses agency (discrete vs. diffuse) with constraints (prospective vs. retrospective) to get four types: strategic, institutional, psychological and behavioral feasibility. The paper can map its government-control and enactment-hazard terms onto the prospective cells. That mapping is the paper's own, not the authors'.",
+    "url_checked": "https://link.springer.com/chapter/10.1057/9781137045300_2 (metadata and abstract); full text read from the author-posted PDF on ResearchGate (pp. 17-21, Table 2.1)",
+    "verified": true
+   },
+   {
+    "key": "roosma2020public",
+    "bibtex": "@article{roosma2020public,\n  author  = {Roosma, Femke and van Oorschot, Wim},\n  title   = {Public Opinion on Basic Income: Mapping {European} Support for a Radical Alternative for Welfare Provision},\n  journal = {Journal of European Social Policy},\n  volume  = {30},\n  number  = {2},\n  pages   = {190--205},\n  year    = {2020},\n  doi     = {10.1177/0958928719882827}\n}",
+    "supports": "Uses the ESS round 8 (2016) question in 23 countries, which describes a BI as universal, unconditional, tax-financed and replacing other benefits. Support is 'relatively high, but varying' across countries and groups. It is higher among economically vulnerable, left-leaning, egalitarian and younger respondents, and in countries with more material deprivation. It is evidence on stated support, not on enactment. Caveat: the article labels code LT as 'Latvia' (its top-support country), but LT is Lithuania in ESS 8. Cite the country as Lithuania or not at all.",
+    "url_checked": "https://journals.sagepub.com/doi/10.1177/0958928719882827 (also Tilburg University research portal record and Crossref abstract)",
+    "verified": true
+   },
+   {
+    "key": "parolin2020support",
+    "bibtex": "@article{parolin2020support,\n  author  = {Parolin, Zachary and Si{\\\"o}land, Linus},\n  title   = {Support for a Universal Basic Income: A Demand--Capacity Paradox?},\n  journal = {Journal of European Social Policy},\n  volume  = {30},\n  number  = {1},\n  pages   = {5--19},\n  year    = {2020},\n  doi     = {10.1177/0958928719886525}\n}",
+    "supports": "Uses ESS 2016 multilevel models to show that a broader coalition of UBI supporters appears where social spending is low. Welfare chauvinism and ideology matter more for UBI attitudes in high-spending countries. The authors call this a 'demand-capacity paradox': countries least equipped to implement a UBI show the broadest support. It supports treating high stated support as weak evidence of enactment capacity when setting cross-country priors.",
+    "url_checked": "https://journals.sagepub.com/doi/10.1177/0958928719886525",
+    "verified": true
+   },
+   {
+    "key": "dermont2020automation",
+    "bibtex": "@article{dermont2020automation,\n  author  = {Dermont, Clau and Weisstanner, David},\n  title   = {Automation and the Future of the Welfare State: Basic Income as a Response to Technological Change?},\n  journal = {Political Research Exchange},\n  volume  = {2},\n  number  = {1},\n  pages   = {1757387},\n  year    = {2020},\n  doi     = {10.1080/2474736X.2020.1757387}\n}",
+    "supports": "A research note using ESS data for 21 countries. It finds no association between an individual's job-automation risk and UBI support, and finds demand for UBI lower than demand for redistribution. This is a caution for the AI-labor-shock channel: pre-shock automation exposure has not translated into UBI support, so the shock-to-enactment link must work through something other than existing risk-driven preferences. Busemeyer and Sahm (2022, Journal of Social Policy 51(4):751-770, doi:10.1017/S0047279421000519, also verified) likewise find no significant automation-risk association with basic-income support.",
+    "url_checked": "https://www.tandfonline.com/doi/full/10.1080/2474736X.2020.1757387",
+    "verified": true
+   },
+   {
+    "key": "steensland2008failed",
+    "bibtex": "@book{steensland2008failed,\n  author    = {Steensland, Brian},\n  title     = {The Failed Welfare Revolution: {America}'s Struggle over Guaranteed Income Policy},\n  publisher = {Princeton University Press},\n  address   = {Princeton, NJ},\n  year      = {2008},\n  doi       = {10.1515/9781400837489},\n  note      = {DOI is the De Gruyter digital edition (2011); paperback reissue 2017, ISBN 9780691177977},\n  url       = {https://press.princeton.edu/books/paperback/9780691177977/the-failed-welfare-revolution}\n}",
+    "supports": "The historical near-miss case: guaranteed-income plans had broad bipartisan support in the 1960s, and Nixon's Family Assistance Plan 'nearly passed into law'. Carter later advanced a similar bill. Steensland attributes the failure partly to stakeholders and institutions, and centrally to culture: the plans challenged the distinction between 'deserving' and 'undeserving' poor. This supports keeping enactment hazards well below 1 even when the governing coalition favors the policy.",
+    "url_checked": "https://press.princeton.edu/books/paperback/9780691177977/the-failed-welfare-revolution ; https://www.degruyterbrill.com/document/doi/10.1515/9781400837489/html",
+    "verified": true
+   },
+   {
+    "key": "kangas2021feasibility",
+    "bibtex": "@incollection{kangas2021feasibility,\n  author    = {Kangas, Olli},\n  title     = {The Feasibility of Universal Basic Income},\n  booktitle = {Experimenting with Unconditional Basic Income: Lessons from the {Finnish} {BI} Experiment 2017--2018},\n  editor    = {Kangas, Olli and Jauhiainen, Signe and Simanainen, Miska and Ylik{\\\"a}nn{\\\"o}, Minna},\n  publisher = {Edward Elgar Publishing},\n  year      = {2021},\n  chapter   = {14},\n  pages     = {187--196},\n  doi       = {10.4337/9781839104855.00022}\n}",
+    "supports": "Applies the De Wispelaere-Noguera typology to Finland after the 2017-2018 experiment. Finnish support is 60-70% in principle but falls to about 30% when respondents are told taxes would rise. Advocates are a diffuse group without discrete power, and there are institutional and EU-level constraints. It concludes that 'for the time being universal basic income is not a realistic policy option' in Finland. That directly informs a low Finnish enactment prior and shows how cost framing moves stated support.",
+    "url_checked": "https://doi.org/10.4337/9781839104855.00022 (resolves to Elgar Online); full chapter read from the University of Turku repository copy (utupub.fi), pp. 187-196",
+    "verified": true
+   },
+   {
+    "key": "verho2022removing",
+    "bibtex": "@article{verho2022removing,\n  author  = {Verho, Jouko and H{\\\"a}m{\\\"a}l{\\\"a}inen, Kari and Kanninen, Ohto},\n  title   = {Removing Welfare Traps: Employment Responses in the {Finnish} Basic Income Experiment},\n  journal = {American Economic Journal: Economic Policy},\n  volume  = {14},\n  number  = {1},\n  pages   = {501--522},\n  year    = {2022},\n  doi     = {10.1257/pol.20200143}\n}",
+    "supports": "The peer-reviewed employment estimate from Finland's experiment. It randomized 2,000 unemployment-benefit recipients to a basic income, which cut participation tax rates for full-time work by 23 percentage points. Days in employment were statistically unchanged in the first year. Use it for the finding that the only nationwide randomized BI trial produced minor employment effects at best. It is not evidence about a full-population UBI.",
+    "url_checked": "https://www.aeaweb.org/articles?id=10.1257/pol.20200143",
+    "verified": true
+   },
+   {
+    "key": "vivalt2024employment",
+    "bibtex": "@techreport{vivalt2024employment,\n  author      = {Vivalt, Eva and Rhodes, Elizabeth and Bartik, Alexander W. and Broockman, David E. and Krause, Patrick and Miller, Sarah},\n  title       = {The Employment Effects of a Guaranteed Income: Experimental Evidence from Two {U.S.} States},\n  institution = {National Bureau of Economic Research},\n  type        = {NBER Working Paper},\n  number      = {32719},\n  year        = {2024},\n  note        = {Revised August 2026},\n  doi         = {10.3386/w32719}\n}",
+    "supports": "The OpenResearch RCT randomized 1,000 low-income people to $1,000 a month for three years, against 2,000 controls receiving $50 a month. Non-transfer income fell about $1,900 a year, and labor-market participation fell 4.2 percentage points. Hours fell 1-2 a week, with a similar reduction for partners. The authors call it a moderate labor-supply effect. It is still a working paper (July 2024, revised August 2026, no journal version listed). Cite the revision's numbers; earlier versions reported different magnitudes.",
+    "url_checked": "https://www.nber.org/papers/w32719",
+    "verified": true
+   },
+   {
+    "key": "jones2022labor",
+    "bibtex": "@article{jones2022labor,\n  author  = {Jones, Damon and Marinescu, Ioana},\n  title   = {The Labor Market Impacts of Universal and Permanent Cash Transfers: Evidence from the {Alaska} {Permanent} {Fund}},\n  journal = {American Economic Journal: Economic Policy},\n  volume  = {14},\n  number  = {2},\n  pages   = {315--340},\n  year    = {2022},\n  doi     = {10.1257/pol.20190299}\n}",
+    "supports": "Every Alaska resident has received a yearly dividend since 1982. Using CPS data and synthetic control, the authors find no effect on employment and a 1.8 percentage point (17 percent) rise in part-time work, consistent with local general-equilibrium stimulus. Cite it as evidence that a universal, permanent, unconditional transfer exists subnationally and did not significantly reduce aggregate employment. Not verified: whether the dividend clears the paper's share-of-GDP-per-head threshold.",
+    "url_checked": "https://www.aeaweb.org/articles?id=10.1257/pol.20190299",
+    "verified": true
+   },
+   {
+    "key": "salehiisfahani2018cash",
+    "bibtex": "@article{salehiisfahani2018cash,\n  author  = {Salehi-Isfahani, Djavad and Mostafavi-Dehzooei, Mohammad H.},\n  title   = {Cash Transfers and Labor Supply: Evidence from a Large-Scale Program in {Iran}},\n  journal = {Journal of Development Economics},\n  volume  = {135},\n  pages   = {349--367},\n  year    = {2018},\n  doi     = {10.1016/j.jdeveco.2018.08.005}\n}",
+    "supports": "Iran's 2011 program paid monthly cash into individual accounts for more than 70 million people, worth 28% of median per capita household income. It compensated for the removal of energy subsidies. Panel evidence shows no reduction in hours or participation, and positive effects for women and self-employed men. Cite it as the closest national-scale precedent, enacted as subsidy compensation. The 28% is relative to median per capita household income, not GDP per head, so don't apply it directly to the paper's threshold.",
+    "url_checked": "https://ideas.repec.org/a/eee/deveco/v135y2018icp349-367.html (DOI redirect to ScienceDirect pii S0304387818306084 observed; ScienceDirect page itself blocked automated access)",
+    "verified": true
+   }
+  ],
+  "checks": []
+ },
+ {
+  "topic": "ai",
+  "refs": [
+   {
+    "key": "korinek2019artificial",
+    "bibtex": "@incollection{korinek2019artificial,\n  author    = {Korinek, Anton and Stiglitz, Joseph E.},\n  title     = {Artificial Intelligence and Its Implications for Income Distribution and Unemployment},\n  booktitle = {The Economics of Artificial Intelligence: An Agenda},\n  editor    = {Agrawal, Ajay and Gans, Joshua and Goldfarb, Avi},\n  publisher = {University of Chicago Press},\n  address   = {Chicago},\n  year      = {2019},\n  chapter   = {14},\n  pages     = {349--390},\n  doi       = {10.7208/chicago/9780226613475.003.0014},\n  note      = {Circulated as NBER Working Paper 24174 (2017)}\n}",
+    "supports": "Theoretical grounding for the redistribution channel: AI can raise inequality through innovator surplus and factor-price changes, and under plausible conditions non-distortionary taxes can compensate losers, even in a 'singularity' case. Use it to motivate why an AI labor shock could raise demand for broad cash transfers; do not cite it as endorsing UBI, since it argues job subsidies beat lump-sum grants if work carries meaning.",
+    "url_checked": "https://www.nber.org/books-and-chapters/economics-artificial-intelligence-agenda/artificial-intelligence-and-its-implications-income-distribution-and-unemployment ; https://www.nber.org/papers/w24174 ; https://www.nber.org/system/files/working_papers/w24174/w24174.pdf ; https://doi.org/10.7208/chicago/9780226613475.003.0014 (302 to bibliovault chapter landing) ; Crossref metadata for pages 349-390",
+    "verified": true
+   },
+   {
+    "key": "acemoglu2019automation",
+    "bibtex": "@article{acemoglu2019automation,\n  author  = {Acemoglu, Daron and Restrepo, Pascual},\n  title   = {Automation and New Tasks: How Technology Displaces and Reinstates Labor},\n  journal = {Journal of Economic Perspectives},\n  year    = {2019},\n  volume  = {33},\n  number  = {2},\n  pages   = {3--30},\n  doi     = {10.1257/jep.33.2.3}\n}",
+    "supports": "Task-based framework in which automation displaces labor while new tasks reinstate it; over three decades of US industry data, slower employment growth reflects faster automation, weaker new-task creation, and slower productivity growth. Use it to justify modeling the AI labor shock as net displacement that depends on whether reinstatement keeps pace, not as automatic job loss.",
+    "url_checked": "https://www.aeaweb.org/articles?id=10.1257/jep.33.2.3 ; https://doi.org/10.1257/jep.33.2.3 (302 to pubs.aeaweb.org)",
+    "verified": true
+   },
+   {
+    "key": "autor2015why",
+    "bibtex": "@article{autor2015why,\n  author  = {Autor, David H.},\n  title   = {Why Are There Still So Many Jobs? The History and Future of Workplace Automation},\n  journal = {Journal of Economic Perspectives},\n  year    = {2015},\n  volume  = {29},\n  number  = {3},\n  pages   = {3--30},\n  doi     = {10.1257/jep.29.3.3}\n}",
+    "supports": "Historical counterweight: past automation did not eliminate most jobs because it complemented labor, raised output demand, and created new work, though recent decades show polarization. Use it to justify putting substantial prior mass on no transformative labor shock within the forecast horizon.",
+    "url_checked": "https://www.aeaweb.org/articles?id=10.1257/jep.29.3.3 ; https://doi.org/10.1257/jep.29.3.3 (302 to pubs.aeaweb.org)",
+    "verified": true
+   },
+   {
+    "key": "eloundou2024gpts",
+    "bibtex": "@article{eloundou2024gpts,\n  author  = {Eloundou, Tyna and Manning, Sam and Mishkin, Pamela and Rock, Daniel},\n  title   = {{GPTs} are {GPTs}: Labor Market Impact Potential of {LLMs}},\n  journal = {Science},\n  year    = {2024},\n  volume  = {384},\n  number  = {6702},\n  pages   = {1306--1308},\n  doi     = {10.1126/science.adj0998}\n}",
+    "supports": "Policy Forum estimating US task exposure to LLMs: about 1.8% of jobs have over half their tasks exposed to LLMs with simple interfaces, rising to just over 46% once complementary software is counted. Use it as evidence that exposure is broad but that realized effects depend on complementary tooling and diffusion, which supports a lagged, uncertain shock-timing prior. Exposure is not displacement.",
+    "url_checked": "https://doi.org/10.1126/science.adj0998 (302 to science.org; page itself 403) ; PubMed PMID 38900883 via NCBI E-utilities efetch ; Crossref metadata ; https://www.governance.ai/research-paper/gpts-are-gpts-labor-market-impact-potential-of-llms (for the 1.8% and 46% figures)",
+    "verified": true
+   },
+   {
+    "key": "cazzaniga2024genai",
+    "bibtex": "@techreport{cazzaniga2024genai,\n  author      = {Cazzaniga, Mauro and Jaumotte, Florence and Li, Longji and Melina, Giovanni and Panton, Augustus J. and Pizzinelli, Carlo and Rockall, Emma and Mendes Tavares, Marina},\n  title       = {Gen-{AI}: Artificial Intelligence and the Future of Work},\n  institution = {International Monetary Fund},\n  type        = {IMF Staff Discussion Note},\n  number      = {2024/001},\n  year        = {2024},\n  month       = jan,\n  doi         = {10.5089/9798400262548.006}\n}",
+    "supports": "Cross-country exposure estimates that map onto the ten-country design: almost 40% of global employment is exposed to AI, about 60% in advanced economies (roughly half of which may be negatively affected), 40% in emerging markets, and 26% in low-income countries. Use it to justify country-specific shock intensities. It recommends social safety nets and retraining for AI-susceptible workers, not UBI specifically.",
+    "url_checked": "https://www.elibrary.imf.org/view/journals/006/2024/001/article-A001-en.xml (fetched via curl; printed DOI 10.5089/9798400262548.006.A001, ISBN 9798400262548, ISSN 2617-6750, pub. date 14 Jan 2024) ; https://doi.org/10.5089/9798400262548.006 (302 to elibrary.imf.org) ; Crossref metadata for the eight authors. imf.org landing page returned 403. Author 'Augustus J. Panton' middle initial not confirmed; Crossref lists 'Augustus Panton'.",
+    "verified": true
+   },
+   {
+    "key": "grace2025thousands",
+    "bibtex": "@article{grace2025thousands,\n  author  = {Grace, Katja and Sandk{\\\"u}hler, Julia Fabienne and Stewart, Harlan and Weinstein-Raun, Benjamin and Thomas, Stephen and Stein-Perlman, Zach and Salvatier, John and Brauner, Jan and Korzekwa, Richard C.},\n  title   = {Thousands of {AI} Authors on the Future of {AI}},\n  journal = {Journal of Artificial Intelligence Research},\n  year    = {2025},\n  volume  = {84},\n  note    = {Article 9. Preprint arXiv:2401.02843 (2024)},\n  doi     = {10.1613/jair.1.19087}\n}",
+    "supports": "October 2023 survey of 2,778 researchers who publish at top AI venues. The aggregate forecast puts unaided machines outperforming humans at every task at 10% by 2027 and 50% by 2047, and full automation of all occupations at 10% by 2037 and 50% by 2116. Use it as one expert anchor for the wide dispersion in AI-shock timing, noting that answers differ sharply with question framing and reflect researcher opinion, not calibrated forecasts.",
+    "url_checked": "https://www.jair.org/index.php/jair/article/view/19087 (published 6 Oct 2025, 9 authors) ; https://doi.org/10.1613/jair.1.19087 (302 to jair.org) ; https://arxiv.org/abs/2401.02843 (v1 5 Jan 2024; journal ref JAIR 84:9 (2025); arXiv v3 lists 7 authors, so the JAIR author list is used)",
+    "verified": true
+   },
+   {
+    "key": "korinek2024scenarios",
+    "bibtex": "@techreport{korinek2024scenarios,\n  author      = {Korinek, Anton and Suh, Donghyun},\n  title       = {Scenarios for the Transition to {AGI}},\n  institution = {National Bureau of Economic Research},\n  type        = {NBER Working Paper},\n  number      = {32255},\n  year        = {2024},\n  month       = mar,\n  doi         = {10.3386/w32255}\n}",
+    "supports": "Task-complexity model in which wages depend on the race between automation and capital accumulation: slow automation lets wages rise indefinitely, while full automation can cause wages to collapse. Use it to justify treating the labor-shock trigger as scenario-dependent, with the UBI-relevant branch being fast automation that erodes labor income.",
+    "url_checked": "https://www.nber.org/papers/w32255 ; https://doi.org/10.3386/w32255 (302 to nber.org PDF)",
+    "verified": true
+   },
+   {
+    "key": "acemoglu2025simple",
+    "bibtex": "@article{acemoglu2025simple,\n  author  = {Acemoglu, Daron},\n  title   = {The Simple Macroeconomics of {AI}},\n  journal = {Economic Policy},\n  year    = {2025},\n  volume  = {40},\n  number  = {121},\n  pages   = {13--58},\n  doi     = {10.1093/epolic/eiae042}\n}",
+    "supports": "Skeptical counterpoint on the macro scale of AI: a Hulten-style task model implies at most about 0.66% higher TFP over ten years, possibly under 0.53%. It also predicts AI will widen the capital-labor income gap while raising inequality less than past automation. Use it to support assigning real probability to slow or modest labor shocks.",
+    "url_checked": "https://academic.oup.com/economicpolicy/article/40/121/13/7728473 (issue January 2025) ; https://doi.org/10.1093/epolic/eiae042 (302 to academic.oup.com) ; Crossref metadata",
+    "verified": true
+   }
+  ],
+  "checks": [
+   {
+    "key": "korinek2019artificial",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The NBER chapter PDF c14018 front matter lists Korinek and Stiglitz, 'The Economics of Artificial Intelligence: An Agenda', edited by Agrawal, Gans and Goldfarb (University of Chicago Press, May 2019), chapter 14, 'Chapter pages in book: (p. 349 – 390)'. Crossref for 10.7208/chicago/9780226613475.003.0014 gives the same title, authors and pages 349-390, and the DOI resolves (302 to bibliovault). NBER w24174 is dated December 2017, and its abstract says non-distortionary taxation can compensate losers 'under plausible conditions', even in a 'singularity' case. On the UBI caveat, the published chapter's 'Jobs and Meaning' passage says that if workers get meaning from work, job subsidies do better than lump-sum grants such as a UBI. That is conditional; the chapter also records the opposing view that meaning can come from elsewhere. The supports sentence is accurate. All fields check out.",
+    "supports_fix": ""
+   },
+   {
+    "key": "acemoglu2019automation",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The AEA landing page citation meta gives Acemoglu and Restrepo, JEP 33(2): 3-30, 2019/05, DOI 10.1257/jep.33.2.3, and Crossref matches. The abstract says the decomposition attributes slower employment growth 'over the last three decades' to accelerated displacement (especially in manufacturing), a weaker reinstatement effect and slower productivity growth. The NBER version (w25684) compares BEA industry data for 1947-1987 with 1987-2017. The result is an accounting decomposition of labor demand, not causal identification. Small wording issue: 'over three decades of US industry data' misstates the data span, which is 1947-2017.",
+    "supports_fix": "Task-based framework in which automation displaces labor while new tasks reinstate it. A decomposition of US industry data attributes the slower growth of labor demand in 1987-2017, relative to 1947-1987, to accelerated displacement, weaker reinstatement (new-task creation) and slower productivity growth. Use it to justify modeling the AI labor shock as net displacement that depends on whether reinstatement keeps pace, not as automatic job loss."
+   },
+   {
+    "key": "autor2015why",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The AEA landing page meta gives Autor, David H., JEP 29(3): 3-30, 2015 (Summer issue), DOI 10.1257/jep.29.3.3, and Crossref matches. The abstract names three mechanisms: automation complements labor, raises output in ways that raise labor demand, and interacts with labor-supply adjustments. It notes recent polarization and argues polarization is 'unlikely to continue very far into future'. 'Created new work' appears only in a footnote citing Lin (2011), not among the named mechanisms. The paper predates LLMs, so it supports a historical base rate, not a forecast for the model's horizon.",
+    "supports_fix": "Historical counterweight: past automation did not eliminate most jobs because it also complemented labor, raised output in ways that increased labor demand, and interacted with labor-supply adjustments, though recent decades show polarization. Use it as a historical base rate supporting substantial prior mass on no transformative labor shock within the forecast horizon, noting that it predates LLMs."
+   },
+   {
+    "key": "eloundou2024gpts",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "Crossref and PubMed 38900883 give Eloundou, Manning, Mishkin, Rock, 'GPTs are GPTs: Labor market impact potential of LLMs', Science 384(6702): 1306-1308, 21 June 2024, DOI 10.1126/science.adj0998, which resolves to science.org (page returns 403). The GovAI landing page reproduces the abstract: 'roughly 1.8% of jobs could have over half their tasks affected'. With 'current and likely future software developments' the share is 'just over 46% of jobs'. A GovAI follow-up (AEA P&P 2025) confirms the rubric is applied to O*NET tasks, so the figures are for US occupations. Two small issues. The abstract says 'could have ... affected', which the supports sentence turns into 'have ... exposed'. The 'Policy Forum' section label could not be confirmed on a primary page (science.org blocked), although the short standfirst fits that format. The BibTeX fields are all correct.",
+    "supports_fix": "Science article (section label unverified; drop 'Policy Forum' unless confirmed) estimating US occupational exposure to LLMs: roughly 1.8% of jobs could have over half their tasks affected by LLMs with simple interfaces, rising to just over 46% once current and likely future complementary software is counted. Use it as evidence that exposure is broad but that realized effects depend on complementary tooling and diffusion, which supports a lagged, uncertain shock-timing prior. Exposure is not displacement."
+   },
+   {
+    "key": "cazzaniga2024genai",
+    "verdict": "CORRECTED",
+    "supports_ok": true,
+    "evidence": "IMF eLibrary landing page (fetched with curl): the citation meta gives the title 'Gen-AI: Artificial Intelligence and the Future of Work', Staff Discussion Notes 2024, 001, publication date 2024/01/14. The eight authors are listed there as Mauro Cazzaniga, Florence Jaumotte, Longji Li, Giovanni Melina, 'Augustus J Panton', Carlo Pizzinelli, 'Emma J Rockall' and Marina Mendes Tavares. That confirms Panton's middle initial J and adds one for Rockall (Crossref omits both). The page prints the article DOI 10.5089/9798400262548.006.A001, which resolves to the article. The BibTeX's 10.5089/9798400262548.006 also resolves, but only to the issue page. The page text confirms 'Almost 40 percent of global employment is exposed to AI'. It also confirms about 60 percent in advanced economies ('about half may be negatively affected'), 40 percent in emerging markets and 26 percent in low-income countries. It recommends 'social safety nets and retraining for AI-susceptible workers', and no basic-income wording was found. The supports sentence is accurate. Corrections: Rockall's middle initial, and the article-level DOI plus a URL.",
+    "corrected_bibtex": "@techreport{cazzaniga2024genai,\n  author      = {Cazzaniga, Mauro and Jaumotte, Florence and Li, Longji and Melina, Giovanni and Panton, Augustus J. and Pizzinelli, Carlo and Rockall, Emma J. and Mendes Tavares, Marina},\n  title       = {Gen-{AI}: Artificial Intelligence and the Future of Work},\n  institution = {International Monetary Fund},\n  address     = {Washington, DC},\n  type        = {IMF Staff Discussion Note},\n  number      = {2024/001},\n  year        = {2024},\n  month       = jan,\n  doi         = {10.5089/9798400262548.006.A001},\n  url         = {https://www.elibrary.imf.org/view/journals/006/2024/001/article-A001-en.xml}\n}",
+    "supports_fix": ""
+   },
+   {
+    "key": "grace2025thousands",
+    "verdict": "CONFIRMED",
+    "supports_ok": false,
+    "evidence": "The JAIR landing page and PDF list the nine authors (Grace, Sandkühler, Stewart, Weinstein-Raun, Thomas, Stein-Perlman, Salvatier, Brauner, Korzekwa). The PDF footer reads 'Vol. 84, Article 9. Publication date: October 2025', 48 pages, DOI 10.1613/jair.1.19087, which resolves. arXiv 2401.02843 carries the same title and journal DOI. The abstract confirms 2,778 respondents surveyed in October 2023, HLMI at 10% by 2027 and 50% by 2047, and FAOL at 10% by 2037 and 50% by 2116. The overstatement: both questions tell respondents 'Think feasibility, not adoption', and FAOL means all occupations becoming 'fully automatable'. It does not mean they are actually automated. The supports sentence's 'full automation of all occupations' and 'outperforming humans at every task' read as realized automation, which matters when the forecast is used to time a labor shock. The paper also conditions on science continuing undisrupted. The BibTeX is correct as given.",
+    "supports_fix": "October 2023 survey of 2,778 researchers who had published at top AI venues. Assuming science continues undisrupted, the aggregate forecast gives a 10% chance by 2027 and 50% by 2047 that unaided machines could accomplish every task better and more cheaply than humans. It gives 10% by 2037 and 50% by 2116 that all occupations become fully automatable. Respondents were told to think of feasibility, not adoption. Use it as one expert anchor for the wide dispersion in AI capability timing, which needs a further adoption lag before any labor shock. Note that answers differ sharply with question framing and reflect researcher opinion, not calibrated forecasts."
+   },
+   {
+    "key": "korinek2024scenarios",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "NBER page meta: Anton Korinek and Donghyun Suh, 'Scenarios for the Transition to AGI', Working Paper 32255, issue date March 2024 (2024/03/18), DOI 10.3386/w32255, which resolves to the NBER PDF. No journal version was found (it is also arXiv 2403.12107). The abstract says the effect on wages 'depend[s] on a race between automation and capital accumulation'. If automation is sufficiently slow, 'wages may rise forever'. If task complexity is bounded and full automation is reached, 'wages collapse'. Declines may come even before that if automation outpaces capital accumulation. The supports sentence is faithful. 'Slow automation lets wages rise indefinitely' slightly strengthens 'sufficiently slow ... may rise forever', which is acceptable.",
+    "supports_fix": ""
+   },
+   {
+    "key": "acemoglu2025simple",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The OUP landing page (via WebFetch) and Crossref give Acemoglu, 'The simple macroeconomics of AI', Economic Policy 40(121): 13-58, January 2025 issue (online 6 August 2024), DOI 10.1093/epolic/eiae042, which resolves to academic.oup.com. The abstract (NBER w32487 and OUP) invokes 'a version of Hulten's theorem'. It gives 'no more than a 0.66% increase' in TFP over 10 years, and less than 0.53% once hard-to-learn tasks are accounted for. AI is 'unlikely to increase inequality as much as previous automation' but will 'widen the gap between capital and labor income'. The abstract also says there is no evidence AI will reduce labor-income inequality. The supports sentence is accurate. The TFP figures are for the US economy.",
+    "supports_fix": ""
+   }
+  ]
+ },
+ {
+  "topic": "forecast",
+  "refs": [
+   {
+    "key": "tetlock2015superforecasting",
+    "bibtex": "@book{tetlock2015superforecasting,\n  author    = {Tetlock, Philip E. and Gardner, Dan},\n  title     = {Superforecasting: The Art and Science of Prediction},\n  publisher = {Crown},\n  address   = {New York},\n  year      = {2015},\n  isbn      = {9780804136693},\n  url       = {https://www.penguinrandomhouse.com/books/227815/superforecasting-by-philip-e-tetlock-and-dan-gardner/}\n}",
+    "supports": "Use it as the general source for forecasting practice from the Good Judgment Project tournament. Good Judgment's own page says the book's appendix, 'Ten Commandments for Aspiring Superforecasters', summarizes the project's findings. That appendix backs two of the paper's design choices: #2, 'Break seemingly intractable problems into tractable sub-problems' (Fermi-style decomposition), and #3, balance inside and outside views (base rates). The claim that superforecasters beat prediction markets comes from the publisher's marketing copy. If the paper makes that claim, cite a peer-reviewed Good Judgment Project paper as well; I did not verify one here. Metadata: Penguin Random House lists Crown and the ebook date of 29 Sep 2015. Open Library gives the 2015 Crown hardcover (ISBN 9780804136693, 352 pp.) and New York as the place. There is no DOI.",
+    "url_checked": "https://www.penguinrandomhouse.com/books/227815/superforecasting-by-philip-e-tetlock-and-dan-gardner/ ; https://openlibrary.org/isbn/9780804136693.json ; https://goodjudgment.com/philip-tetlocks-10-commandments-of-superforecasting/",
+    "verified": true
+   },
+   {
+    "key": "macgregor2001decomposition",
+    "bibtex": "@incollection{macgregor2001decomposition,\n  author    = {MacGregor, Donald G.},\n  title     = {Decomposition for Judgmental Forecasting and Estimation},\n  booktitle = {Principles of Forecasting: A Handbook for Researchers and Practitioners},\n  editor    = {Armstrong, J. Scott},\n  series    = {International Series in Operations Research \\& Management Science},\n  volume    = {30},\n  publisher = {Springer},\n  address   = {Boston, MA},\n  year      = {2001},\n  pages     = {107--123},\n  doi       = {10.1007/978-0-306-47630-3_6}\n}",
+    "supports": "The chapter abstract, read on the Springer landing page, defines decomposition. You split an estimation task into components that are easier to estimate, then combine them into the target estimate. It says decomposition is used most for highly uncertain estimates. It warns that multiplicative decomposition is 'especially sensitive to correlated errors in component values' and should be used only when the components can be estimated more accurately than the target. That supports the paper's split into timing × control × hazard, and it names the main risk: correlated errors across the parts. The reference lists of other chapters cite the book as Kluwer Academic Publishers (Norwell, MA). Springer and Crossref now list it as Springer, Boston, MA. Pages 107–123 come from Crossref.",
+    "url_checked": "https://link.springer.com/chapter/10.1007/978-0-306-47630-3_6 ; https://doi.org/10.1007/978-0-306-47630-3_6 ; https://api.crossref.org/works/10.1007/978-0-306-47630-3_6",
+    "verified": true
+   },
+   {
+    "key": "malcolm1959application",
+    "bibtex": "@article{malcolm1959application,\n  author  = {Malcolm, D. G. and Roseboom, J. H. and Clark, C. E. and Fazar, W.},\n  title   = {Application of a Technique for Research and Development Program Evaluation},\n  journal = {Operations Research},\n  volume  = {7},\n  number  = {5},\n  pages   = {646--669},\n  year    = {1959},\n  doi     = {10.1287/opre.7.5.646}\n}",
+    "supports": "This is the original PERT paper, written for the Polaris Fleet Ballistic Missile program. Its abstract on the INFORMS page says technical experts elicit elapsed-time estimates for activities, which are 'subsequently expressed in probability terms'. Cite it as the origin of PERT-style elicitation from experts. I could not open the full text: the INFORMS PDF is paywalled and there is no open-access copy. So I did not confirm that the three-point (optimistic, most likely, pessimistic) beta formulas appear in it. Say 'PERT-style priors' rather than attributing a specific formula to this paper. If the paper uses a specific beta-PERT parameterization, cite its source separately. Page range 646–669 comes from Crossref and EconPapers; the INFORMS page shows only the issue range.",
+    "url_checked": "https://pubsonline.informs.org/doi/10.1287/opre.7.5.646 ; https://econpapers.repec.org/RePEc:inm:oropre:v:7:y:1959:i:5:p:646-669 ; https://api.crossref.org/works/10.1287/opre.7.5.646",
+    "verified": true
+   },
+   {
+    "key": "clark1962pert",
+    "bibtex": "@article{clark1962pert,\n  author  = {Clark, Charles E.},\n  title   = {Letter to the Editor---The {PERT} Model for the Distribution of an Activity Time},\n  journal = {Operations Research},\n  volume  = {10},\n  number  = {3},\n  pages   = {405--406},\n  year    = {1962},\n  doi     = {10.1287/opre.10.3.405}\n}",
+    "supports": "An optional companion to Malcolm et al. Clark was a coauthor of the 1959 paper. The abstract on the INFORMS page says this note answers 'whence the statements in that paper concerning the distribution of an activity time'. Cite it for where the PERT activity-time distribution comes from. The letter's text could not be extracted: the PDF has no text layer, so only its abstract was read. Don't cite it for a specific formula until someone reads the two pages.",
+    "url_checked": "https://pubsonline.informs.org/doi/10.1287/opre.10.3.405 ; https://api.crossref.org/works/10.1287/opre.10.3.405",
+    "verified": true
+   },
+   {
+    "key": "wolfers2004prediction",
+    "bibtex": "@article{wolfers2004prediction,\n  author  = {Wolfers, Justin and Zitzewitz, Eric},\n  title   = {Prediction Markets},\n  journal = {Journal of Economic Perspectives},\n  volume  = {18},\n  number  = {2},\n  pages   = {107--126},\n  year    = {2004},\n  doi     = {10.1257/0895330041371321}\n}",
+    "supports": "The standard survey. Its abstract (AEA and NBER pages) says market forecasts are typically fairly accurate, beat most moderately sophisticated benchmarks, and that suitable contracts reveal market probabilities. For caveats on thin markets, I read the text of NBER WP w10504 (May 2004), not the JEP PDF, which returned 403. It says markets are 'likely' to do poorly on small-probability events (favorite–longshot bias), more so on smaller exchanges. It says manipulability depends partly on how thin a market is, and that markets fail without a motivation to trade. It also reports that very thin internal markets (20–60 traders) did strikingly well. Cite both sides when comparing the model with thin Manifold markets.",
+    "url_checked": "https://www.aeaweb.org/articles?id=10.1257/0895330041371321 ; https://www.nber.org/papers/w10504 ; https://www.nber.org/system/files/working_papers/w10504/w10504.pdf",
+    "verified": true
+   },
+   {
+    "key": "servanschreiber2004prediction",
+    "bibtex": "@article{servanschreiber2004prediction,\n  author  = {Servan-Schreiber, Emile and Wolfers, Justin and Pennock, David M. and Galebach, Brian},\n  title   = {Prediction Markets: Does Money Matter?},\n  journal = {Electronic Markets},\n  volume  = {14},\n  number  = {3},\n  pages   = {243--251},\n  year    = {2004},\n  doi     = {10.1080/1019678042000245254}\n}",
+    "supports": "The paper compared play-money NewsFutures with real-money TradeSports over 208 NFL games (4 Sep–8 Dec 2003). The play-money market 'performed as well as' the real-money one. Both beat most of the 1,947 individual contestants in a ProbabilityFootball contest. Cite it for the claim that a play-money market need not be less accurate than a real-money one. The setting was liquid and short-horizon, though: about 100 traders per game on NewsFutures, with outcomes resolving within days. So it does not show that thin, decades-out markets are reliable. I checked the T&F landing page and the authors' PDF (volume, issue and pages are printed on it).",
+    "url_checked": "https://www.tandfonline.com/doi/abs/10.1080/1019678042000245254 ; http://users.nber.org/~jwolfers/Papers/DoesMoneyMatter.pdf ; https://api.crossref.org/works/10.1080/1019678042000245254",
+    "verified": true
+   },
+   {
+    "key": "snowberg2010explaining",
+    "bibtex": "@article{snowberg2010explaining,\n  author  = {Snowberg, Erik and Wolfers, Justin},\n  title   = {Explaining the Favorite--Long Shot Bias: Is it Risk-Love or Misperceptions?},\n  journal = {Journal of Political Economy},\n  volume  = {118},\n  number  = {4},\n  pages   = {723--746},\n  year    = {2010},\n  doi     = {10.1086/655844}\n}",
+    "supports": "The paper documents the favorite–long shot bias in horse-race betting: long shots are overbet and favorites are underbet. Using win bets plus exacta, quinella and trifecta bets, it finds evidence that misperceptions of probability drive the bias, not risk-love. Cite it for why low-probability prices may be too high. The evidence is from pari-mutuel horse racing. Applying it to low-probability UBI markets on Manifold is the paper's own inference and should be worded that way. I checked the JPE landing page, which gives Vol 118 No 4, August 2010, pp. 723–746; the NBER w15923 page agrees.",
+    "url_checked": "https://www.journals.uchicago.edu/doi/10.1086/655844 ; https://www.nber.org/papers/w15923",
+    "verified": true
+   },
+   {
+    "key": "blitzstein2019introduction",
+    "bibtex": "@book{blitzstein2019introduction,\n  author    = {Blitzstein, Joseph K. and Hwang, Jessica},\n  title     = {Introduction to Probability},\n  edition   = {2},\n  publisher = {Chapman and Hall/CRC},\n  year      = {2019},\n  doi       = {10.1201/9780429428357}\n}",
+    "supports": "A textbook source for the maths behind the signposts. Chapter 2, 'Conditional probability' (pp. 45–101), covers the law of total probability. Chapter 9, 'Conditional expectation' (pp. 415–456), extends it to expectations; the chapter abstract makes that link. Applied to the indicator of enactment, this gives E[P(H|E)] = P(H). So the conditional forecasts in the signposts, weighted by the probability of each signpost, must average back to the headline forecast. I verified the chapter titles and page ranges through Crossref and the T&F page, not theorem numbers, so cite by chapter. I did not verify whether the book uses the name 'conservation of expected evidence'; see yudkowsky2007conservation for the name.",
+    "url_checked": "https://www.taylorfrancis.com/books/mono/10.1201/9780429428357/introduction-probability-second-edition-joseph-blitzstein-jessica-hwang ; https://www.taylorfrancis.com/chapters/mono/10.1201/9780429428357-9/conditional-expectation-joseph-blitzstein-jessica-hwang ; https://api.crossref.org/works/10.1201/9780429428357",
+    "verified": true
+   },
+   {
+    "key": "yudkowsky2007conservation",
+    "bibtex": "@misc{yudkowsky2007conservation,\n  author       = {Yudkowsky, Eliezer},\n  title        = {Conservation of Expected Evidence},\n  howpublished = {LessWrong},\n  year         = {2007},\n  month        = aug,\n  url          = {https://www.lesswrong.com/posts/jiBFC7DcCrZjGmZnJ/conservation-of-expected-evidence},\n  note         = {Accessed 30 September 2026}\n}",
+    "supports": "Optional. This is where the name comes from. The post states that the expected posterior must equal the prior, and gives P(H) = P(H|E)P(E) + P(H|¬E)P(¬E). Cite it only as credit for the name alongside the textbook, not as the mathematical source. Sources disagree on the day (12 or 13 Aug 2007, likely a time-zone difference), so the entry gives only the month.",
+    "url_checked": "https://www.lesswrong.com/posts/jiBFC7DcCrZjGmZnJ/conservation-of-expected-evidence",
+    "verified": true
+   },
+   {
+    "key": "metaculus2026radiant",
+    "bibtex": "@misc{metaculus2026radiant,\n  author       = {{Metaculus}},\n  title        = {Radiant: Map the Predictions Behind Your Plans},\n  howpublished = {Metaculus on Substack},\n  year         = {2026},\n  month        = sep,\n  url          = {https://metaculus.substack.com/p/radiant-map-the-predictions-ai-forecasting},\n  note         = {Published 21 September 2026; accessed 30 September 2026}\n}",
+    "supports": "On 21 Sep 2026, Metaculus announced Radiant in open beta, with free credits during the beta. It is a visual map of the predictions behind a decision. Each box holds a live Metaculus forecast, a base rate or a team estimate, with its source attached. A range in a box 'carries the whole range forward instead of rounding it to a single number' in any formula that reads it. An AI assistant drafts first maps. Cite it as a current tool that decomposes decisions and propagates uncertainty, like the paper's approach. The post does not say how ranges are propagated (Monte Carlo or otherwise), so don't claim a mechanism. The post also calls Metaculus 'a forecasting platform (not a prediction market)', which helps if the paper contrasts it with Manifold. The byline is 'Metaculus'; the date comes from the page's datetime field.",
+    "url_checked": "https://metaculus.substack.com/p/radiant-map-the-predictions-ai-forecasting",
+    "verified": true
+   }
+  ],
+  "checks": [
+   {
+    "key": "tetlock2015superforecasting",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The Penguin Random House page lists Superforecasting: The Art and Science of Prediction by Philip E. Tetlock and Dan Gardner, imprint Crown, ebook 29 Sep 2015, 352 pp. It currently lists only the ebook and the 13 Sep 2016 paperback (9780804136716), not the hardcover. Open Library edition OL26682260M (ISBN-10 0804136696 = 9780804136693) gives Crown, 2015, 352 pp., but no place and no format. Retailer listings (Biblio, HPB, AbeBooks) identify 9780804136693 as the Crown hardcover of 29 Sep 2015. The live Good Judgment page is behind Cloudflare, so I read the Wayback snapshot of 25 Sep 2026. It says Tetlock and Gardner 'summarize the Good Judgment Project research findings' as the Ten Commandments. #2 is 'Break seemingly intractable problems into tractable sub-problems' (with a Fermi gloss) and #3 is 'Strike the right balance between inside and outside views'. The marketing line 'They've beaten other benchmarks, competitors, and prediction markets' is on the PRH page. There is no DOI.",
+    "supports_fix": "Two small factual fixes to the note; the use as cited is fine. (1) The Good Judgment page does not say 'appendix'. It says the book summarizes the project's findings as 'Ten Commandments for Aspiring Superforecasters'. Drop 'appendix', or verify it against a copy of the book. (2) The Open Library record for this ISBN gives Crown, 2015, 352 pp., but no place and no hardcover label. The New York hardcover record is a separate, ISBN-less entry. Retailer listings, not Open Library, confirm that 9780804136693 is the hardcover. The caveat about prediction markets is right: that claim is marketing copy only."
+   },
+   {
+    "key": "macgregor2001decomposition",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "doi.org/10.1007/978-0-306-47630-3_6 resolves to Springer. The Springer landing page (read after its cookie redirect) gives Donald G. MacGregor, 'Decomposition for Judgmental Forecasting and Estimation', in Principles of Forecasting, ed. J. Scott Armstrong, International Series in Operations Research & Management Science vol 30, Springer, Boston, MA, 2001, pp. 107-123. Crossref gives the book subtitle 'A Handbook for Researchers and Practitioners', publisher Springer US, Boston, MA, and pages 107-123. The abstract, read verbatim, says 'multiplicative decomposition is especially sensitive to correlated errors in component values'. It says decomposition is 'most used for highly uncertain estimates'. It says to use it only when components can be estimated 'more accurately or more confidently than the target estimate'.",
+    "supports_fix": "Minor: the abstract's condition is 'more accurately or more confidently', not just 'more accurately'. The chapter is about judgmental point estimation, so the paper should present it as a general rationale for the timing x control x hazard split. It does not validate Monte Carlo propagation specifically."
+   },
+   {
+    "key": "malcolm1959application",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "doi.org/10.1287/opre.7.5.646 resolves to INFORMS. The page is Cloudflare-blocked (403) for me, so I read the abstract from its Crossref deposit instead. Crossref gives D. G. Malcolm, J. H. Roseboom, C. E. Clark, W. Fazar, Operations Research 7(5):646-669, issued 1959-10; RePEc/IDEAS agrees. The abstract describes the Polaris FBM program. It says 'The time estimates are obtained from responsible technical persons and are subsequently expressed in probability terms.' I could not access the full text. Secondary sources (a web-search summary and a rare-book dealer) credit the paper with three-point beta estimates, but I did not verify that in the primary text, so the hedge is right.",
+    "supports_fix": "Fix the paraphrase. The abstract says the estimates are obtained FROM responsible technical persons; it does not say 'technical experts elicit' them. Keep 'PERT-style priors' and do not attribute the (a+4m+b)/6 formulas to this paper unless someone reads the full text."
+   },
+   {
+    "key": "clark1962pert",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "doi.org/10.1287/opre.10.3.405 resolves to INFORMS, which is Cloudflare-blocked (403) for me. Crossref and RePEc/IDEAS both give Charles E. Clark, 'Letter to the Editor---The PERT Model for the Distribution of an Activity Time', Operations Research 10(3):405-406, 1962 (Crossref: June 1962). The abstract, read on Crossref and IDEAS, says the note answers 'whence the statements in that paper concerning the distribution of an activity time?' I did not read the full text, so the advice not to cite it for a specific formula stands."
+   },
+   {
+    "key": "wolfers2004prediction",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The AEA landing page gives Justin Wolfers and Eric Zitzewitz, 'Prediction Markets', JEP 18(2):107-126, Spring 2004, DOI 10.1257/0895330041371321, which resolves. The abstract says market forecasts 'are typically fairly accurate' and 'outperform most moderately sophisticated benchmarks'. I read the full text of NBER w10504 (May 2004). It says 'it is likely that prediction markets will also perform poorly at predicting small probability events'. It says TradeSports mispricing is 'consistent with the longshot bias being more pronounced on smaller-scale exchanges'. It says manipulability depends 'at least in part' on how thin markets are, and that 'Even well-designed markets will fail unless a motivation to trade exists.' It says the HP and Siemens markets (20-60 people) were 'very thin markets' whose performance 'was quite striking'. All of this matches the supports text.",
+    "supports_fix": "Optional: say that the caveats are quoted from the NBER working-paper version, and that the JEP text may be worded slightly differently."
+   },
+   {
+    "key": "servanschreiber2004prediction",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The DOI resolves (T&F/Informa); the T&F landing page is Cloudflare-blocked for me. Crossref gives Servan-Schreiber, Wolfers, Pennock and Galebach, Electronic Markets 14(3):243-251, Sept 2004. The authors' PDF (users.nber.org/~jwolfers/Papers/DoesMoneyMatter.pdf) prints 'Volume 14 (3): 243-251' and the DOI. The text gives 208 NFL games from 4 Sep to 8 Dec 2003. It says NewsFutures averaged about 100 traders per game (rarely under 50 or over 200). There were 1,947 ProbabilityFootball participants at week 14. Both markets ranked in the top 1% (11th and 12th), and finished 6th and 8th by season's end. The abstract says the play-money markets 'performed as well as the real-money markets'. The supports text is accurate, and so is its caveat about liquid, short-horizon markets."
+   },
+   {
+    "key": "snowberg2010explaining",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "doi.org/10.1086/655844 resolves to journals.uchicago.edu, which is Cloudflare-blocked for me. Crossref gives Erik Snowberg and Justin Wolfers, 'Explaining the Favorite-Long Shot Bias: Is it Risk-Love or Misperceptions?', JPE 118(4):723-746, August 2010. The NBER w15923 page gives the same published citation. Its abstract says 'longshots are overbet, while favorites are underbet'. It tests using win bets plus exacta, quinella and trifecta pools, and finds 'misperceptions of probability drive the favorite-longshot bias'. The supports text is accurate, and it rightly says that applying this to Manifold is the paper's own inference."
+   },
+   {
+    "key": "blitzstein2019introduction",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "doi.org/10.1201/9780429428357 resolves to taylorfrancis.com. Crossref gives Joseph K. Blitzstein and Jessica Hwang, Introduction to Probability, edition 2, Chapman and Hall/CRC, published 2019-02-08. The T&F page title is 'Introduction to Probability, Second Edition' (print ISBN 9781138369917 appears in the jacket image URL). Chapter DOIs from Crossref: -2 'Conditional probability' is pp. 45-101; -9 'Conditional expectation' is pp. 415-456. Both resolve. The chapter 9 abstract on T&F says the law of total probability gets unconditional probabilities by slicing the sample space, and that 'The same idea works for computing unconditional expectations.' The supports text is accurate, and its hedges (cite by chapter; the book may not use the name) are right."
+   },
+   {
+    "key": "yudkowsky2007conservation",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The LessWrong page shows 'Conservation of Expected Evidence' by Eliezer Yudkowsky, 13th Aug 2007, cross-posted from Overcoming Bias. The LessWrong GraphQL API gives postedAt 2007-08-13T15:55:26Z. The post says 'the expectation of the posterior probability, after viewing the evidence, must equal the prior probability'. It gives P(H) = P(H|E)P(E) + P(H|~E)P(~E). A month-only BibTeX entry is valid.",
+    "supports_fix": "The note about the date is shaky. LessWrong's timestamp is 15:55 UTC on 13 Aug 2007, which falls on 13 Aug in every US time zone, so a time-zone difference does not explain a 12 Aug date. I did not check the original Overcoming Bias page (Wayback returned 429). Either give day = 13 from LessWrong, or keep month only without the time-zone explanation."
+   },
+   {
+    "key": "metaculus2026radiant",
+    "verdict": "CONFIRMED",
+    "supports_ok": true,
+    "evidence": "The Substack post is titled 'Radiant: Map the Predictions Behind Your Plans', with byline Metaculus. The page gives datePublished 2026-09-21T19:52:42+00:00, displayed as Sep 21, 2026. It says 'Free credits while Radiant is in open beta'. It says 'Where a number comes from a Metaculus question or a base rate, the box keeps that source attached'; a colleague's guess carries 'their name on it'. It says any formula reading a range box 'carries the whole range forward instead of rounding it to a single number'. The AI assistant 'will draft a first map for you to work from'. It says 'Metaculus is a forecasting platform (not a prediction market).' No sentence describes the propagation mechanism, so the hedge is right."
+   }
+  ]
+ }
+]

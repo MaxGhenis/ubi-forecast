@@ -83,47 +83,68 @@
   "note": "A trifecta survives the midterm.",
   "anchor": "Of the six trifectas that started a presidential term from 1993 to 2021, only the 2001 one survived its midterm (2002); 1994, 2006, 2010, 2018 and 2022 each flipped a chamber."
  },
- "q_any_D_normal": {
-  "lo": 0.01,
-  "mode": 0.03,
-  "hi": 0.07,
-  "note": "D trifecta, no AI shock.",
-  "anchor": "JUDGMENT; the 2009 and 2021 D trifectas enacted no UBI (2021: temporary CTC, one-time $1,400 checks)."
+ "e_D_normal": {
+  "lo": 0.002,
+  "mode": 0.01,
+  "hi": 0.03,
+  "note": "D trifecta endorses, no shock.",
+  "anchor": "DATA: no strict-UBI endorsement by any of the ten governments in about 75 terms since 2000."
  },
- "q_any_R_normal": {
-  "lo": 0.005,
-  "mode": 0.02,
-  "hi": 0.05,
-  "note": "R trifecta, no AI shock.",
-  "anchor": "JUDGMENT; recurring tariff or sovereign-fund 'dividends' are the plausible R route (Kalshi: a new Trump dividend program by 2027 at 5.2%)."
+ "e_R_normal": {
+  "lo": 0.001,
+  "mode": 0.004,
+  "hi": 0.012,
+  "note": "R trifecta endorses, no shock.",
+  "anchor": "DATA: same record."
  },
- "q_any_div_normal": {
-  "lo": 0.0,
-  "mode": 0.003,
-  "hi": 0.01,
-  "note": "Divided government, no AI shock.",
+ "e_div_normal": {
+  "lo": 0.001,
+  "mode": 0.004,
+  "hi": 0.012,
+  "note": "The President endorses under divided government, no shock.",
+  "anchor": "DATA: same record."
+ },
+ "e_D_shock": {
+  "lo": 0.35,
+  "mode": 0.6,
+  "hi": 0.85,
+  "note": "D trifecta endorses during a shock.",
+  "anchor": "JUDGMENT: no trigger-type shock in the record."
+ },
+ "e_R_shock": {
+  "lo": 0.1,
+  "mode": 0.35,
+  "hi": 0.65,
+  "note": "R trifecta endorses during a shock.",
   "anchor": "JUDGMENT."
  },
- "q_any_D_shock": {
-  "lo": 0.25,
-  "mode": 0.45,
+ "e_div_shock": {
+  "lo": 0.15,
+  "mode": 0.4,
   "hi": 0.7,
-  "note": "D trifecta during an AI shock.",
-  "anchor": "JUDGMENT; Manifold 'UBI policy after AI mass unemployment' puts 'No UBI' at 76% (21 traders; that is over all governments)."
+  "note": "The President endorses under divided government during a shock.",
+  "anchor": "JUDGMENT."
  },
- "q_any_R_shock": {
-  "lo": 0.1,
-  "mode": 0.25,
-  "hi": 0.45,
-  "note": "R trifecta during an AI shock.",
-  "anchor": "JUDGMENT; populist-right 'universal high income' route."
+ "pass_D": {
+  "lo": 0.35,
+  "mode": 0.55,
+  "hi": 0.75,
+  "note": "An endorsed UBI passes under a D trifecta.",
+  "anchor": "DATA: about half of US trifectas' flagship priorities since 1993 passed."
  },
- "q_any_div_shock": {
+ "pass_R": {
+  "lo": 0.35,
+  "mode": 0.55,
+  "hi": 0.75,
+  "note": "An endorsed UBI passes under an R trifecta.",
+  "anchor": "DATA: same record."
+ },
+ "pass_div": {
   "lo": 0.03,
-  "mode": 0.08,
-  "hi": 0.15,
-  "note": "Divided government during an AI shock.",
-  "anchor": "JUDGMENT; the 2020 CARES checks passed under divided government, but they were temporary."
+  "mode": 0.1,
+  "hi": 0.2,
+  "note": "An endorsed UBI passes under divided government.",
+  "anchor": "JUDGMENT."
  },
  "amount_median_normal": {
   "lo": 1000,

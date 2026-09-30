@@ -61,7 +61,7 @@ def test_invariants_hold_for_any_inputs(over, seed):
 
 
 def test_zero_enactment_hazard_means_no_ubi():
-    zero = {k: (0.0, 0.0, 0.0) for k in um.INPUTS if k.startswith(("q_any", "q_floor", "ratchet"))}
+    zero = {k: (0.0, 0.0, 0.0) for k in um.INPUTS if k.startswith(("e_", "q_floor", "ratchet"))}
     r = run_with(zero)
     assert r["m1_when_ubi_6k"]["Not by the end of 2050"] == 1.0
     assert all(v == 0 for v in r["m2_amount_ladder_by_2036"].values())
@@ -70,7 +70,7 @@ def test_zero_enactment_hazard_means_no_ubi():
 
 def test_no_shock_and_no_trifectas_blocks_normal_route():
     over = {k: (0.0, 0.0, 0.0) for k in um.INPUTS if k.startswith(("shock_by", "p_R_trifecta", "p_D_trifecta"))}
-    over["q_any_div_normal"] = (0.0, 0.0, 0.0)
+    over["e_div_normal"] = (0.0, 0.0, 0.0)
     r = run_with(over)
     assert r["cumulative_ubi_6k"]["2050"] == 0
 
@@ -90,3 +90,8 @@ def test_pert_sampler_stays_in_range():
     for v in um.INPUTS.values():
         x = v.sample(rng, 2000)
         assert x.min() >= v.lo - 1e-9 and x.max() <= v.hi + 1e-9
+
+
+def test_no_passage_means_no_ubi():
+    r = run_with({k: (0.0, 0.0, 0.0) for k in um.INPUTS if k.startswith("pass_")})
+    assert r["cumulative_ubi_6k"]["2050"] == 0

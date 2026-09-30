@@ -1,0 +1,275 @@
+{
+ "USA": {
+  "series": "UNRATE",
+  "gdp_series": "GDPC1",
+  "months_2025": 11,
+  "avg_2025": 4.26,
+  "trigger_level": 7.3,
+  "latest": [
+   "2026-08",
+   4.1
+  ],
+  "latest_12m_avg": 4.3,
+  "gdp_latest": [
+   "2026-04",
+   24408.011
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1948-01",
+  "episodes": [
+   {
+    "first_month": "1975-09",
+    "ma12": 8.05,
+    "ma12_24m_earlier": 5.01,
+    "gdp_vs_prior_peak_pct": -0.78,
+    "jobless_growth": false
+   },
+   {
+    "first_month": "2009-06",
+    "ma12": 7.61,
+    "ma12_24m_earlier": 4.52,
+    "gdp_vs_prior_peak_pct": -3.98,
+    "jobless_growth": false
+   },
+   {
+    "first_month": "2020-09",
+    "ma12": 7.31,
+    "ma12_24m_earlier": 3.98,
+    "gdp_vs_prior_peak_pct": -2.03,
+    "jobless_growth": false
+   }
+  ]
+ },
+ "GBR": {
+  "series": "LRHUTTTTGBM156S",
+  "gdp_series": "NGDPRSAXDCGBQ",
+  "months_2025": 12,
+  "avg_2025": 4.85,
+  "trigger_level": 7.9,
+  "latest": [
+   "2026-05",
+   4.9
+  ],
+  "latest_12m_avg": 4.98,
+  "gdp_latest": [
+   "2026-04",
+   712545.0
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1983-01",
+  "episodes": [
+   {
+    "first_month": "1993-01",
+    "ma12": 9.98,
+    "ma12_24m_earlier": 6.93,
+    "gdp_vs_prior_peak_pct": -0.69,
+    "jobless_growth": false
+   }
+  ]
+ },
+ "CAN": {
+  "series": "LRHUTTTTCAM156S",
+  "gdp_series": "NGDPRSAXDCCAQ",
+  "months_2025": 12,
+  "avg_2025": 6.86,
+  "trigger_level": 9.9,
+  "latest": [
+   "2026-08",
+   6.4
+  ],
+  "latest_12m_avg": 6.67,
+  "gdp_latest": [
+   "2026-04",
+   631031.8
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1955-01",
+  "episodes": [
+   {
+    "first_month": "1982-11",
+    "ma12": 10.73,
+    "ma12_24m_earlier": 7.51,
+    "gdp_vs_prior_peak_pct": -5.34,
+    "jobless_growth": false
+   },
+   {
+    "first_month": "1992-06",
+    "ma12": 10.59,
+    "ma12_24m_earlier": 7.53,
+    "gdp_vs_prior_peak_pct": -2.46,
+    "jobless_growth": false
+   },
+   {
+    "first_month": "2020-10",
+    "ma12": 9.24,
+    "ma12_24m_earlier": 5.91,
+    "gdp_vs_prior_peak_pct": -3.02,
+    "jobless_growth": false
+   }
+  ]
+ },
+ "DEU": {
+  "series": "LRHUTTTTDEM156S",
+  "gdp_series": "CLVMNACSCAB1GQDE",
+  "months_2025": 12,
+  "avg_2025": 3.73,
+  "trigger_level": 6.7,
+  "latest": [
+   "2026-07",
+   4.0
+  ],
+  "latest_12m_avg": 3.89,
+  "gdp_latest": [
+   "2026-04",
+   782934.3
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1991-01",
+  "episodes": []
+ },
+ "FRA": {
+  "series": "LRHUTTTTFRM156S",
+  "gdp_series": "CLVMNACSCAB1GQFR",
+  "months_2025": 12,
+  "avg_2025": 7.72,
+  "trigger_level": 10.7,
+  "latest": [
+   "2026-07",
+   8.3
+  ],
+  "latest_12m_avg": 8.12,
+  "gdp_latest": [
+   "2026-04",
+   597203.9
+  ],
+  "gdp_at_or_above_prior_peak": false,
+  "u_start": "1983-01",
+  "episodes": []
+ },
+ "ESP": {
+  "series": "LRHUTTTTESM156S",
+  "gdp_series": "CLVMNACSCAB1GQES",
+  "months_2025": 12,
+  "avg_2025": 10.51,
+  "trigger_level": 13.5,
+  "latest": [
+   "2026-07",
+   10.0
+  ],
+  "latest_12m_avg": 10.23,
+  "gdp_latest": [
+   "2026-04",
+   337477.0
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1986-04",
+  "episodes": [
+   {
+    "first_month": "2009-01",
+    "ma12": 11.83,
+    "ma12_24m_earlier": 8.4,
+    "gdp_vs_prior_peak_pct": -4.39,
+    "jobless_growth": false
+   }
+  ]
+ },
+ "JPN": {
+  "series": "LRHUTTTTJPM156S",
+  "gdp_series": "JPNRGDPEXP",
+  "months_2025": 12,
+  "avg_2025": 2.52,
+  "trigger_level": 5.5,
+  "latest": [
+   "2026-07",
+   2.4
+  ],
+  "latest_12m_avg": 2.58,
+  "gdp_latest": [
+   "2026-04",
+   598950.5
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1955-01",
+  "episodes": []
+ },
+ "KOR": {
+  "series": "LRHUTTTTKRM156S",
+  "gdp_series": "NGDPRSAXDCKRQ",
+  "months_2025": 12,
+  "avg_2025": 2.79,
+  "trigger_level": 5.8,
+  "latest": [
+   "2026-07",
+   2.8
+  ],
+  "latest_12m_avg": 2.83,
+  "gdp_latest": [
+   "2026-04",
+   600405700.0
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1990-01",
+  "episodes": [
+   {
+    "first_month": "1998-08",
+    "ma12": 5.26,
+    "ma12_24m_earlier": 2.02,
+    "gdp_vs_prior_peak_pct": -6.21,
+    "jobless_growth": false
+   }
+  ]
+ },
+ "AUS": {
+  "series": "LRHUTTTTAUM156S",
+  "gdp_series": "NGDPRSAXDCAUQ",
+  "months_2025": 12,
+  "avg_2025": 4.2,
+  "trigger_level": 7.2,
+  "latest": [
+   "2026-07",
+   4.461825
+  ],
+  "latest_12m_avg": 4.32,
+  "gdp_latest": [
+   "2026-04",
+   699461.0
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "1978-02",
+  "episodes": [
+   {
+    "first_month": "1983-06",
+    "ma12": 8.94,
+    "ma12_24m_earlier": 5.85,
+    "gdp_vs_prior_peak_pct": -3.72,
+    "jobless_growth": false
+   },
+   {
+    "first_month": "1991-11",
+    "ma12": 9.4,
+    "ma12_24m_earlier": 6.24,
+    "gdp_vs_prior_peak_pct": -0.95,
+    "jobless_growth": false
+   }
+  ]
+ },
+ "BRA": {
+  "series": "IBGE PNAD 6381",
+  "gdp_series": "NGDPRSAXDCBRQ",
+  "months_2025": 12,
+  "avg_2025": 5.95,
+  "trigger_level": 8.9,
+  "latest": [
+   "2026-08",
+   5.3
+  ],
+  "latest_12m_avg": 5.5,
+  "gdp_latest": [
+   "2026-04",
+   349885.8
+  ],
+  "gdp_at_or_above_prior_peak": true,
+  "u_start": "2024-09",
+  "episodes": []
+ }
+}

@@ -1,6 +1,6 @@
 import fc from "fast-check";
 import { describe, expect, it } from "vitest";
-import { simulate, cumulative, signpost, eventMask, maskFrom, THRESHOLDS, rngFrom, pert } from "../src/engine.js";
+import { simulate, cumulative, cumulativeOf, signpost, eventMask, maskFrom, THRESHOLDS, rngFrom, pert } from "../src/engine.js";
 import { GLOBALS, US } from "../src/countries.js";
 
 // A second synthetic country (test fixture only) so subset properties can be checked.
@@ -9,8 +9,9 @@ const rangeArb = fc.tuple(fc.double({ min: 0, max: 1, noNaN: true }), fc.double(
   .map((t) => t.sort((a, b) => a - b)).map(([lo, mode, hi]) => ({ lo, mode, hi }));
 const controlsArb = fc.record({
   shockShiftYears: fc.integer({ min: -5, max: 10 }),
-  appetite: fc.double({ min: 0, max: 4, noNaN: true }),
-  generosity: fc.double({ min: 0.25, max: 3, noNaN: true }),
+  endorse: fc.record({ L: fc.double({ min: 0, max: 4, noNaN: true }), R: fc.double({ min: 0, max: 4, noNaN: true }), O: fc.double({ min: 0, max: 4, noNaN: true }) }),
+  pass: fc.double({ min: 0, max: 3, noNaN: true }),
+  amount: fc.double({ min: 0.25, max: 3, noNaN: true }),
   exposureMode: fc.constantFrom("model", "all", "us-only"),
   risks: fc.record({ fiscal: fc.boolean(), meansTested: fc.boolean(), diffusion: fc.boolean(), gridlock: fc.boolean() }),
 });
@@ -18,7 +19,7 @@ const controlsArb = fc.record({
 describe("engine invariants (any priors, any controls)", () => {
   it("probabilities are valid, cumulative, nested by threshold and by country set, and conserve expected evidence", () => {
     fc.assert(fc.property(rangeArb, rangeArb, controlsArb, fc.integer({ min: 1, max: 1e6 }), (qL, amt, controls, seed) => {
-      const a = { ...US, q: { ...US.q, L_shock: qL } };
+      const a = { ...US, endorse: { ...US.endorse, L_shock: qL } };
       const b = { ...TWIN, amount: { ...TWIN.amount, shock: { lo: amt.lo * 20, mode: amt.mode * 20, hi: amt.hi * 20 } } };
       const sim = simulate({ countries: [a, b], globals: GLOBALS, controls, n: 1500, seed });
       for (let t = 0; t < THRESHOLDS.length; t++) {
@@ -38,9 +39,35 @@ describe("engine invariants (any priors, any controls)", () => {
     }), { numRuns: 40 });
   });
 
-  it("zero political appetite means no UBI anywhere", () => {
-    const sim = simulate({ countries: [US, TWIN], globals: GLOBALS, controls: { appetite: 0, shockShiftYears: 0, generosity: 1, exposureMode: "model", risks: {} }, n: 3000 });
+  it("no endorsements means no UBI anywhere", () => {
+    const sim = simulate({ countries: [US, TWIN], globals: GLOBALS, controls: { endorse: { L: 0, R: 0, O: 0 } }, n: 3000 });
     expect(cumulative(sim, [0, 1], 0).curve.at(-1).p).toBe(0);
+    expect(cumulativeOf(sim, sim.firstEndorse, [0, 1]).curve.at(-1).p).toBe(0);
+  });
+
+  it("endorsements without passage mean no UBI, but endorsements still happen", () => {
+    const sim = simulate({ countries: [US, TWIN], globals: GLOBALS, controls: { pass: 0 }, n: 3000 });
+    expect(cumulative(sim, [0, 1], 0).curve.at(-1).p).toBe(0);
+    expect(cumulativeOf(sim, sim.firstEndorse, [0, 1]).curve.at(-1).p).toBeGreaterThan(0);
+  });
+
+  it("every enactment follows an endorsement in an earlier year", () => {
+    fc.assert(fc.property(fc.integer({ min: 1, max: 1e6 }), (seed) => {
+      const sim = simulate({ countries: [US, TWIN], globals: GLOBALS, n: 2000, seed });
+      for (let s = 0; s < sim.n; s++) for (let ci = 0; ci < sim.C; ci++) {
+        const enacted = sim.firstYear[(s * sim.C + ci) * sim.T], endorsed = sim.firstEndorse[s * sim.C + ci];
+        if (enacted !== 9999) expect(endorsed).toBeLessThan(enacted);
+      }
+    }), { numRuns: 10 });
+  });
+
+  it("the trigger never comes before October 2026 and the US trigger year matches its onset", () => {
+    const sim = simulate({ countries: [US], globals: GLOBALS, controls: { shockShiftYears: -5 }, n: 5000, seed: 12 });
+    for (let s = 0; s < sim.n; s++) {
+      const t = sim.triggerYear[s];
+      if (Number.isFinite(sim.onset[s]) && sim.onset[s] < 2051) expect(t).toBe(Math.max(2026, Math.floor(sim.onset[s])));
+      if (t !== 9999) expect(t).toBeGreaterThanOrEqual(2026);
+    }
   });
 
   it("is deterministic for a seed", () => {
@@ -58,7 +85,7 @@ describe("engine invariants (any priors, any controls)", () => {
 
   it("an earlier AI shock raises the chance of a UBI (large sample)", () => {
     const run = (shift) => cumulative(simulate({ countries: [US], globals: GLOBALS, n: 60000, seed: 9,
-      controls: { shockShiftYears: shift, appetite: 1, generosity: 1, exposureMode: "model", risks: {} } }), [0], 2).curve.find((r) => r.year === 2040).p;
+      controls: { shockShiftYears: shift } }), [0], 2).curve.find((r) => r.year === 2040).p;
     expect(run(-3)).toBeGreaterThan(run(5));
   });
 
@@ -83,14 +110,14 @@ describe("probit", () => {
 describe("common random numbers", () => {
   it("a control that only affects other countries leaves the US unchanged", () => {
     const TWIN2 = { ...US, iso3: "TW2_TEST", name: "Twin 2" };
-    const base = { shockShiftYears: 0, appetite: 1, generosity: 1, exposureMode: "model", risks: {} };
+    const base = { shockShiftYears: 0, exposureMode: "model", risks: {} };
     const a = simulate({ countries: [US, TWIN2], globals: GLOBALS, controls: base, n: 5000, seed: 4 });
     const b = simulate({ countries: [US], globals: GLOBALS, controls: base, n: 5000, seed: 4 });
     const us = (sim) => cumulative(sim, [0], 2).curve.map((r) => r.p);
     expect(us(a)).toEqual(us(b));
   });
   it("the shift slider never places a shock before October 2026", () => {
-    const sim = simulate({ countries: [US], globals: GLOBALS, controls: { shockShiftYears: -5, appetite: 1, generosity: 1, exposureMode: "model", risks: {} }, n: 5000, seed: 2 });
+    const sim = simulate({ countries: [US], globals: GLOBALS, controls: { shockShiftYears: -5 }, n: 5000, seed: 2 });
     for (const o of sim.onset) expect(o >= 2026.75 || o === Infinity).toBe(true);
   });
 });
@@ -108,7 +135,7 @@ describe("batching", () => {
 describe("common random numbers on the real ten countries", () => {
   it("'the US only' exposure leaves the US forecast unchanged", async () => {
     const { COUNTRIES } = await import("../src/countries.js");
-    const base = { shockShiftYears: 0, appetite: 1, generosity: 1, risks: {} };
+    const base = { shockShiftYears: 0, risks: {} };
     const a = simulate({ countries: COUNTRIES, globals: GLOBALS, controls: { ...base, exposureMode: "model" }, n: 4000, seed: 6 });
     const b = simulate({ countries: COUNTRIES, globals: GLOBALS, controls: { ...base, exposureMode: "us-only" }, n: 4000, seed: 6 });
     const us = (sim) => cumulative(sim, [0], 2).curve.map((r) => r.p);

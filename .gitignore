@@ -3,3 +3,12 @@ dashboard/dist/
 __pycache__/
 .pytest_cache/
 .hypothesis/
+paper/index.html
+paper/index.pdf
+paper/index_files/
+paper/.quarto/
+paper/wrapper/
+paper/*.tex
+research/*.pdf
+research/thomson2017.txt
+research/out/
