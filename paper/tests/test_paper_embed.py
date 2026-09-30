@@ -32,3 +32,9 @@ def test_description_numbers_match_the_manuscript_variables():
 
 def test_rendered_manuscript_exists():
     assert (HERE / "_output" / "index.html").exists() or (HERE / "index.html").exists()
+
+
+def test_nav_keeps_the_side_gutter():
+    # .shell sits on .wrap; a shorthand padding on .shell would zero .wrap's 16px side gutter.
+    shell = re.search(r"\.shell \{([^}]*)\}", WRAPPER).group(1)
+    assert "padding:" not in shell.replace("padding-top:", "").replace("padding-bottom:", "")
