@@ -9,8 +9,8 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent.parent
-VERSION = sys.argv[1] if len(sys.argv) > 1 else "r1-20260930"
-REVISION, DATE = "Revision 1", "2026-09-30"
+VERSION = sys.argv[1] if len(sys.argv) > 1 else "r2-20260930"
+REVISION, DATE = "Model revision 2", "30 September 2026"
 V = dict(re.findall(r'^(\w+): "([^"]*)"$', (HERE / "_variables.yml").read_text(), re.M))
 
 desc = (f"A Monte Carlo decomposition of when ten countries enact a universal basic income, with every input stated as "
@@ -18,7 +18,7 @@ desc = (f"A Monte Carlo decomposition of when ten countries enact a universal ba
         f"{V['usa_2050']} by 2050, and {V['all_t2_2040']} that at least one of the ten enacts one by 2040. If the US "
         f"unemployment trigger has not been met by 2040, the US figure falls to {V['usa_noshock_2040']}. The first test "
         f"comes soon: {V['all_end2030']} that some government among the ten endorses a UBI by 2030. This page embeds the "
-        f"{REVISION.lower()} manuscript, dated {DATE}.")
+        f"manuscript for {REVISION.lower()}, dated {DATE}.")
 
 html = f"""<!doctype html>
 <html lang="en">

@@ -286,7 +286,7 @@ function renderMarkets() {
   $("markets").innerHTML = `<table><thead><tr><th>Market</th><th class="num">Price</th><th class="num">This model</th><th>Model's version of the question</th></tr></thead><tbody>${
     rows.map(({ mk, p, missing }) => `<tr><td><a href="${esc(mk.url)}" target="_blank" rel="noopener">${esc(mk.question)}</a><div class="help">${esc(mk.platform)}, ${esc(mk.traders)} traders. ${esc(mk.definition)}</div></td>
       <td class="num">${esc(mk.price)}</td><td class="num">${fmtP(p, sim.n)}</td><td>${esc(mk.model.note)}${missing.length ? ` Not modeled: ${esc(missing.map(nameOf).join(", "))}.` : ""}</td></tr>`).join("")}</tbody></table>
-    <p class="help">Market prices as of ${esc(MARKETS.asOf)}. The model column uses the current assumptions, without any supposition. My own markets on this question opened at this model's odds, so they aren't an independent check: ${own.map((mk) => `<a href="${esc(mk.url)}" target="_blank" rel="noopener">${esc(mk.question)}</a> (${esc(mk.price)})`).join("; ")}.</p>`;
+    <p class="help">Market prices as of ${esc(MARKETS.asOf)}. The model column uses the current assumptions, without any supposition. My own markets on this question opened at revision 1's odds, so they aren't an independent check: ${own.map((mk) => `<a href="${esc(mk.url)}" target="_blank" rel="noopener">${esc(mk.question)}</a> (${esc(mk.price)})`).join("; ")}.</p>`;
 }
 
 const STATE_WORD = { L: "left-led", R: "right-led", O: "other" };
