@@ -1,0 +1,338 @@
+[
+ {
+  "id": "GBR-0",
+  "verdict": "PARTLY",
+  "what_page_says": "The leadership election page says Burnham was acclaimed Labour leader on 17 July 2026 and became Prime Minister three days later, on 20 July 2026. It gives no current Commons seat total. Its only use of 403 is in the nominations table (379 of 403 Labour MPs), which reflects the count in July. Wikipedia's 'List of MPs elected in the 2024 UK general election' tracks party totals over time: Labour had 403 after 17 August 2026, then 402 after Starmer resigned his Holborn and St Pancras seat on 1 September 2026, leaving 1 seat vacant. That page confirms the Commons has 650 MPs.",
+  "fixed_text": "Andy Burnham became Prime Minister on 20 July 2026.",
+  "fixed_url": "https://en.wikipedia.org/wiki/2026_Labour_Party_leadership_election",
+  "extra_facts": [
+   {
+    "text": "Labour holds 402 of 650 Commons seats; Holborn and St Pancras has been vacant since Keir Starmer resigned on 1 September 2026.",
+    "url": "https://en.wikipedia.org/wiki/List_of_MPs_elected_in_the_2024_United_Kingdom_general_election"
+   }
+  ]
+ },
+ {
+  "id": "GBR-4",
+  "verdict": "PARTLY",
+  "what_page_says": "Left Foot Forward (18 March 2023) says Lib Dem members at Spring Conference were offered a choice between a Universal Basic Income and a Guaranteed Basic Income, and voted for the GBI. The GBI means raising Universal Credit to the level needed to end deep poverty within a decade and removing UC sanctions. The article never calls the GBI 'income-tested' and never mentions the Green Party. Wikipedia's 'Universal basic income in the United Kingdom' says the Green Party of England and Wales supports a UBI. It also says that in March 2023 Lib Dem members voted to adopt a 'Guaranteed Basic Income' instead of a UBI.",
+  "fixed_text": "The Green Party of England and Wales backs a UBI; in March 2023 the Liberal Democrats adopted a Guaranteed Basic Income instead of a UBI.",
+  "fixed_url": "https://en.wikipedia.org/wiki/Universal_basic_income_in_the_United_Kingdom",
+  "extra_facts": [
+   {
+    "text": "The Lib Dems' Guaranteed Basic Income would raise Universal Credit to end deep poverty within a decade and remove UC sanctions.",
+    "url": "https://leftfootforward.org/2023/03/liberal-democrats-vote-for-a-guaranteed-basic-income/"
+   }
+  ]
+ },
+ {
+  "id": "CAN-3",
+  "verdict": "PARTLY",
+  "what_page_says": "WebFetch got a 403 from CBC, so the page was read with curl. CBC (19 March 2024) says the pilot 'was introduced in 2017' and was meant to run three years. It says Doug Ford's provincial government cancelled it in July 2018 'after one year'. The article never states that there had been a change of government; it only names Ford's government as the one that cancelled it.",
+  "fixed_text": "Ontario's basic income pilot, introduced in 2017, was cancelled by Doug Ford's government in July 2018, after one year.",
+  "fixed_url": "https://www.cbc.ca/news/canada/toronto/basic-income-pilot-ontario-cancellation-lawsuit-1.7149067"
+ },
+ {
+  "id": "DEU-3",
+  "verdict": "PARTLY",
+  "what_page_says": "The DIW Wochenbericht 21/2023 page reports that 53% of the German population with online access favoured a basic income in August 2022, with 36% against and 11% undecided. That figure comes from the Compass survey run by Infratest dimap (8 to 17 August 2022, N=2117), not the Konstanz survey. The separate University of Konstanz survey (9 to 17 August 2022, 4,500 people) looked at how design features change support; it is not the source of the 53%.",
+  "fixed_text": "Compass survey by Infratest dimap (August 2022), analysed by DIW: 53% of Germans with online access support an unconditional basic income; 36% oppose.",
+  "fixed_url": "https://www.diw.de/de/diw_01.c.873126.de/publikationen/wochenberichte/2023_21_1/hohe_zustimmung_zu_bedingungslosem_grundeinkommen_____vor_allem_bei_den_moeglichen_profiteur_innen.html"
+ },
+ {
+  "id": "FRA-3",
+  "verdict": "PARTLY",
+  "what_page_says": "Ifop's page (survey 18 to 19 March 2021, for Solutions Solidaires and the Fondation Jean Jaurès) says 57% of French people favour a basic income. Its definition is a monthly sum that would replace some existing benefits, paid to people below a certain income level. The Ifop page does not mention OpinionWay, 34%, or question wording. Public Sénat reports an OpinionWay poll (24 to 26 January 2018) in which 34% favoured a universal income of 600 to 800 euros a month, paid without means test to every citizen, and 63% opposed. Neither page says wording explains the gap, so that causal claim was dropped; each fact now states its poll's definition instead.",
+  "fixed_text": "Ifop (March 2021): 57% favour a basic income paid monthly to people below a certain income level.",
+  "fixed_url": "https://www.ifopgroup.com/publication/les-francais-et-la-mise-en-place-dun-revenu-de-base/",
+  "extra_facts": [
+   {
+    "text": "OpinionWay (January 2018): 34% favour a universal income of €600–800 a month paid to every citizen without a means test; 63% oppose.",
+    "url": "https://www.publicsenat.fr/actualites/non-classe/sondage-63-des-francais-sont-opposes-a-la-creation-d-un-revenu-universel-82155"
+   }
+  ]
+ },
+ {
+  "id": "ESP-3",
+  "verdict": "PARTLY",
+  "what_page_says": "WebFetch returned garbled text for the PDF, so it was read with pdftotext. The PDF (Plan IA360) proposes a new 'Contrato Social para la IA' and says the Government will promote an 'Acuerdo Tripartito', convening the 'agentes sociales' in October 2026. It contains no 'renta' or 'ingreso' terms and no income guarantee. The PDF text does not name Sánchez or give a publication date; only the URL path carries 20260920. The La Moncloa press page dated 21/09/2026 says Pedro Sánchez announced Plan IA360. It quotes him on a 'pacto de país entre empresas, trabajadores, sindicatos, partidos y poderes públicos' and makes no mention of any income guarantee.",
+  "fixed_text": "Pedro Sánchez's AI plan, IA360 (September 2026), proposes a social contract with companies, workers and unions, not an income guarantee.",
+  "fixed_url": "https://www.lamoncloa.gob.es/presidente/actividades/paginas/2026/210926-sanchez-plan-ia.aspx",
+  "extra_facts": [
+   {
+    "text": "IA360 plans a tripartite agreement, with the government convening the social partners in October 2026.",
+    "url": "https://www.lamoncloa.gob.es/presidente/actividades/Documents/2026/20260920%20Plan%20IA360.pdf"
+   }
+  ]
+ },
+ {
+  "id": "JPN-3",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Japanese Wikipedia says the 2020 Special Fixed-Sum Benefit (特別定額給付金), paid under the Abe government, gave ¥100,000 per person to everyone recorded in the Basic Resident Register on 27 April 2020, including foreign residents. The money went to household heads, and the target group was the whole population. Ministry of Internal Affairs figures cited on the page show 99.4% paid by 25 September 2020.",
+  "fixed_text": "Japan paid ¥100,000 to every registered resident once in 2020.",
+  "fixed_url": "https://ja.wikipedia.org/wiki/%E7%89%B9%E5%88%A5%E5%AE%9A%E9%A1%8D%E7%B5%A6%E4%BB%98%E9%87%91"
+ },
+ {
+  "id": "KOR-3",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Segye Ilbo (29 January 2025) reports the Ministry of Health and Welfare and KIHASA '2024 Social Policy Public Perception Survey': 45.7% support a basic income for all citizens and 54.3% oppose. The survey was conducted face to face with 3,026 people from 15 October to 29 November of the previous year (2024).",
+  "fixed_text": "KIHASA survey (2024): 45.7% support a universal basic income, 54.3% oppose.",
+  "fixed_url": "https://www.segye.com/newsView/20250129507224"
+ },
+ {
+  "id": "AUS-3",
+  "verdict": "SUPPORTED",
+  "what_page_says": "The What Australia Thinks data story on the ANU Poll of October 2021 says just over half (55%) of Australians favour introducing a UBI. It also says 38 per cent favour everyone receiving the same amount whether or not they are working.",
+  "fixed_text": "ANU Poll (2021): 55% in favour of a basic income; only 38% favour equal payments to everyone.",
+  "fixed_url": "https://whataustraliathinks.org.au/data_story/is-the-universal-basic-income-for-us/"
+ },
+ {
+  "id": "BRA-3",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Maricá Info (11 May 2026) says the Renda Básica de Cidadania currently serves more than 70,000 Maricá residents. Each beneficiary receives R$230 a month in mumbucas, the local social currency. The programme is open only to residents registered in CadÚnico with a monthly family income of up to three minimum wages.",
+  "fixed_text": "Maricá pays a municipal basic income of R$230 a month to more than 70,000 residents (income-tested).",
+  "fixed_url": "https://maricainfo.com/2026/05/11/marica-faz-recadastramento-do-mumbuca-para-mais-de-70-mil-beneficiarios-saiba-mais.html"
+ },
+ {
+  "id": "GBR-1",
+  "verdict": "PARTLY",
+  "what_page_says": "Left Foot Forward (May 2022, by Basit Mahmood) quotes the Mayor of Greater Manchester in Wigan: \"Universal Basic Income, UBI, I think this is an idea whose time has come.\" The fact's wording ('Universal Basic Income is an idea whose time has come') is a paraphrase, not the verbatim quote. The page says nothing about a 2023 pilot call or about Burnham as PM. Now Then (11 July 2023) quotes Burnham: \"I am calling for a pilot in our city-region.\" The Big Issue (22 July 2026) calls him the incoming prime minister and asks whether he will introduce a UBI. It reports no pledge, but it does not say he made none.",
+  "fixed_text": "As Greater Manchester mayor, Burnham said of universal basic income in 2022: 'I think this is an idea whose time has come.'",
+  "fixed_url": "https://leftfootforward.org/2022/05/the-time-has-come-for-a-universal-basic-income-says-andy-burnham/",
+  "extra_facts": [
+   {
+    "text": "In July 2023, Burnham called for a basic income pilot in Greater Manchester: 'I am calling for a pilot in our city-region.'",
+    "url": "https://nowthenmagazine.com/articles/could-this-radical-yet-simple-idea-transform-the-north-of-england-universal-basic-income-andy-burnham-ubi-lab"
+   },
+   {
+    "text": "In July 2026, as Burnham was about to become prime minister, the Big Issue asked whether he would introduce a universal basic income.",
+    "url": "https://www.bigissue.com/news/politics/andy-burnham-universal-basic-income/"
+   }
+  ]
+ },
+ {
+  "id": "CAN-0",
+  "verdict": "PARTLY",
+  "what_page_says": "LEGISinfo: Bill C-223, the 'National Framework for a Guaranteed Livable Basic Income Act' (private member's bill by Leah Gazan, NDP), was negatived at second reading on 25 September 2024, 54 yeas to 273 nays (vote no. 859). The page has no quote from Kevin Lamoureux. OpenParliament's Hansard record of the 8 May 2024 debate has Lamoureux (Liberal, Winnipeg North) saying \"I do not know if Canada is ready, and I know the member would be upset with that statement.\"",
+  "fixed_text": "Bill C-223, which would have created a national framework for a guaranteed livable basic income, failed at second reading 54-273 on 25 September 2024.",
+  "fixed_url": "https://www.parl.ca/legisinfo/en/bill/44-1/c-223",
+  "extra_facts": [
+   {
+    "text": "Speaking in the May 2024 debate on Bill C-223, Liberal MP Kevin Lamoureux said: 'I do not know if Canada is ready.'",
+    "url": "https://openparliament.ca/debates/2024/5/8/kevin-lamoureux-7/"
+   }
+  ]
+ },
+ {
+  "id": "DEU-0",
+  "verdict": "PARTLY",
+  "what_page_says": "The official Hamburg press release, dated 4 November 2025, gives the final result for 'Hamburg testet Grundeinkommen': 212,680 yes (37.3%) to 357,619 no (62.7%). The yes votes also fell short of the 262,609 quorum, so the bill was rejected. The release does not give the voting date. German Wikipedia gives the date as 12 October 2025 and the result as 37.29% yes to 62.71% no, and the Statistik Nord results page also dates the vote to 12 October 2025.",
+  "fixed_text": "Hamburg's referendum on a basic income pilot failed 37.3% to 62.7% (12 October 2025).",
+  "fixed_url": "https://de.wikipedia.org/wiki/Volksentscheid_%E2%80%9EHamburg_testet_Grundeinkommen%E2%80%9C_2025",
+  "extra_facts": []
+ },
+ {
+  "id": "FRA-0",
+  "verdict": "PARTLY",
+  "what_page_says": "Polymarket's 'Next French Presidential Election' market shows Marine Le Pen at 42.8%, ahead of Édouard Philippe (19%) and Jean-Luc Mélenchon (15%). The API midpoint is 0.4275, but the page shows 42.8%. The page gives only 'Apr 18, 2027' as a resolution date and does not state both round dates. English Wikipedia says the election is 'scheduled to be held in France on 18 April 2027, with a second round on 2 May'.",
+  "fixed_text": "Polymarket has Marine Le Pen at 42.8% to win the 2027 French presidential election.",
+  "fixed_url": "https://polymarket.com/event/next-french-presidential-election",
+  "extra_facts": [
+   {
+    "text": "The 2027 French presidential election is scheduled for 18 April 2027, with a second round on 2 May if needed.",
+    "url": "https://en.wikipedia.org/wiki/2027_French_presidential_election"
+   }
+  ]
+ },
+ {
+  "id": "ESP-0",
+  "verdict": "PARTLY",
+  "what_page_says": "Polymarket's Spain predictions page shows the 'Next Prime Minister of Spain?' market at 79% for Alberto Núñez Feijóo. The page does not name his party. English Wikipedia says Feijóo has been president of the People's Party since 2 April 2022.",
+  "fixed_text": "Polymarket gives Alberto Núñez Feijóo 79% to be Spain's next prime minister.",
+  "fixed_url": "https://polymarket.com/predictions/spain",
+  "extra_facts": [
+   {
+    "text": "Feijóo has led Spain's People's Party (PP) since 2022.",
+    "url": "https://en.wikipedia.org/wiki/Alberto_N%C3%BA%C3%B1ez_Feij%C3%B3o"
+   }
+  ]
+ },
+ {
+  "id": "JPN-0",
+  "verdict": "SUPPORTED",
+  "what_page_says": "The early general election was held on 8 February 2026, and the LDP won 316 of 465 seats, a two-thirds supermajority. The page says the election came 'nearly four months into Sanae Takaichi's tenure as Prime Minister', which began on 21 October, and that the Diet elected her prime minister on 21 October. From that context the year is 2025. Her Wikipedia page confirms she assumed office on 21 October 2025 and is still in office.",
+  "fixed_text": "Sanae Takaichi has been Prime Minister since 21 October 2025; the LDP won 316 of 465 seats in February 2026.",
+  "fixed_url": "https://en.wikipedia.org/wiki/2026_Japanese_general_election",
+  "extra_facts": []
+ },
+ {
+  "id": "KOR-0",
+  "verdict": "PARTLY",
+  "what_page_says": "The 2030 election page names Lee Jae Myung as the incumbent and says presidents serve a single five-year term. It says the next election is scheduled for 27 March 2030, and its infobox lists Han Seong-sook as prime minister. It does not give Lee's start date or Han's start date. Lee's Wikipedia page says he assumed office on 4 June 2025, so his term runs to June 2030 by deduction. Han's Wikipedia page says she assumed office on 1 July 2026, after the National Assembly confirmed her on 30 June 2026.",
+  "fixed_text": "Lee Jae Myung took office as president on 4 June 2025.",
+  "fixed_url": "https://en.wikipedia.org/wiki/Lee_Jae_Myung",
+  "extra_facts": [
+   {
+    "text": "South Korean presidents serve a single five-year term; the next presidential election is scheduled for 27 March 2030.",
+    "url": "https://en.wikipedia.org/wiki/2030_South_Korean_presidential_election"
+   },
+   {
+    "text": "Han Seong-sook has been Prime Minister of South Korea since 1 July 2026.",
+    "url": "https://en.wikipedia.org/wiki/Han_Seong-sook"
+   }
+  ]
+ },
+ {
+  "id": "AUS-0",
+  "verdict": "SUPPORTED",
+  "what_page_says": "The page says the 2025 federal election, 'held on 3 May', gave Labor 94 seats in the House of Representatives. Its standings table as of 25 June 2026 shows Labor 94, Liberal 27, National 14, Greens 1, One Nation 2, Katter's Australian 1, Centre Alliance 1, Community Strong 2 and independents 8. That makes the Coalition 41 and the crossbench 15, out of 150 seats.",
+  "fixed_text": "Labor won 94 of 150 House seats in May 2025; the House now stands at Labor 94, Coalition 41, crossbench 15.",
+  "fixed_url": "https://en.wikipedia.org/wiki/Next_Australian_federal_election",
+  "extra_facts": []
+ },
+ {
+  "id": "BRA-0",
+  "verdict": "PARTLY",
+  "what_page_says": "Portuguese Wikipedia: 'No Brasil a Lei 10.835/04, de autoria de Eduardo Suplicy, prevê que é instituída, a partir de 2005, a renda básica de cidadania'. It adds: 'A lei, apesar de aprovada, foi apenas parcialmente implementada.' It calls Suplicy one of the main names linked to a UBI in Brazil in the late 20th and early 21st centuries, but it does not say he still campaigns. Rede Macuco (15 July 2026) says the law is his work as a senator and that 'Há décadas, Suplicy luta pela implementação dessa medida.'",
+  "fixed_text": "Law 10.835/2004, written by Eduardo Suplicy, created a citizen's basic income from 2005, but it has been only partially implemented.",
+  "fixed_url": "https://pt.wikipedia.org/wiki/Renda_b%C3%A1sica_universal",
+  "extra_facts": [
+   {
+    "text": "As of July 2026, Suplicy was still campaigning, as he has for decades, for the law to be implemented.",
+    "url": "https://www.redemacuco.com.br/2026/07/15/suplicy-mostra-como-paises-da-copa-adotam-a-renda-basica/"
+   }
+  ]
+ },
+ {
+  "id": "GBR-2",
+  "verdict": "PARTLY",
+  "what_page_says": "People Management, 30 January 2026: 'investment minister Jason Stockwood', described as 'the Labour peer', told the FT that 'some sort of UBI' would be needed to soft-land industries that disappear because of AI. The page says 'the policy is not currently part of government plans'. It never mentions the Treasury, and it calls him Jason Stockwood, not Lord Stockwood.",
+  "fixed_text": "Investment minister Jason Stockwood, a Labour peer, floated 'some sort of UBI' for AI-displaced workers (January 2026); the policy is not part of government plans.",
+  "fixed_url": "https://www.peoplemanagement.co.uk/article/1946845/universal-basic-income-needed-support-workers-displaced-ai-minister-says"
+ },
+ {
+  "id": "CAN-1",
+  "verdict": "SUPPORTED",
+  "what_page_says": "LEGISinfo: S-206, the National Framework for a Guaranteed Livable Basic Income Act. Second reading was completed on Thursday, November 6, 2025, and the bill was referred that day to the Standing Senate Committee on National Finance. Status: 'At consideration in committee in the Senate'. The page lists S-233 (44th Parliament) under 'Similar bills introduced in a previous Parliament'.",
+  "fixed_text": "Its Senate successor, S-206, passed second reading on 6 November 2025 and sits in committee.",
+  "fixed_url": "https://www.parl.ca/legisinfo/en/bill/45-1/s-206"
+ },
+ {
+  "id": "DEU-1",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Bundestag text archive: on Donnerstag, 5. März 2026, 320 members voted for the 13th SGB II amendment act (Grundsicherungsgeld replaces Bürgergeld), 268 voted against, and 2 abstained. The page says stronger benefit cuts apply to anyone who quits a support measure or does not apply for jobs ('stärkeren Kürzung der Geldleistung ... als bislang'). A speaker quoted on the page calls it 'Die neue Grundsicherung'.",
+  "fixed_text": "The Bundestag passed the stricter 'neue Grundsicherung' 320-268 on 5 March 2026.",
+  "fixed_url": "https://www.bundestag.de/dokumente/textarchiv/2026/kw10-de-grundsicherung-1150460"
+ },
+ {
+  "id": "FRA-1",
+  "verdict": "PARTLY",
+  "what_page_says": "The French Wikipedia page confirms Hamon won 6,36 % in the first round but says nothing about his universal income proposal. English Wikipedia confirms both facts. It says Hamon's 'signature proposal' was a universal basic income, 'which remained integral to his program', and its results table gives him 6.36% in the first round.",
+  "fixed_text": "Benoît Hamon's 2017 universal income platform won 6.36% in the first round.",
+  "fixed_url": "https://en.wikipedia.org/wiki/2017_French_presidential_election"
+ },
+ {
+  "id": "ESP-1",
+  "verdict": "PARTLY",
+  "what_page_says": "The cited Moncloa note (7 July 2026) gives only an average benefit of 507 euros a month per household. It confirms the means test (economic vulnerability, 'al no disponer de ingresos o patrimonio suficientes'). It has no single-adult amount, no €8,803 figure, nothing on duration, and no mention of Ley 19/2021. The Seguridad Social IMV page covers all of it: 2026 guaranteed income for one adult of 8.803,20 euros a year (733,60 a month); income must be at least 10 euros below that level and net assets below 26.409,60 euros; the right 'se mantendrá mientras subsistan los motivos' that justified it; and it cites Ley 19/2021.",
+  "fixed_text": "In 2026 the IMV guarantees a single adult an income floor of €8,803.20 a year; it is means-tested and lasts as long as the need persists (Ley 19/2021).",
+  "fixed_url": "https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/PrestacionesPensionesTrabajadores/65850d68-8d06-4645-bde7-05374ee42ac7/acreditaciondelosrequisitos"
+ },
+ {
+  "id": "JPN-1",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Jitsumu Guide (実務ガイド, a secondary explainer site, updated 29 Sep 2026): on 15 September 2026 the government adopted by cabinet decision (閣議決定) an outline (大綱) that names the payment 就業者負担軽減支援金. The outline says 'the support payment system will be introduced from April 2027' (支援金制度は、令和9年4月から導入する). Eligibility requires prior-year earned income (勤労所得) above a floor, plus tax and social-insurance burdens above a threshold. The source is secondary, not an official government page.",
+  "fixed_text": "The cabinet adopted a work-conditional 'worker burden relief payment' from April 2027 (outline, 15 September 2026).",
+  "fixed_url": "https://jitsumu-guide.com/refundable-tax-credit-guide-2026/"
+ },
+ {
+  "id": "KOR-1",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Asia Business Daily, 10 April 2026: 'the Ministry of Health and Welfare recently established the \"Basic Social Policy Task Force\" and created a separate \"Basic Income Planning Team\"'. The goal is to put a pilot project in the 2027 budget proposal, and the headline says the pilot is set for 2027. The driver is 'structural unemployment expected to be brought on by artificial intelligence (AI)'.",
+  "fixed_text": "The health ministry created a Basic Income Planning Team (April 2026), aiming at a 2027 pilot and citing AI-driven structural unemployment.",
+  "fixed_url": "https://www.asiae.co.kr/en/article/2026041010003852773"
+ },
+ {
+  "id": "AUS-1",
+  "verdict": "PARTLY",
+  "what_page_says": "ABC News, 8 July 2026: a first-of-its-kind report from the Department of Employment and Workplace Relations finds AI is not yet causing broad disruption or mass lay-offs. In response, the government will do regular monitoring of the job market. It has created 'a regular meeting between government, employers and unions' (one body, not several forums), and the minister promises 'skills, training and pathways'. The minister also says the government will regulate AI.",
+  "fixed_text": "A Department of Employment and Workplace Relations report (July 2026) found AI not yet causing mass job losses; the government responded with regular monitoring, a regular government-employer-union meeting, and skills and training support.",
+  "fixed_url": "https://www.abc.net.au/news/2026-07-08/government-report-finds-ai-not-yet-causing-mass-job-losses/106889304"
+ },
+ {
+  "id": "BRA-1",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Lei 14.601/2023, Art. 1º §1º: 'O Programa Bolsa Família constitui etapa do processo gradual e progressivo de implementação da universalização da renda básica de cidadania', citing Art. 6 of the Constitution and Lei 10.835/2004.",
+  "fixed_text": "The Bolsa Família law (Lei 14.601/2023) describes the program as a stage toward universalizing that income.",
+  "fixed_url": "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2023/lei/l14601.htm"
+ },
+ {
+  "id": "GBR-3",
+  "verdict": "SUPPORTED",
+  "what_page_says": "YouGov article dated 28 October 2024: 46% of Britons support introducing a basic income and 33% oppose. Support is 61% among Labour voters and 21% among Conservatives.",
+  "fixed_text": "YouGov (2024): 46% support a UBI, 33% oppose; Labour voters 61%, Conservative 21%.",
+  "fixed_url": "https://yougov.com/en-gb/articles/50806-what-do-britons-think-of-universal-basic-income-in-2024"
+ },
+ {
+  "id": "CAN-2",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Narrative Research release posted 8 February 2022, from a survey fielded January 17-19, 2022. 60% support a Guaranteed Basic Income for low-income households (22% oppose). 37% support a Universal Basic Income for all Canadians (42% oppose).",
+  "fixed_text": "Narrative Research (2022): 60% support an income-tested basic income, 37% a universal one.",
+  "fixed_url": "https://narrativeresearch.ca/while-the-majority-of-canadians-would-support-a-guaranteed-basic-income-for-low-income-individuals-opinions-are-mixed-towards-the-idea-of-a-universal-basic-income-for-all/"
+ },
+ {
+  "id": "DEU-2",
+  "verdict": "PARTLY",
+  "what_page_says": "DIW Wochenbericht 15/2025 (Bohmann, Fiedler, Kasy, Schupp, Schwerter). Recipients got €1,200 a month for three years (June 2021 to May 2024), did not withdraw from the labour market or significantly cut their hours, and had significantly better mental health. The page says the pilot was launched and funded by the association Mein Grundeinkommen e.V., with DIW Berlin and WU Wien doing the research, so it was not DIW's pilot. The page shows only 'Wochenbericht 15 / 2025', not an April date. DIW's companion press release is dated 9 April 2025 and supports every clause.",
+  "fixed_text": "A DIW Berlin study of Mein Grundeinkommen's pilot (€1,200 a month for 3 years) found no drop in work and better mental health (April 2025).",
+  "fixed_url": "https://www.diw.de/de/diw_01.c.945271.de/pilotprojekt_grundeinkommen__feldstudie_entkraeftet_mythos_von_der_sozialen_haengematte.html"
+ },
+ {
+  "id": "FRA-2",
+  "verdict": "PARTLY",
+  "what_page_says": "The Assembly's dossier for the 'Proposition de loi d'expérimentation territoriale visant à instaurer un revenu de base' shows it was tabled 19 December 2018 and rejected on 31 January 2019, when a motion de rejet préalable was adopted. It gives no departments and no participant numbers, so the 60,000 figure and 'departmental' are unsupported there. RTES (headline: bill backed by 18 departments rejected at the National Assembly, January 2019) says the experiment would have covered 60,000 people over three years in volunteer departments.",
+  "fixed_text": "The National Assembly rejected a bill for a territorial basic income experiment on 31 January 2019.",
+  "fixed_url": "https://www.assemblee-nationale.fr/dyn/15/dossiers/experimentation_territoriale_instauration",
+  "extra_facts": [
+   {
+    "text": "The bill, backed by 18 departments, would have covered 60,000 people over three years.",
+    "url": "https://www.rtes.fr/la-proposition-de-loi-d-experimentation-du-revenu-de-base-soutenue-par-18-departements-rejetee-a-l"
+   }
+  ]
+ },
+ {
+  "id": "ESP-2",
+  "verdict": "SUPPORTED",
+  "what_page_says": "Infobae/agency story of 22 November 2025: Movimiento Sumar proposes a universal 'Renta Básica Juvenil' of 550 euros a month, paid from age 18 to 21.",
+  "fixed_text": "Movimiento Sumar proposed a universal €550 a month for ages 18-21 (November 2025).",
+  "fixed_url": "https://www.infobae.com/espana/agencias/2025/11/22/movimiento-sumar-propone-una-renta-basica-universal-para-los-jovenes-de-550-euros-al-mes-entre-los-18-y-21-anos/"
+ },
+ {
+  "id": "JPN-2",
+  "verdict": "SUPPORTED",
+  "what_page_says": "The 維新八策2026 policy collection (日本維新の会) proposes a 最低所得保障制度 (minimum income guarantee) delivered through 給付付き税額控除, 負の所得税 or ベーシックインカム (refundable tax credit, negative income tax or basic income).",
+  "fixed_text": "Ishin's 2026 platform lists a refundable credit, negative income tax or basic income as routes to a minimum income.",
+  "fixed_url": "https://o-ishin.jp/policy/8saku2026.html"
+ },
+ {
+  "id": "KOR-2",
+  "verdict": "PARTLY",
+  "what_page_says": "Kyunghyang (11 June 2026): the pilot 'pays residents of the designated counties 150,000 won per month in local gift certificates' in rural areas facing depopulation. It began in late February 2026 and runs to the end of 2027. It does not say every resident qualifies. The Korea Herald (25 December 2025) supports all clauses: 'All registered residents in selected regions will receive the benefit', 150,000 won a month in local vouchers, 2026 to 2027, aimed at 'regional extinction'.",
+  "fixed_text": "A rural basic income pilot pays all registered residents of selected depopulating counties 150,000 won a month in local vouchers (2026-27).",
+  "fixed_url": "https://www.koreaherald.com/article/10643605"
+ },
+ {
+  "id": "AUS-2",
+  "verdict": "SUPPORTED",
+  "what_page_says": "The Australian Greens' Social Services policy lists as its first principle that a just society rests on 'the provision of an unconditional livable income'.",
+  "fixed_text": "The Greens' policy calls for 'an unconditional livable income'.",
+  "fixed_url": "https://greens.org.au/policies/social-services"
+ },
+ {
+  "id": "BRA-2",
+  "verdict": "PARTLY",
+  "what_page_says": "The page summarizes the income and social-program proposals of 13 presidential candidates' registered TSE platforms (data checked 31/08/2026). None of the summaries mentions a universal income, but the page makes no explicit statement about it. 'Porta de saída' items appear for Flavio Bolsonaro (priority in training and job placement for social-program recipients), Ronaldo Caiado (a gradual phase-out of transfers when income rises) and Zema (Bolsa Família work or study requirements plus a R$5,000 exit bonus). The page does not label any candidate as right-wing.",
+  "fixed_text": "None of the 13 registered 2026 presidential platforms summarized proposes a universal income; Flavio Bolsonaro, Caiado and Zema propose 'porta de saída' exit paths from social programs such as Bolsa Família.",
+  "fixed_url": "https://planodegoverno2026.com.br/temas/presidente/renda/"
+ }
+]

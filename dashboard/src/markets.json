@@ -1,0 +1,196 @@
+{
+ "asOf": "2026-09-29",
+ "markets": [
+  {
+   "question": "When will USA have UBI?",
+   "url": "https://manifold.markets/NoAnswer/when-will-usa-have-ubi",
+   "platform": "Manifold",
+   "traders": "18",
+   "price": "40% by 2040",
+   "definition": "Any nationwide UBI; no minimum amount.",
+   "model": {
+    "countries": [
+     "USA"
+    ],
+    "t": 0,
+    "year": 2040,
+    "note": "US, smallest qualifying program, by 2040."
+   }
+  },
+  {
+   "question": "Will the US implement an UBI (universal basic income) before 2040?",
+   "url": "https://manifold.markets/vicli/will-an-ubi-universal-basic-income-5acc5bf6c22d",
+   "platform": "Manifold",
+   "traders": "37",
+   "price": "30% before 2040",
+   "definition": "A 'full UBI' that covers basic living costs.",
+   "model": {
+    "countries": [
+     "USA"
+    ],
+    "t": 3,
+    "year": 2039,
+    "note": "US, 15% of GDP per head (about $13,500), by 2039."
+   }
+  },
+  {
+   "question": "Will the United States Government introduce UBI before 2040?",
+   "url": "https://manifold.markets/JaundicedBaboon/will-the-united-states-government-i",
+   "platform": "Manifold",
+   "traders": "10",
+   "price": "32% before 2040",
+   "definition": "Unconditional fixed payments to every adult citizen; no minimum amount.",
+   "model": {
+    "countries": [
+     "USA"
+    ],
+    "t": 0,
+    "year": 2039,
+    "note": "US, smallest qualifying program, by 2039."
+   }
+  },
+  {
+   "question": "Will universal basic income be introduced in the U.S. by 2030?",
+   "url": "https://manifold.markets/YakshBirla/will-universal-basic-income-be-intr",
+   "platform": "Manifold",
+   "traders": "36",
+   "price": "20% by 2030",
+   "definition": "Loosely defined 'introduced'.",
+   "model": {
+    "countries": [
+     "USA"
+    ],
+    "t": 0,
+    "year": 2030,
+    "note": "US, smallest qualifying program, by 2030."
+   }
+  },
+  {
+   "question": "Will the US implement an UBI (universal basic income) before 2030?",
+   "url": "https://manifold.markets/vicli/will-an-ubi-universal-basic-income",
+   "platform": "Manifold",
+   "traders": "32",
+   "price": "30% before 2030",
+   "definition": "Partial UBI counts; its text says 2040 in one place.",
+   "model": {
+    "countries": [
+     "USA"
+    ],
+    "t": 0,
+    "year": 2029,
+    "note": "US, smallest qualifying program, by 2029."
+   }
+  },
+  {
+   "question": "When will the US enact a universal basic income of at least $500/month per adult?",
+   "url": "https://manifold.markets/MaxGhenis/when-will-the-us-enact-a-universal",
+   "platform": "Manifold",
+   "traders": "0",
+   "price": "10% by 2040",
+   "definition": "Max's market: at least $500 a month per adult, same definition as this dashboard. Opened at this model's odds.",
+   "model": {
+    "countries": [
+     "USA"
+    ],
+    "t": 2,
+    "year": 2040,
+    "note": "US, 6.7% of GDP per head ($6,000), by 2040."
+   }
+  },
+  {
+   "question": "By the end of 2036, will the US enact a universal cash payment to all adults of at least... (per year, 2026 dollars)",
+   "url": "https://manifold.markets/MaxGhenis/by-the-end-of-2036-will-the-us-enac",
+   "platform": "Manifold",
+   "traders": "0",
+   "price": "9% $1,000+ by 2036",
+   "definition": "Max's ladder market, $1,000 rung. Opened at this model's odds.",
+   "model": {
+    "countries": [
+     "USA"
+    ],
+    "t": 0,
+    "year": 2036,
+    "note": "US, smallest qualifying program (about $1,000), by 2036."
+   }
+  },
+  {
+   "question": "Will universal basic income be implemented nationwide in a G7 country by the end of 2028?",
+   "url": "https://manifold.markets/Nostr0m/will-universal-basic-income-be-impl",
+   "platform": "Manifold",
+   "traders": "15",
+   "price": "13% by the end of 2028",
+   "definition": "Any G7 member (or the EU) pays at least 90% of adults a regular unconditional amount above its poverty line.",
+   "model": {
+    "countries": [
+     "USA",
+     "GBR",
+     "CAN",
+     "DEU",
+     "FRA",
+     "JPN",
+     "ITA"
+    ],
+    "t": 3,
+    "year": 2028,
+    "note": "G7 members in this dashboard, 15% of GDP per head (the closest threshold to a poverty-line income), by 2028."
+   }
+  },
+  {
+   "question": "Will any OECD country effectively introduce a form of UBI before 2033?",
+   "url": "https://manifold.markets/alby/will-any-oecd-country-effectively-i",
+   "platform": "Manifold",
+   "traders": "49",
+   "price": "69% before 2033",
+   "definition": "Any OECD country, 'a form of UBI'.",
+   "model": {
+    "countries": [
+     "USA",
+     "GBR",
+     "CAN",
+     "DEU",
+     "FRA",
+     "ESP",
+     "JPN",
+     "KOR",
+     "AUS"
+    ],
+    "t": 0,
+    "year": 2032,
+    "note": "The 9 OECD members in this dashboard (of 38), smallest qualifying program, by 2032."
+   }
+  },
+  {
+   "question": "Will any country implement an UBI (universal basic income) before 2040?",
+   "url": "https://manifold.markets/vicli/will-any-country-implement-a-ubi-un",
+   "platform": "Manifold",
+   "traders": "50",
+   "price": "61% before 2040",
+   "definition": "Any country, 'full UBI' covering basic living costs.",
+   "model": {
+    "countries": "all",
+    "t": 3,
+    "year": 2039,
+    "note": "The 10 countries here (not every country), 15% of GDP per head, by 2039."
+   }
+  },
+  {
+   "question": "Will any EU country implement an UBI (universal basic income) before 2040?",
+   "url": "https://manifold.markets/vicli/will-any-eu-country-implement-a-ubi",
+   "platform": "Manifold",
+   "traders": "21",
+   "price": "47% before 2040",
+   "definition": "Any EU member, 'full UBI'.",
+   "model": {
+    "countries": [
+     "DEU",
+     "FRA",
+     "ESP",
+     "ITA"
+    ],
+    "t": 3,
+    "year": 2039,
+    "note": "EU members in this dashboard, 15% of GDP per head, by 2039."
+   }
+  }
+ ]
+}

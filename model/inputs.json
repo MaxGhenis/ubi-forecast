@@ -1,0 +1,219 @@
+{
+ "shock_by_2028": {
+  "lo": 0.04,
+  "mode": 0.08,
+  "hi": 0.15,
+  "note": "Onset by end-2028.",
+  "anchor": "Manifold ACX 'visible break in US macro trend attributed to AI by 2028' 30% (643 traders), but that also counts positive GDP or productivity breaks, so the unemployment part is well below it."
+ },
+ "shock_by_2030": {
+  "lo": 0.1,
+  "mode": 0.18,
+  "hi": 0.28,
+  "note": "Onset by end-2030.",
+  "anchor": "Manifold 'AI causes US unemployment > 10% before 2030' 23% (175 traders; needs >= 3 pp attributable to AI), discounted for Manifold's pro-AI skew."
+ },
+ "shock_by_2035": {
+  "lo": 0.2,
+  "mode": 0.33,
+  "hi": 0.48,
+  "note": "Onset by end-2035.",
+  "anchor": "Manifold AGI series (RemNi): 58% before 2032, 63% before 2035; times P(shock | AGI) about 0.5-0.6."
+ },
+ "shock_by_2040": {
+  "lo": 0.28,
+  "mode": 0.43,
+  "hi": 0.6,
+  "note": "Onset by end-2040.",
+  "anchor": "Manifold 'AGI before 2040' 72% (98 traders) times P(shock | AGI) about 0.6."
+ },
+ "shock_by_2050": {
+  "lo": 0.35,
+  "mode": 0.55,
+  "hi": 0.75,
+  "note": "Onset by end-2050.",
+  "anchor": "Manifold 'AGI before 2048' 87%; '>97% of jobs automated before 2075' 63%."
+ },
+ "politics_lag_years": {
+  "lo": 0.0,
+  "mode": 1.0,
+  "hi": 2.0,
+  "note": "Years between shock onset and it driving legislation (rounded).",
+  "anchor": "JUDGMENT; the 2020 CARES Act passed within weeks, but a permanent program needs a sustained shock."
+ },
+ "p_R_trifecta_2027": {
+  "lo": 0.03,
+  "mode": 0.05,
+  "hi": 0.08,
+  "note": "R trifecta in 2027-28 (a D trifecta is impossible with an R president).",
+  "anchor": "Polymarket 2026: House D 92.5%, Senate D 62.5% (fetched 2026-09-29); correlated."
+ },
+ "p_D_trifecta_2029": {
+  "lo": 0.22,
+  "mode": 0.32,
+  "hi": 0.42,
+  "note": "D trifecta in 2029-30.",
+  "anchor": "Polymarket 2028 presidency D 64.5% x P(House and Senate | D president) about 0.5."
+ },
+ "p_R_trifecta_2029": {
+  "lo": 0.1,
+  "mode": 0.16,
+  "hi": 0.24,
+  "note": "R trifecta in 2029-30.",
+  "anchor": "Polymarket 2028 presidency R 34.5% x P(House and Senate | R president) about 0.45-0.5."
+ },
+ "p_D_trifecta_later": {
+  "lo": 0.22,
+  "mode": 0.32,
+  "hi": 0.42,
+  "note": "D trifecta after each presidential election from 2032 on.",
+  "anchor": "Recent base rate: a trifecta started 6 of the 7 presidential terms from 2001 to 2025 (D twice, R four times)."
+ },
+ "p_R_trifecta_later": {
+  "lo": 0.22,
+  "mode": 0.32,
+  "hi": 0.42,
+  "note": "R trifecta after each presidential election from 2032 on.",
+  "anchor": "Same base rate as the D input."
+ },
+ "p_keep_trifecta_midterm": {
+  "lo": 0.1,
+  "mode": 0.25,
+  "hi": 0.45,
+  "note": "A trifecta survives the midterm.",
+  "anchor": "Of the six trifectas that started a presidential term from 1993 to 2021, only the 2001 one survived its midterm (2002); 1994, 2006, 2010, 2018 and 2022 each flipped a chamber."
+ },
+ "q_any_D_normal": {
+  "lo": 0.01,
+  "mode": 0.03,
+  "hi": 0.07,
+  "note": "D trifecta, no AI shock.",
+  "anchor": "JUDGMENT; the 2009 and 2021 D trifectas enacted no UBI (2021: temporary CTC, one-time $1,400 checks)."
+ },
+ "q_any_R_normal": {
+  "lo": 0.005,
+  "mode": 0.02,
+  "hi": 0.05,
+  "note": "R trifecta, no AI shock.",
+  "anchor": "JUDGMENT; recurring tariff or sovereign-fund 'dividends' are the plausible R route (Kalshi: a new Trump dividend program by 2027 at 5.2%)."
+ },
+ "q_any_div_normal": {
+  "lo": 0.0,
+  "mode": 0.003,
+  "hi": 0.01,
+  "note": "Divided government, no AI shock.",
+  "anchor": "JUDGMENT."
+ },
+ "q_any_D_shock": {
+  "lo": 0.25,
+  "mode": 0.45,
+  "hi": 0.7,
+  "note": "D trifecta during an AI shock.",
+  "anchor": "JUDGMENT; Manifold 'UBI policy after AI mass unemployment' puts 'No UBI' at 76% (21 traders; that is over all governments)."
+ },
+ "q_any_R_shock": {
+  "lo": 0.1,
+  "mode": 0.25,
+  "hi": 0.45,
+  "note": "R trifecta during an AI shock.",
+  "anchor": "JUDGMENT; populist-right 'universal high income' route."
+ },
+ "q_any_div_shock": {
+  "lo": 0.03,
+  "mode": 0.08,
+  "hi": 0.15,
+  "note": "Divided government during an AI shock.",
+  "anchor": "JUDGMENT; the 2020 CARES checks passed under divided government, but they were temporary."
+ },
+ "amount_median_normal": {
+  "lo": 1000,
+  "mode": 2000,
+  "hi": 3500,
+  "note": "Median amount if enacted without a shock.",
+  "anchor": "JUDGMENT; dividend-scale programs (the Alaska PFD is about $1,000)."
+ },
+ "amount_median_shock": {
+  "lo": 4000,
+  "mode": 8000,
+  "hi": 14000,
+  "note": "Median amount if enacted during a shock.",
+  "anchor": "JUDGMENT; Yang's Freedom Dividend was $12,000 (2020 dollars)."
+ },
+ "ratchet_per_year": {
+  "lo": 0.05,
+  "mode": 0.12,
+  "hi": 0.25,
+  "note": "Yearly chance a trifecta raises an existing program during a shock.",
+  "anchor": "JUDGMENT."
+ },
+ "q_floor_D_normal": {
+  "lo": 0.003,
+  "mode": 0.01,
+  "hi": 0.03,
+  "note": "Means-tested floor >= $6k for childless adults, D, normal.",
+  "anchor": "JUDGMENT."
+ },
+ "q_floor_R_normal": {
+  "lo": 0.0,
+  "mode": 0.002,
+  "hi": 0.008,
+  "note": "Same, R, normal.",
+  "anchor": "JUDGMENT."
+ },
+ "q_floor_D_shock": {
+  "lo": 0.05,
+  "mode": 0.12,
+  "hi": 0.25,
+  "note": "Same, D, shock.",
+  "anchor": "JUDGMENT."
+ },
+ "q_floor_R_shock": {
+  "lo": 0.02,
+  "mode": 0.05,
+  "hi": 0.12,
+  "note": "Same, R, shock.",
+  "anchor": "JUDGMENT."
+ },
+ "q_floor_div_shock": {
+  "lo": 0.005,
+  "mode": 0.02,
+  "hi": 0.05,
+  "note": "Same, divided, shock.",
+  "anchor": "JUDGMENT."
+ },
+ "q_ctc_D": {
+  "lo": 0.25,
+  "mode": 0.45,
+  "hi": 0.65,
+  "note": "A D trifecta Congress enacts it.",
+  "anchor": "JUDGMENT; ARPA did it for TY2021, and extending it failed in 2021-22 with 50 Senate seats."
+ },
+ "q_ctc_R": {
+  "lo": 0.005,
+  "mode": 0.015,
+  "hi": 0.04,
+  "note": "An R trifecta Congress enacts it.",
+  "anchor": "JUDGMENT; the 2025 law kept the earnings phase-in."
+ },
+ "q_ctc_div": {
+  "lo": 0.002,
+  "mode": 0.005,
+  "hi": 0.015,
+  "note": "A divided Congress enacts it.",
+  "anchor": "JUDGMENT; the 2024 Wyden-Smith deal used a lookback, which wouldn't count."
+ },
+ "p_ctc_same_tax_year": {
+  "lo": 0.4,
+  "mode": 0.6,
+  "hi": 0.8,
+  "note": "Share of enactments that apply to the enactment year (as ARPA did).",
+  "anchor": "JUDGMENT."
+ },
+ "p_2028_primary_winner_backs_ubi": {
+  "lo": 0.04,
+  "mode": 0.1,
+  "hi": 0.2,
+  "note": "Some 2028 D or R primary or caucus winner backed a UBI since 2025.",
+  "anchor": "JUDGMENT; Yang has floated a 2028 run (unverified), and most frontrunners haven't endorsed a UBI."
+ }
+}

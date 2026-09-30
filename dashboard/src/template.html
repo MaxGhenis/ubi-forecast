@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UBI adoption forecast</title>
+<meta name="description" content="A Bayesian forecast of when countries enact a universal basic income, with every assumption adjustable.">
+<link rel="canonical" href="https://maxghenis.com/ubi/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://maxghenis.com/ubi/">
+<meta property="og:title" content="When will countries enact a universal basic income?">
+<meta property="og:description" content="A Bayesian forecast for ten countries, with every assumption adjustable and every input sourced.">
+<meta property="og:image" content="https://maxghenis.com/ubi/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="When will countries enact a universal basic income?">
+<meta name="twitter:image" content="https://maxghenis.com/ubi/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --plane: #f3f5f4;
+  --surface: #fcfcfb;
+  --ink: #1c2a33;
+  --ink-2: #4c5a63;
+  --muted: #637078;
+  --hairline: #dde2df;
+  --axis: #bfc7c3;
+  --check-bg: #edf3f0;
+  --check-line: rgba(38, 104, 90, 0.085);
+  --check-edge: #cddbd4;
+  --field: #1c2a33;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --wash: rgba(42, 120, 214, 0.08);
+  --focus: #2a78d6;
+  --badge-market: #e4eefb;
+  --badge-data: #e3f3ec;
+  --badge-judgment: #eeeeea;
+  --serif: "Source Serif 4", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --plane: #0d0d0d; --surface: #1a1a19; --ink: #f1f3f2; --ink-2: #c3c2b7; --muted: #8d8b85;
+    --hairline: #2c2c2a; --axis: #3a3a37; --check-bg: #121b18; --check-line: rgba(130, 205, 185, 0.07);
+    --check-edge: #26332f; --field: #f1f3f2; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+    --wash: rgba(57, 135, 229, 0.14); --focus: #6da7ec;
+    --badge-market: #1d2b3d; --badge-data: #16302a; --badge-judgment: #2a2a27;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --plane: #0d0d0d; --surface: #1a1a19; --ink: #f1f3f2; --ink-2: #c3c2b7; --muted: #8d8b85;
+  --hairline: #2c2c2a; --axis: #3a3a37; --check-bg: #121b18; --check-line: rgba(130, 205, 185, 0.07);
+  --check-edge: #26332f; --field: #f1f3f2; --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70;
+  --wash: rgba(57, 135, 229, 0.14); --focus: #6da7ec;
+  --badge-market: #1d2b3d; --badge-data: #16302a; --badge-judgment: #2a2a27;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--plane); color: var(--ink); font: 15px/1.5 var(--sans); }
+a { color: inherit; text-underline-offset: 2px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 20px 16px 64px; }
+header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+header.top h1 { font-size: 15px; font-weight: 600; margin: 0; letter-spacing: 0.01em; }
+header.top .meta { color: var(--muted); font-size: 13px; }
+.btn { font: inherit; font-size: 13px; color: var(--ink); background: var(--surface); border: 1px solid var(--hairline);
+  border-radius: 6px; padding: 5px 10px; cursor: pointer; }
+.btn:hover { border-color: var(--axis); }
+.btn { white-space: nowrap; }
+#signposts td:first-child { min-width: 15em; }
+#markets td:first-child { min-width: 16em; }
+.btn[aria-pressed="true"] { background: var(--wash); border-color: var(--series-1); }
+
+/* The check: the one bold element. Its blanks are the controls. */
+.check { position: relative; background: var(--check-bg); border: 1px solid var(--check-edge); border-radius: 8px;
+  padding: 22px 24px 18px; display: grid; grid-template-columns: 1fr auto; gap: 8px 28px; overflow: hidden; }
+.check::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: repeating-radial-gradient(circle at 12% 120%, transparent 0 7px, var(--check-line) 7px 8px),
+                    repeating-radial-gradient(circle at 92% -40%, transparent 0 9px, var(--check-line) 9px 10px); }
+.check > * { position: relative; }
+.check .lines { font-family: var(--serif); font-size: clamp(19px, 2.3vw, 25px); line-height: 1.55; }
+.check .line { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; }
+.check .lbl { color: var(--ink-2); font-size: 0.72em; min-width: 7.2em; }
+.blank { font: inherit; color: var(--field); background: transparent; border: 0; border-bottom: 1px solid var(--field);
+  border-radius: 0; padding: 0 22px 1px 2px; appearance: none; -webkit-appearance: none; cursor: pointer; max-width: 100%;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 9px) 55%, calc(100% - 4px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+.blank option { font-family: var(--sans); font-size: 15px; color: #1c2a33; background: #fcfcfb; }
+.check .aside { color: var(--ink-2); font-family: var(--sans); font-size: 13px; }
+.amount { align-self: center; justify-self: end; text-align: right; }
+.amount .box { font-family: var(--serif); font-weight: 600; font-size: clamp(40px, 6vw, 64px); line-height: 1;
+  font-variant-numeric: lining-nums tabular-nums; border: 1px solid var(--field); border-radius: 4px; padding: 10px 14px 8px; background: var(--surface); }
+.amount .sub { font-size: 13px; color: var(--ink-2); margin-top: 6px; max-width: 16em; margin-left: auto; }
+.check .memo { grid-column: 1 / -1; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  border-top: 1px solid var(--check-edge); padding-top: 8px; margin-top: 4px; font-size: 12.5px; color: var(--ink-2); }
+.cond-note { margin: 10px 2px 0; font-size: 13.5px; color: var(--ink-2); min-height: 1.4em; }
+.cond-note button { margin-left: 6px; }
+
+.layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 20px; margin-top: 18px; align-items: start; }
+aside.controls { position: sticky; top: 12px; background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; padding: 14px 14px 10px; max-height: calc(100vh - 24px); overflow: auto; }
+aside.controls h2 { font-size: 13px; font-weight: 600; margin: 14px 0 6px; color: var(--ink); }
+aside.controls h2:first-child { margin-top: 0; }
+.clist { display: grid; gap: 2px; }
+.clist label { display: flex; align-items: center; gap: 8px; padding: 3px 4px; border-radius: 4px; cursor: pointer; font-size: 14px; }
+.clist label:hover { background: var(--wash); }
+.clist .p { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; font-size: 12.5px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.ctl { margin: 10px 0 4px; }
+.ctl label.name { display: flex; justify-content: space-between; font-size: 13.5px; gap: 8px; }
+.ctl .val { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.ctl input[type="range"] { width: 100%; accent-color: var(--series-1); }
+.ctl select { width: 100%; font: inherit; font-size: 13.5px; padding: 4px; border-radius: 6px; border: 1px solid var(--hairline); background: var(--surface); color: var(--ink); }
+.help { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; }
+.toggle { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: start; margin: 8px 0; font-size: 13.5px; cursor: pointer; }
+.toggle input { margin-top: 3px; accent-color: var(--series-1); }
+.toggle .help { grid-column: 2; }
+.status { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+main section { background: var(--surface); border: 1px solid var(--hairline); border-radius: 8px; padding: 16px 18px; margin-bottom: 16px; }
+main h2 { font-size: 16px; margin: 0 0 2px; font-weight: 600; }
+main .lede { color: var(--ink-2); font-size: 13.5px; margin: 0 0 10px; max-width: 72ch; }
+.chart-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--ink-2); margin: 6px 0; }
+.legend .sw { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 6px; }
+.legend .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; vertical-align: middle; margin-right: 6px; }
+svg text { font-family: var(--sans); }
+.axis text { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.grid line { stroke: var(--hairline); }
+.baseline { stroke: var(--axis); }
+.tip { position: absolute; pointer-events: none; background: var(--surface); color: var(--ink); border: 1px solid var(--hairline);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12); border-radius: 6px; padding: 6px 8px; font-size: 12.5px; white-space: nowrap; z-index: 5; font-variant-numeric: tabular-nums; }
+.chartbox { position: relative; }
+.multiples { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.multiples .cell { border: 1px solid var(--hairline); border-radius: 6px; padding: 8px 10px 4px; position: relative; }
+.multiples .cell h3 { font-size: 13.5px; font-weight: 600; margin: 0; display: flex; justify-content: space-between; gap: 6px; }
+.multiples .cell h3 span { font-variant-numeric: tabular-nums; font-weight: 600; }
+.multiples .cell .gov { font-size: 11.5px; color: var(--muted); margin: 0 0 2px; min-height: 1.3em; }
+table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+th { font-weight: 600; color: var(--ink-2); font-size: 12.5px; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr.active td { background: var(--wash); }
+.badge { display: inline-block; font-size: 11.5px; padding: 0 6px; border-radius: 10px; margin-right: 4px; white-space: nowrap; }
+.badge.market { background: var(--badge-market); }
+.badge.data { background: var(--badge-data); }
+.badge.judgment { background: var(--badge-judgment); }
+.tablewrap { overflow-x: auto; }
+details.country { border-top: 1px solid var(--hairline); padding: 8px 0; }
+details.country summary { cursor: pointer; font-weight: 600; font-size: 14px; }
+details.country p, details.country li { font-size: 13.5px; color: var(--ink-2); max-width: 80ch; }
+details.country ul { padding-left: 18px; margin: 6px 0; }
+.prose p { max-width: 72ch; font-size: 14px; color: var(--ink-2); }
+.prose h3 { font-size: 14px; margin: 14px 0 4px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+.busy { opacity: 0.55; transition: opacity 120ms; }
+@media (prefers-reduced-motion: reduce) { .busy { transition: none; } }
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; }
+  aside.controls { position: static; max-height: none; }
+  .check { grid-template-columns: 1fr; padding: 18px 16px 14px; }
+  .amount { justify-self: start; text-align: left; }
+  .amount .sub { margin-left: 0; }
+  .check .lbl { min-width: 0; width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>When will countries enact a universal basic income?</h1>
+    <div class="meta"><a href="https://maxghenis.com/">Max Ghenis</a>. <span id="asof"></span> <button class="btn" id="share" type="button">Copy link to this view</button> <button class="btn" id="theme" type="button">Dark</button></div>
+  </header>
+
+  <div class="check" role="group" aria-label="Forecast question">
+    <div class="lines">
+      <div class="line"><span class="lbl">Pay to the order of</span><span>every adult in</span><select class="blank" id="hero-country" aria-label="Country"></select></div>
+      <div class="line"><span class="lbl">The sum of</span><select class="blank" id="hero-threshold" aria-label="Minimum amount per adult per year"></select><span class="aside" id="hero-amount-note"></span></div>
+      <div class="line"><span class="lbl">Enacted by</span><select class="blank" id="hero-year" aria-label="Year"></select></div>
+    </div>
+    <div class="amount">
+      <div class="box" id="hero-p" aria-live="polite">…</div>
+      <div class="sub" id="hero-sub">Chance, averaged over every assumption's range</div>
+    </div>
+    <div class="memo"><span>Memo: a national law paying every adult citizen a recurring, unconditional cash amount at or above the line above.</span><span id="hero-hist"></span></div>
+  </div>
+  <p class="cond-note" id="cond-note"></p>
+
+  <div class="layout">
+    <aside class="controls" aria-label="Countries, assumptions and risks">
+      <h2>Countries</h2>
+      <div class="clist" id="clist"></div>
+      <div class="chips">
+        <button class="btn" type="button" data-preset="all">All</button>
+        <button class="btn" type="button" data-preset="g7">G7 members here</button>
+        <button class="btn" type="button" data-preset="us">United States</button>
+      </div>
+
+      <h2>Assumptions</h2>
+      <div class="ctl">
+        <label class="name" for="c-shift">When an AI labor shock arrives <span class="val" id="v-shift"></span></label>
+        <input type="range" id="c-shift" min="-5" max="10" step="1" value="0">
+        <p class="help">Moves every shock date earlier or later by this many years, never before October 2026. At 0 it follows AGI and AI-unemployment markets.</p>
+      </div>
+      <div class="ctl">
+        <label class="name" for="c-exposure">Which countries a shock reaches</label>
+        <select id="c-exposure">
+          <option value="model">Each country's own exposure and lag</option>
+          <option value="all">Every country, at the same time</option>
+          <option value="us-only">The US only</option>
+        </select>
+      </div>
+      <div class="ctl">
+        <label class="name" for="c-appetite">Political appetite <span class="val" id="v-appetite"></span></label>
+        <input type="range" id="c-appetite" min="-2" max="2" step="0.25" value="0">
+        <p class="help">Scales every government's chance of enacting a UBI in a term.</p>
+      </div>
+      <div class="ctl">
+        <label class="name" for="c-generosity">Generosity <span class="val" id="v-generosity"></span></label>
+        <input type="range" id="c-generosity" min="-1" max="1" step="0.125" value="0">
+        <p class="help">Scales how large a program is when one passes.</p>
+      </div>
+
+      <h2>Risks</h2>
+      <div id="risks"></div>
+
+      <button class="btn" type="button" id="reset">Reset assumptions</button>
+      <p class="status" id="status" aria-live="polite"></p>
+    </aside>
+
+    <main>
+      <section aria-labelledby="h-curve">
+        <div class="chart-head"><h2 id="h-curve">Chance by year</h2><button class="btn" type="button" id="curve-table-toggle" aria-pressed="false">Show as table</button></div>
+        <p class="lede" id="curve-lede"></p>
+        <div class="legend" id="curve-legend"></div>
+        <div class="chartbox" id="curve"></div>
+        <div class="tablewrap" id="curve-table" hidden></div>
+      </section>
+
+      <section aria-labelledby="h-mult">
+        <h2 id="h-mult">Country by country</h2>
+        <p class="lede">Same question for each selected country on its own, on one shared scale. The number is the chance by the chosen year.</p>
+        <div class="multiples" id="multiples"></div>
+      </section>
+
+      <section aria-labelledby="h-sign">
+        <h2 id="h-sign">What would change the forecast</h2>
+        <p class="lede">Each row is something we could observe. Choosing "Suppose this" conditions every chart on it. Across the two outcomes the forecast averages back to today's number, weighted by how likely each is.</p>
+        <div class="tablewrap" id="signposts"></div>
+      </section>
+
+      <section aria-labelledby="h-mkt">
+        <h2 id="h-mkt">Markets and this model</h2>
+        <p class="lede">Prediction markets that ask something close, next to this model's answer to the nearest question it can express. Some definitions are looser than the memo line and some stricter, and none has more than 50 traders. Two "any country" markets resolved YES in November and December 2025, when the Marshall Islands began quarterly payments to every resident citizen; the ones below are still open.</p>
+        <div class="tablewrap" id="markets"></div>
+      </section>
+
+      <section aria-labelledby="h-assump">
+        <h2 id="h-assump">Assumptions and evidence</h2>
+        <p class="lede">Every input comes from a range. Labels say where it comes from: <span class="badge market">market</span> a prediction-market price, <span class="badge data">data</span> an official record or poll, <span class="badge judgment">judgment</span> an estimate from the evidence listed, drafted by a research agent and checked by a second. Probabilities that enter the model once per history show as one number: their mean.</p>
+        <div id="assumptions"></div>
+      </section>
+
+      <section class="prose" aria-labelledby="h-how">
+        <h2 id="h-how">How it works</h2>
+        <div id="how"></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script id="worker-src" type="text/plain">/*WORKER*/</script>
+<script type="module">/*APP*/</script>
+</body>
+</html>

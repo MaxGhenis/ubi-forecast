@@ -1,0 +1,27 @@
+{
+ "m1_when_ubi": {
+  "id": "AgqLQlpPEO",
+  "url": "https://manifold.markets/MaxGhenis/when-will-the-us-enact-a-universal",
+  "question": "When will the US enact a universal basic income of at least $500/month per adult?"
+ },
+ "m2_amount_ladder": {
+  "id": "IRnSEROEyu",
+  "url": "https://manifold.markets/MaxGhenis/by-the-end-of-2036-will-the-us-enac",
+  "question": "By the end of 2036, will the US enact a universal cash payment to all adults of at least... (per year, 2026 dollars)"
+ },
+ "m3_guaranteed_floor": {
+  "id": "dCnCSlupAz",
+  "url": "https://manifold.markets/MaxGhenis/by-the-end-of-2036-will-us-federal",
+  "question": "By the end of 2036, will US federal law guarantee $6,000/year in cash to a non-disabled adult with no income?"
+ },
+ "m4_ctc_no_earnings": {
+  "id": "csEhSpuNy9",
+  "url": "https://manifold.markets/MaxGhenis/in-which-tax-year-will-the-us-child",
+  "question": "In which tax year will the US Child Tax Credit next give its full amount to families with no earnings?"
+ },
+ "m5_2028_primary_ubi": {
+  "id": "n6I6lQUhL0",
+  "url": "https://manifold.markets/MaxGhenis/will-any-2028-presidential-primary",
+  "question": "Will any 2028 presidential primary or caucus winner have publicly backed a universal basic income since 2025?"
+ }
+}

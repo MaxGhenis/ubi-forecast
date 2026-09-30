@@ -1,0 +1,218 @@
+{
+ "name": "US universal basic income: decomposed forecast (2026-09-29)",
+ "meta": {},
+ "nodes": {
+  "ev_markets_ai": {
+   "title": "Evidence: AI and labor markets (Manifold)",
+   "desc": "AGI before 2030 53% (342 traders); before 2040 72%; AI unemployment >10% before 2030 23% (175); ACX visible macro break by 2028 30% (643). Fetched 2026-09-29.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "ev_markets_politics": {
+   "title": "Evidence: control markets (Polymarket)",
+   "desc": "2026 House D 92.5%; Senate D 62.5%; 2028 presidency D 64.5%. Fetched 2026-09-29.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "ai_shock_timing": {
+   "title": "AI labor shock onset year",
+   "desc": "Cumulative probability of sustained, economist-attributed AI displacement of about 3 pp or more of unemployment.\n- shock_by_2028: 0.04–0.15, probably 0.08. Onset by end-2028. Evidence: Manifold ACX 'visible break in US macro trend attributed to AI by 2028' 30% (643 traders), but that also counts positive GDP or productivity breaks, so the unemployment part is well below it.\n- shock_by_2030: 0.1–0.28, probably 0.18. Onset by end-2030. Evidence: Manifold 'AI causes US unemployment > 10% before 2030' 23% (175 traders; needs >= 3 pp attributable to AI), discounted for Manifold's pro-AI skew.\n- shock_by_2035: 0.2–0.48, probably 0.33. Onset by end-2035. Evidence: Manifold AGI series (RemNi): 58% before 2032, 63% before 2035; times P(shock | AGI) about 0.5-0.6.\n- shock_by_2040: 0.28–0.6, probably 0.43. Onset by end-2040. Evidence: Manifold 'AGI before 2040' 72% (98 traders) times P(shock | AGI) about 0.6.\n- shock_by_2050: 0.35–0.75, probably 0.55. Onset by end-2050. Evidence: Manifold 'AGI before 2048' 87%; '>97% of jobs automated before 2075' 63%.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "political_lag": {
+   "title": "Lag from shock to legislation",
+   "desc": "- politics_lag_years: 0–2, probably 1. Years between shock onset and it driving legislation (rounded). Evidence: JUDGMENT; the 2020 CARES Act passed within weeks, but a permanent program needs a sustained shock.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "demand_state": {
+   "title": "Demand state each year (normal / AI shock)",
+   "desc": "Derived. Shock drives politics by 2040 in 40% of simulated histories.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "control_2027": {
+   "title": "Control 2027–28",
+   "desc": "- p_R_trifecta_2027: 0.03–0.08, probably 0.05. R trifecta in 2027-28 (a D trifecta is impossible with an R president). Evidence: Polymarket 2026: House D 92.5%, Senate D 62.5% (fetched 2026-09-29); correlated.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "control_2029": {
+   "title": "Control 2029–30",
+   "desc": "- p_D_trifecta_2029: 0.22–0.42, probably 0.32. D trifecta in 2029-30. Evidence: Polymarket 2028 presidency D 64.5% x P(House and Senate | D president) about 0.5.\n- p_R_trifecta_2029: 0.1–0.24, probably 0.16. R trifecta in 2029-30. Evidence: Polymarket 2028 presidency R 34.5% x P(House and Senate | R president) about 0.45-0.5.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "control_later": {
+   "title": "Control 2031–2050",
+   "desc": "- p_D_trifecta_later: 0.22–0.42, probably 0.32. D trifecta after each presidential election from 2032 on. Evidence: Recent base rate: a trifecta started 6 of the 7 presidential terms from 2001 to 2025 (D twice, R four times).\n- p_R_trifecta_later: 0.22–0.42, probably 0.32. R trifecta after each presidential election from 2032 on. Evidence: Same base rate as the D input.\n- p_keep_trifecta_midterm: 0.1–0.45, probably 0.25. A trifecta survives the midterm. Evidence: Of the six trifectas that started a presidential term from 1993 to 2021, only the 2001 one survived its midterm (2002); 1994, 2006, 2010, 2018 and 2022 each flipped a chamber.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "enactment_hazard": {
+   "title": "Chance a universal recurring payment is enacted (per term)",
+   "desc": "- q_any_D_normal: 0.01–0.07, probably 0.03. D trifecta, no AI shock. Evidence: JUDGMENT; the 2009 and 2021 D trifectas enacted no UBI (2021: temporary CTC, one-time $1,400 checks).\n- q_any_R_normal: 0.005–0.05, probably 0.02. R trifecta, no AI shock. Evidence: JUDGMENT; recurring tariff or sovereign-fund 'dividends' are the plausible R route (Kalshi: a new Trump dividend program by 2027 at 5.2%).\n- q_any_div_normal: 0–0.01, probably 0.003. Divided government, no AI shock. Evidence: JUDGMENT.\n- q_any_D_shock: 0.25–0.7, probably 0.45. D trifecta during an AI shock. Evidence: JUDGMENT; Manifold 'UBI policy after AI mass unemployment' puts 'No UBI' at 76% (21 traders; that is over all governments).\n- q_any_R_shock: 0.1–0.45, probably 0.25. R trifecta during an AI shock. Evidence: JUDGMENT; populist-right 'universal high income' route.\n- q_any_div_shock: 0.03–0.15, probably 0.08. Divided government during an AI shock. Evidence: JUDGMENT; the 2020 CARES checks passed under divided government, but they were temporary.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "program_amount": {
+   "title": "Amount per adult (2026 $) and later increases",
+   "desc": "The judgment input that matters most for the headline.\n- amount_median_normal: 1000–3500, probably 2000. Median amount if enacted without a shock. Evidence: JUDGMENT; dividend-scale programs (the Alaska PFD is about $1,000).\n- amount_median_shock: 4000–14000, probably 8000. Median amount if enacted during a shock. Evidence: JUDGMENT; Yang's Freedom Dividend was $12,000 (2020 dollars).\n- ratchet_per_year: 0.05–0.25, probably 0.12. Yearly chance a trifecta raises an existing program during a shock. Evidence: JUDGMENT.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "ubi_6k_when": {
+   "title": "US enacts a UBI of $6,000+/adult/yr: when?",
+   "is_main": true,
+   "desc": "Cumulative: by 2032 1%; by 2036 5%; by 2040 10%; by 2050 23%. Of enactments by 2040: 98% happen during a shock; D trifecta 49%, R 26%, divided 25%.",
+   "node_type": "custom"
+  },
+  "ladder_2036": {
+   "title": "Universal payment by 2036, by amount",
+   "desc": "$1,000/year 9%; $3,000/year 7%; $6,000/year 5%; $12,000/year 2%",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "floor_2036": {
+   "title": "Guaranteed $6k floor for a non-disabled adult by 2036 (NIT counts)",
+   "desc": "Result: 7%\n- q_floor_D_normal: 0.003–0.03, probably 0.01. Means-tested floor >= $6k for childless adults, D, normal. Evidence: JUDGMENT.\n- q_floor_R_normal: 0–0.008, probably 0.002. Same, R, normal. Evidence: JUDGMENT.\n- q_floor_D_shock: 0.05–0.25, probably 0.12. Same, D, shock. Evidence: JUDGMENT.\n- q_floor_R_shock: 0.02–0.12, probably 0.05. Same, R, shock. Evidence: JUDGMENT.\n- q_floor_div_shock: 0.005–0.05, probably 0.02. Same, divided, shock. Evidence: JUDGMENT.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "ctc_full": {
+   "title": "CTC's full amount for families with no earnings: first tax year",
+   "desc": "Result: 2026 0%; 2027 0%; 2028 0%; 2029–2030 13%; 2031–2035 18%; Not by tax year 2035 69%\n- q_ctc_D: 0.25–0.65, probably 0.45. A D trifecta Congress enacts it. Evidence: JUDGMENT; ARPA did it for TY2021, and extending it failed in 2021-22 with 50 Senate seats.\n- q_ctc_R: 0.005–0.04, probably 0.015. An R trifecta Congress enacts it. Evidence: JUDGMENT; the 2025 law kept the earnings phase-in.\n- q_ctc_div: 0.002–0.015, probably 0.005. A divided Congress enacts it. Evidence: JUDGMENT; the 2024 Wyden-Smith deal used a lookback, which wouldn't count.\n- p_ctc_same_tax_year: 0.4–0.8, probably 0.6. Share of enactments that apply to the enactment year (as ARPA did). Evidence: JUDGMENT.",
+   "is_main": false,
+   "node_type": "custom"
+  },
+  "primary_2028": {
+   "title": "A 2028 primary winner has backed a UBI",
+   "desc": "Standalone in the model; a leading indicator of party willingness.\n- p_2028_primary_winner_backs_ubi: 0.04–0.2, probably 0.1. Some 2028 D or R primary or caucus winner backed a UBI since 2025. Evidence: JUDGMENT; Yang has floated a 2028 run (unverified), and most frontrunners haven't endorsed a UBI.",
+   "is_main": false,
+   "node_type": "custom"
+  }
+ },
+ "edges": [
+  {
+   "source": "ev_markets_ai",
+   "target": "ai_shock_timing",
+   "type": "evidential",
+   "directed": true
+  },
+  {
+   "source": "ev_markets_politics",
+   "target": "control_2027",
+   "type": "evidential",
+   "directed": true
+  },
+  {
+   "source": "ev_markets_politics",
+   "target": "control_2029",
+   "type": "evidential",
+   "directed": true
+  },
+  {
+   "source": "ai_shock_timing",
+   "target": "demand_state",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "political_lag",
+   "target": "demand_state",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "demand_state",
+   "target": "enactment_hazard",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "demand_state",
+   "target": "program_amount",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "control_2027",
+   "target": "enactment_hazard",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "control_2029",
+   "target": "enactment_hazard",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "control_later",
+   "target": "enactment_hazard",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "enactment_hazard",
+   "target": "ubi_6k_when",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "program_amount",
+   "target": "ubi_6k_when",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "enactment_hazard",
+   "target": "ladder_2036",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "program_amount",
+   "target": "ladder_2036",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "ubi_6k_when",
+   "target": "floor_2036",
+   "type": "sufficient",
+   "directed": true
+  },
+  {
+   "source": "demand_state",
+   "target": "floor_2036",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "control_later",
+   "target": "floor_2036",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "control_2029",
+   "target": "ctc_full",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "control_later",
+   "target": "ctc_full",
+   "type": "causal",
+   "directed": true
+  },
+  {
+   "source": "primary_2028",
+   "target": "enactment_hazard",
+   "type": "evidential",
+   "directed": true
+  }
+ ]
+}
