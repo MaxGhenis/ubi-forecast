@@ -35,7 +35,7 @@ This paper replaces one hard question with several easier ones, the move that de
 
 The model runs ten countries: the United States, the United Kingdom, Canada, Germany, France, Spain, Japan, South Korea, Australia and Brazil. It powers an interactive dashboard at [maxghenis.com/ubi-forecast](https://maxghenis.com/ubi-forecast/), and every number in this paper comes from the same engine, seed and history count as the dashboard's default view.
 
-Three findings stand out. First, almost the whole forecast depends on a labor shock of a kind the United States has not seen: without one, the chance of a US UBI by 2040 is {{< var usa_noshock_2040 >}}. Second, amounts matter as much as enactment: South Korea, led by the most prominent basic-income advocate among heads of government, has a {{< var kor_any_2040 >}} chance of a universal payment of any size by 2040 but {{< var kor_2040 >}} for one worth 6.7% of GDP per head, because its proposals are small. Third, the model makes predictions that resolve soon. It gives {{< var usa_end2030 >}} that a US government endorses a UBI by 2030 and {{< var all_end2030 >}} that some government among the ten does. If endorsements arrive much faster or slower than that, the assumptions below are wrong, and the model says which ones.
+Three findings stand out. First, almost the whole forecast depends on a labor shock of a kind the United States has not seen: without one, the chance of a US UBI by 2040 is {{< var usa_noshock_2040 >}}. Second, amounts matter as much as enactment: South Korea, led by a president who pledged a universal payment in 2022 and has since shelved it, has a {{< var kor_any_2040 >}} chance of a universal payment of any size by 2040 but {{< var kor_2040 >}} for one worth 6.7% of GDP per head, because its proposals are small. Third, the model makes predictions that resolve soon. It gives {{< var usa_end2030 >}} that a US government endorses a UBI by 2030 and {{< var all_end2030 >}} that some government among the ten does. If endorsements arrive much faster or slower than that, the assumptions below are wrong, and the model says which ones.
 
 # What forecasters say now
 
@@ -49,7 +49,7 @@ Three findings stand out. First, almost the whole forecast depends on a labor sh
 
 Three features of these markets explain part of the gap. The definitions vary: some count any universal payment, some require one that covers basic living costs, and one counts "a form of UBI". The markets are thin: none has more than 50 traders. And they run to 2033 or 2040, which ties up traders' currency for years, so a mispriced long-dated market can sit uncorrected. Play money is not obviously the problem: over 208 NFL games, a play-money market forecast as well as a real-money one [@servanschreiber2004prediction]. Long-shot outcomes, though, tend to be overpriced in betting markets [@snowberg2010explaining; @wolfers2004prediction], and a UBI by 2030 is a long shot.
 
-I created five further Manifold markets on this question on 29 September 2026, seeded at an earlier version of this model's odds; @tbl-markets omits them because they are not an independent check.
+I created five related Manifold markets on 29 September 2026 (US Eastern time), three of them seeded at revision 1's odds; @tbl-markets omits them because they are not an independent check.
 
 Real-money markets say little about UBI directly. Neither Polymarket nor Kalshi lists one. The closest Kalshi contract, on whether a million Americans receive at least $100 under a new federal "dividend" program before 2027, traded at about 5%.
 
@@ -85,13 +85,13 @@ Each country's political calendar is a list of periods. The current government i
 
 This is where the model replaces "political appetite" with observable steps. In each year, a government that has not endorsed a qualifying UBI endorses one with a probability that depends on its type and on whether the trigger's shock is under way. An endorsement means a statement by the head of government, or a governing party's platform or coalition agreement, backing a universal, unconditional, recurring payment. It lapses when the type of government changes. An endorsed UBI then becomes law with a probability that depends on the government type: high for a Westminster majority, lower for a US trifecta facing a filibuster, low under divided government. Both are stated per term of office and converted to yearly chances over each country's term length.
 
-Endorsements happen far more often than enactments, so they give the model evidence it can be tested on soon. The steps also map onto the political-feasibility framework of @dewispelaere2012feasibility: endorsement captures strategic feasibility among governing actors, and passage captures institutional feasibility. History warns that a willing government is not enough. Nixon's Family Assistance Plan had broad support and failed [@steensland2008failed].
+Endorsements happen far more often than enactments, so they give the model evidence it can be tested on soon. Both steps test what @dewispelaere2012feasibility call strategic feasibility, whether governing actors will build and use a coalition for a UBI; passage also absorbs institutional feasibility, whether existing institutions allow one to be implemented. History warns that a willing government is not enough. Nixon's Family Assistance Plan had broad support and failed [@steensland2008failed].
 
 Shock-driven endorsements begin one to three years after a country's trigger is met.
 
 ## Amounts
 
-When a UBI passes, its first-year amount is drawn relative to GDP per head from a lognormal centered on the country's prior: small without a shock (dividend-scale, like Alaska's) and larger during one. During a shock, a governing majority can raise an existing program in any year.
+When a UBI passes, its first-year amount is drawn relative to GDP per head from a lognormal centered on the country's prior: without a shock it is near a dividend's scale in the United States and near existing minimum-income benefits in most other countries (8 to 11% of GDP per head), and it is larger during one. During a shock, a left- or right-led government reconsiders an existing program's amount with a set chance each year and raises it when a fresh draw is larger.
 
 ## Risks
 
@@ -99,9 +99,9 @@ Four switches change explicit inputs. A fiscal squeeze multiplies passage chance
 
 ## What the output means
 
-A forecast is the share of histories in which the event happens. Every history carries its own draw of the inputs, so that share already averages over what we do not know about them, and the paper reports no interval around it. What we do not know shows up instead as signposts: for an observable event $S$, the forecast if $S$ happens and if it does not. By the law of total probability these average back to today's forecast, $P(U) = P(S)\,P(U \mid S) + P(\neg S)\,P(U \mid \neg S)$ [@blitzstein2019introduction], which is conservation of expected evidence [@yudkowsky2007conservation], and the tests check it for every signpost. Conditioning on $S$ means keeping the histories where $S$ holds.
+A forecast is the share of histories in which the event happens. Every history carries its own draw of the inputs, so that share already averages over what we do not know about them, and the paper reports no interval around it. What we do not know shows up instead as signposts: for an observable event $S$, the forecast if $S$ happens and if it does not. By the law of total probability these average back to today's forecast, $P(U) = P(S)\,P(U \mid S) + P(\neg S)\,P(U \mid \neg S)$ [@blitzstein2019introduction], which is conservation of expected evidence [@yudkowsky2007conservation]. The identity holds by construction for any signpost, and a property test checks it. Conditioning on $S$ means keeping the histories where $S$ holds.
 
-Election, midterm and exposure inputs each feed a single yes-or-no draw per history, so the engine uses their means, which is exact. Endorsement, passage, amount, lag and timing inputs are drawn once per history and shared across its years, so their full ranges matter.
+Election, midterm and exposure inputs each feed a single yes-or-no draw per history, so the engine uses their means, which gives the same distribution except where a country's left-led and right-led chances can sum above 0.98 and the cap is applied to the means. Endorsement, passage, amount, lag and timing inputs are drawn once per history and shared across its years, so their full ranges matter.
 
 # Inputs and evidence
 
@@ -117,7 +117,7 @@ For each country, a research agent gathered the government, election calendar, p
 
 Public opinion enters through judgment. In the 2016 European Social Survey, support for a basic income ranged from about a third to four-fifths across countries [@roosma2020public], and was broadest where social spending is lowest, the countries least able to afford one [@parolin2020support]. Individual exposure to automation has not predicted support [@dermont2020automation], so the model gives no weight to exposure before a shock arrives.
 
-Evidence on effects enters only through feasibility. Finland's experiment raised employment slightly and improved wellbeing [@verho2022removing]; the OpenResearch trial found modest reductions in work [@vivalt2024employment]; Alaska's dividend has not reduced employment [@jones2022labor]; and Iran's near-universal transfers did not reduce labor supply [@salehiisfahani2018cash]. None of these settles the fiscal question that dominates political debate in advanced countries [@hoynes2019universal; @banerjee2019universal; @kangas2021feasibility].
+Evidence on effects enters only through feasibility. Finland's experiment had no detectable effect on employment in its first year [@verho2022removing], though recipients reported better wellbeing [@kangas2021feasibility]; the OpenResearch trial found moderate reductions in work, with labor-force participation down 4.2 points [@vivalt2024employment]; Alaska's dividend has not reduced employment [@jones2022labor]; and Iran's near-universal transfers did not reduce labor supply [@salehiisfahani2018cash]. None of these settles the fiscal question that dominates political debate in advanced countries [@hoynes2019universal; @kangas2021feasibility], or the targeting question in poorer ones [@banerjee2019universal].
 
 # Results
 
@@ -169,7 +169,7 @@ The conditional inputs resolve only when their condition occurs. "If a left-led 
 
 The ten-country engine is JavaScript, so that the dashboard can run it in a browser. A separate Python implementation of the US model serves as a reference, and a differential test requires the two to agree within five Monte Carlo standard errors at 2032, 2036, 2040, 2045 and 2050. The JavaScript run of {{< var n_histories >}} histories gives {{< var usa_2040 >}} for the United States by 2040 and the Python run of {{< var py_n >}} gives {{< var py_us_2040 >}}.
 
-Property-based tests, written with fast-check and Hypothesis, check invariants for arbitrary priors and controls. Probabilities are cumulative in time, nested by amount threshold and by country set, and every signpost averages back to today's forecast. Every enactment follows an endorsement in an earlier year. No endorsements means no UBI, and no passage means endorsements but no UBI. Each country and each history has its own random stream, so a change to one country's inputs leaves the others' results unchanged.
+Property-based tests, written with fast-check and Hypothesis, check invariants for randomized priors on two inputs and arbitrary controls. Probabilities are cumulative in time, nested by amount threshold and by country set, and every signpost averages back to today's forecast. No enactment comes before the first endorsement, and a stated passage chance is the realized chance that an endorsed UBI becomes law before the next election, for periods of two to five years. No endorsements means no UBI, and no passage means endorsements but no UBI. Each country and each history has its own random stream, so a change to one country's inputs leaves the others' results unchanged, unless the policy-diffusion risk is on.
 
 # Limitations
 
