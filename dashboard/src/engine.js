@@ -152,14 +152,14 @@ function stateInYear(periodStates, periods, year) {
 // Election, midterm and exposure inputs each feed exactly one yes/no draw per history, so drawing
 // the probability from its range and then flipping a coin equals flipping a coin at the range's
 // mean. The engine uses the mean: same distribution, far fewer random draws. Left + right is capped
-// at 0.9 (as in the Python model). Enactment chances, amounts, lags and shock timing are drawn once
+// at 0.98; the US never reaches the Python model's 0.9 cap. Enactment chances, amounts, lags and shock timing are drawn once
 // per history and shared by all its years, so their spread matters and they are drawn in full.
 function planFor(c) {
   const periods = c.periods.map((p) => {
     if (p.kind === "draw") {
       let pL = pertMean(p.pL), pR = pertMean(p.pR);
       const sum = pL + pR;
-      if (sum > 0.9) { pL *= 0.9 / sum; pR *= 0.9 / sum; }
+      if (sum > 0.98) { pL *= 0.98 / sum; pR *= 0.98 / sum; }
       return { kind: 2, pL, pR };
     }
     if (p.kind === "keep") return { kind: 1, keep: pertMean(p.keep) };

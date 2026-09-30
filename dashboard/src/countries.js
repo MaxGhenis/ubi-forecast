@@ -88,7 +88,7 @@ export const GBR = {
   rightWins: "Reform or the Conservatives win a Commons majority in 2029",
   electionNote: "Left-led = a Labour Commons majority; right-led = a Reform or Conservative majority; other = hung parliament or coalition. A Commons majority can legislate a national benefit; the Lords can only delay.",
   periods: [
-    fixed(2027, "L", "Labour holds 403 of 650 seats (working majority 166). Polymarket: 23% that an election is called by mid-2027, not modeled."),
+    fixed(2027, "L", "Labour holds 402 of 650 seats; Holborn and St Pancras is vacant. Polymarket: 23% that an election is called by mid-2027, not modeled."),
     draw(2029, R(0.08, 0.18, 0.32), R(0.10, 0.20, 0.35), "Manifold 'which government will form' (30 traders): Labour majority about 17%, a Reform or Conservative majority about 20%, hung parliament 53-63%. Latest polls: Reform 25, Labour 24, Conservatives 19.", "market"),
     ...every(2034, 2049, 5, R(0.18, 0.30, 0.42), R(0.20, 0.33, 0.46)),
   ],
@@ -240,7 +240,7 @@ export const BRA = {
   ],
   q: { L_normal: R(0.005, 0.02, 0.06), R_normal: R(0.001, 0.005, 0.015), O_normal: R(0.001, 0.004, 0.012),
        L_shock: R(0.04, 0.13, 0.30), R_shock: R(0.01, 0.04, 0.12), O_shock: R(0.03, 0.10, 0.22) },
-  qNote: "A universal statute already exists (Law 10.835/2004, never implemented), and the 2023 Bolsa Família law calls itself a step toward it. A left president would still face a right-leaning Congress and a spending cap.",
+  qNote: "A universal statute already exists (Law 10.835/2004, only partially implemented), and the 2023 Bolsa Família law calls itself a step toward it. A left president would still face a right-leaning Congress and a spending cap.",
   exposure: R(0.15, 0.35, 0.60), lag: R(0, 3, 7),
   exposureNote: "IMF (2024): 41% of Brazilian employment highly exposed, against about 60% in the US.",
   amount: { normal: R(1.5, 4, 9), shock: R(3, 7, 16) },

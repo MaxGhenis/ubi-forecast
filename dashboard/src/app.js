@@ -291,10 +291,10 @@ function renderAssumptions() {
     const rows = [];
     c.periods.forEach((p) => {
       if (p.kind === "fixed") rows.push([`Government from ${p.start}`, STATE_WORD[p.state], "data", p.note || ""]);
-      if (p.kind === "keep") rows.push([`Majority survives the ${p.start} election`, pctIn(pertMean(p.keep)), p.source || "judgment", p.note || "Judgment from how often majorities survive mid-term elections."]);
+      if (p.kind === "keep") rows.push([`Majority survives the midterm (government from ${p.start})`, pctIn(pertMean(p.keep)), p.source || "judgment", p.note || "Judgment from how often majorities survive mid-term elections."]);
       if (p.kind === "draw") {
         let pL = pertMean(p.pL), pR = pertMean(p.pR); const sum = pL + pR;
-        if (sum > 0.9) { pL *= 0.9 / sum; pR *= 0.9 / sum; }
+        if (sum > 0.98) { pL *= 0.98 / sum; pR *= 0.98 / sum; }
         rows.push([`Election starting ${p.start}: left-led / right-led`, `${pctIn(pL)} / ${pctIn(pR)}`, p.source || "judgment", p.note || "Judgment from how often power has alternated in recent decades."]);
       }
     });
