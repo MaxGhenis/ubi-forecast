@@ -5,5 +5,5 @@ self.onmessage = (e) => {
   const { id, countries, globals, controls, n, seed, start } = e.data;
   const t0 = performance.now();
   const sim = simulate({ countries, globals, controls, n, seed, start });
-  self.postMessage({ id, start, sim, ms: performance.now() - t0 }, [sim.onset.buffer, sim.firstYear.buffer, sim.stateNext.buffer]);
+  self.postMessage({ id, start, sim, ms: performance.now() - t0 }, [sim.onset.buffer, sim.firstYear.buffer, sim.stateNext.buffer, sim.firstEndorse.buffer, sim.triggerYear.buffer]);
 };

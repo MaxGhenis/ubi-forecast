@@ -1,0 +1,220 @@
+
+## engine::float32-onset-masks dashboard/src/engine.js:198
+CLAIM: Signpost masks 'The US trigger is met by the end of 2030/2035' and 'has not been met by 2040' (app.js:120-122; results.mjs) use sim.onset. Everything else (shockFrom, triggerYear, Checkable soon) uses the double-precision date.
+FIX: Store onset as Float64Array, or build the trigger signpost masks from triggerYear.
+
+## engine::means-exact-claim-cap paper/index.qmd:104
+CLAIM: 'Election, midterm and exposure inputs each feed a single yes-or-no draw per history, so the engine uses their means, which is exact.' engine.js:155-158 says the same ('same distribution').
+FIX: Say 'exact except where a range's left+right can exceed 0.98; there the cap is applied to the means', or cap per draw.
+
+## engine::slider-labels-and-caps dashboard/src/template.html:243
+CLAIM: The endorsement slider help says 'Chance within a term during a shock'. The amount slider is labeled 'Amount if enacted during a shock'. The endorsement slider readout caps at 98%.
+FIX: Say the endorsement slider scales no-shock chances too, and the amount slider scales no-shock amounts too. Use min(1, ...) in the readout, or show the capped mean over draws.
+
+## engine::impossible-supposition-nan dashboard/src/app.js:427
+CLAIM: No control should produce NaN.
+FIX: Clear state.cond (or show 'no histories match') when the condition mask is empty. Guard lineChart's yMax against NaN.
+
+## engine::non-us-trigger-before-oct-2026 dashboard/src/engine.js:237
+CLAIM: 'The trigger has not been met as of October 2026' (engine.js:226). The clamp is applied to the US onset only.
+FIX: Clamp met to at least 2026.75 for every country.
+
+## engine::pert-accuracy-comment dashboard/src/engine.js:91
+CLAIM: The PERT inverse-CDF table is 'accurate to well under 0.1% of the range'.
+FIX: Qualify the comment ('except the outer 0.1% tails') or add finer tail nodes.
+
+## engine::ratchet-gridlock-wording paper/index.qmd:94
+CLAIM: 'During a shock, a governing majority can raise an existing program in any year.' The gridlock switch (engine.js:140) acts 'under divided government, cross-bloc coalitions and hung parliaments'.
+FIX: Say 'a left- or right-led government' for the ratchet, and list each country's 'other' in the gridlock text (or exempt BRA).
+
+## engine::tests-every-signpost-claim paper/index.qmd:102
+CLAIM: 'the tests check it for every signpost', and index.qmd:172 says 'every signpost averages back to today's forecast'.
+FIX: Either loop the test over all signpostDefs, or say the identity holds by construction and is tested on one signpost.
+
+## python-parity::differential-test-tolerance-hides-drift dashboard/test/differential.test.js:20
+CLAIM: The paper and README say the differential test shows the JS engine matches the Python model within five Monte Carlo standard errors.
+FIX: Tighten the check. Raise the JS N, or better, add a common-random-numbers or exact-input differential. Also add the deterministic guards in the next finding.
+
+## python-parity::no-input-or-freshness-parity-guard dashboard/test/differential.test.js:8
+CLAIM: The US block 'mirrors ../model/ubi_model.py exactly' (countries.js l.5), and the test checks the engine against the Python reference.
+FIX: Add a vitest that loads model/inputs.json and asserts equality with GLOBALS and US (periods, endorse, pass, amount/usd, ratchet). Have CI run ubi_model.simulate() and diff against results.json. Export first_endorse from Python and add endorsement-by-2030 to the differential test.
+
+## python-parity::election-prior-correlation-differs dashboard/src/engine.js:155
+CLAIM: engine.js l.155-158 and paper l.104 say: 'Election, midterm and exposure inputs each feed a single yes-or-no draw per history, so the engine uses their means, which is exact.' engine.js l.9 says the US configuration reproduces ubi_model.py.
+FIX: Make Python draw each election's probability independently to match the per-period ledger, or add a one-line note in engine.js that the Python reference shares one base-rate draw across elections, with the measured effect.
+
+## python-parity::radiant-export-broken-stale model/export_radiant.py:62
+CLAIM: model/README.md presents export_radiant.py and ubi_map_radiant.json / ubi_map_ir.json as the Radiant map of this model.
+FIX: Update export_radiant.py to the endorsement/passage nodes and regenerate both JSON files, or delete them together with the README section.
+
+## python-parity::python-notes-define-different-event model/ubi_model.py:14
+CLAIM: The Python reference's docstring and input notes describe the model.
+FIX: Update the docstring and the shock_by_* notes in both files to the measurable trigger, and say how the AI-market anchors map onto it.
+
+## claims::slider-copy dashboard/src/template.html:256
+CLAIM: 'Amount if enacted during a shock'; endorse slider help: 'Chance within a term during a shock'; 'Each slider scales every country's explicit value by the same factor; the ledger below lists them all'. Paper, table caption: 'the dashboard shows the resulting values' (index.qmd:152).
+FIX: Say the sliders also scale no-shock values, cap the readout at 100%, and either scale the ledger values or say they show the defaults.
+
+## claims::validation-overclaims paper/index.qmd:172
+CLAIM: 'Property-based tests ... check invariants for arbitrary priors and controls ... every signpost averages back ... Each country and each history has its own random stream, so a change to one country's inputs leaves the others' results unchanged.' Also 'the tests check it for every signpost' (:102).
+FIX: Say 'for randomized priors on two inputs', 'holds by construction and is tested on one signpost', and 'unless the policy-diffusion risk is on'.
+
+## claims::minor-copy-accuracy paper/index.qmd:154
+CLAIM: Several small claims are inaccurate. (a) 'Passage is the strongest lever'. (b) The markets 'run to 2033 or 2040' (:50). (c) 'each of the 37 facts that the dashboard shows' (:108). (d) Limitations: endorsement priors are 'judgments ... not estimates from data' (:176). (e) Ledger trigger rows show the PERT means. (f) 'Any universal payment (1.1%+ of GDP per head)'. (g) The politics-lag row resolves 'By the timing of the first endorsement after a trigger'. (h) 'If endorsements arrive much faster or slower than that, the assumptions below are wrong' (:38).
+FIX: Tighten each wording.
+
+## citations::dewispelaere-framework-mapping paper/index.qmd:88
+CLAIM: "The steps also map onto the political-feasibility framework of @dewispelaere2012feasibility: endorsement captures strategic feasibility among governing actors, and passage captures institutional feasibility."
+FIX: Rephrase: "Both steps test what @dewispelaere2012feasibility call strategic feasibility, whether governing actors will build and use a coalition; passage also absorbs institutional feasibility, whether existing institutions allow a UBI to be implemented."
+
+## citations::banerjee-cited-for-advanced-country-fiscal-debate paper/index.qmd:120
+CLAIM: "None of these settles the fiscal question that dominates political debate in advanced countries [@hoynes2019universal; @banerjee2019universal; @kangas2021feasibility]."
+FIX: Remove @banerjee2019universal from this bracket, or add a clause such as "...in advanced countries [@hoynes2019universal; @kangas2021feasibility] or poorer ones [@banerjee2019universal]".
+
+## citations::vivalt-wording-vs-aug2026-revision paper/index.qmd:120
+CLAIM: "the OpenResearch trial found modest reductions in work [@vivalt2024employment]"
+FIX: Use the authors' word: "the OpenResearch trial found moderate reductions in work (labor-force participation down 4.2 points) [@vivalt2024employment]".
+
+## citations::pending-verification-file-stale paper/references_PENDING_VERIFICATION.txt:1
+CLAIM: The file lists 12 UBI references as "awaiting the Subfleet verifier". research/citations_raw.json marks the same keys "verified": true, and paper/references_ai_forecast.bib is an unused partial duplicate of references.bib; the paper's bibliography is references.bib only.
+FIX: After the Verho fix, delete references_PENDING_VERIFICATION.txt (or record this review's result in it). Delete or sync references_ai_forecast.bib so it cannot drift.
+
+## record::canada-note-omits-2021-resolution dashboard/src/countries.js:146
+CLAIM: The Canada note lists only the 2024 C-223 vote and the 2026 convention.
+FIX: Add the 2021 resolution to the Canada note and classify it under the clarified rule. Under the model's type definitions it falls in 'other' (a Liberal minority).
+
+## record::r-o-normal-labeled-data dashboard/src/countries.js:46
+CLAIM: endorseSource marks R_normal and O_normal (PERT 0.001, 0.004, 0.012) as 'data' in all ten countries.
+FIX: Derive the right-led and other rates from a record counted by type, or label them as judgment.
+
+## facts::canada-c223-attribution-and-omission dashboard/src/countries.js:146
+CLAIM: CAN endorseNote: 'Liberal MPs voted down the C-223 basic income framework 54-273 in 2024, and the 2026 convention adopted no basic-income resolution.'
+FIX: Reword to 'Most Liberal MPs (120 of 148 voting), with all Conservatives and Bloc, defeated C-223 54-273; 28 Liberals voted for it.' Mention the 2021 convention UBI resolution alongside the 2026 absence.
+
+## facts::france-debt-stale dashboard/src/countries.js:213
+CLAIM: FRA endorseNote: 'Debt is 115.6% of GDP.'
+FIX: Change to '119.0% of GDP at end-Q2 2026 (INSEE)', or date the figure as end-2025.
+
+## facts::hamon-universal-overstated dashboard/src/countries.js:213
+CLAIM: FRA endorseNote: 'Hamon ran on a universal income in 2017 (6.4%).'
+FIX: 'Hamon won the 2017 PS primary on a universal income but ran in April on a EUR 600 floor phased out at 1.9 times the minimum wage (6.4%).'
+
+## facts::uk-headroom-attribution dashboard/src/countries.js:108
+CLAIM: GBR endorseNote: 'Gilt yields near 5.3% and £13bn of fiscal headroom constrain a program.'
+FIX: 'Ten-year gilt yields near 5.4%; analysts estimate headroom has shrunk to about £13bn from £23.6bn in March 2026.'
+
+## facts::burnham-vs-lee-prior-inconsistent dashboard/src/countries.js:94
+CLAIM: Korea's no-shock left endorsement prior is raised to R(0.005,0.03,0.08) 'because its president has proposed universal payments before' (line 307). The UK keeps the default R(0.002,0.01,0.03), although its note (line 108) says PM Burnham backed UBI as mayor.
+FIX: Either raise the UK L_normal prior on the same logic or state in the note why Burnham's record counts less than Lee's.
+
+## facts::us-pass-prior-vs-note dashboard/src/countries.js:43
+CLAIM: US passNote: trifectas since 1993 passed about half their flagship priorities (the ACA, 2017 tax law, ARP and 2025 law passed; 1993 health reform, the 2009 climate bill, ACA repeal and BBB did not), and 'a UBI is costlier than the typical pledge'. The prior mode for L and R is 0.55.
+FIX: Include the 2001-06 items, and either lower the mode to at most 0.5 or explain what pushes it up (for example, a shock or reconciliation).
+
+## facts::coalition-odds-vs-prior dashboard/src/countries.js:165
+CLAIM: The DEU and ESP passNotes cite 72-76% lower odds for coalitions (accurately), but set the coalition passage mode at 0.5 (0.4 for O).
+FIX: Either derive the coalition and minority priors from the cited ratios (about 0.37-0.40) or say explicitly that the prior departs from them and why.
+
+## facts::base-rate-arithmetic dashboard/src/countries.js:47
+CLAIM: 'with that rate the clean record had about a 47% chance, against 11% under a 3% rate' (about 75 terms)
+FIX: Say '10%', or use a consistent term count.
+
+## facts::us-trifecta-base-rate-notes dashboard/src/countries.js:54
+CLAIM: US periods: 'Of six trifectas that opened a term from 1993 to 2021, only one (2001) survived its midterm' and 'a trifecta opened 6 of 7 terms from 2001 to 2025' (the latter labelled data for pL = pR = 0.32, 64% in total). Mirrored in model/ubi_model.py:90,96.
+FIX: Note the Jeffords break ('Republicans regained a trifecta after the 2002 midterm'), and cite the base rate the prior actually uses (for example, 1977-2025).
+
+## facts::korea-2028-right-impossible dashboard/src/countries.js:313
+CLAIM: KOR draw(2028): pR = R(0, 0.02, 0.05). The electionNote (line 310) defines right-led as a PPP president with an Assembly majority.
+FIX: Set pR to R(0,0,0) for 2028.
+
+## facts::korea-pilot-is-participation-income dashboard/src/countries.js:322
+CLAIM: KOR endorseNote: the health ministry's Basic Income Planning Team aims at a 2027 pilot and cites AI-driven unemployment.
+FIX: Add that the planned design is a conditional participation income, which would not qualify.
+
+## facts::japan-credit-timing dashboard/src/countries.js:358
+CLAIM: JPN endorseNote: 'The Takaichi cabinet chose a work-conditional refundable credit (from April 2027)'.
+FIX: 'chose a work-conditional refundable credit (full introduction targeted for FY2029; a bridging worker payment starts April 2027)'.
+
+## facts::inconsistent-unemployment-figures dashboard/src/countries.js:324
+CLAIM: The KOR exposureNote says '2.7% in 2025 against 4.2% in the US'. The JPN exposureNote (line 360) says 'Unemployment is 2.45%'. The AUS trigger note (line 376) says 'latest 4.461825%'.
+FIX: Use the trigger-data figures (2.8% vs 4.3%; Japan 2.5% for 2025 or 2.4% latest) and round the AUS value to 4.5%.
+
+## falsifiability::fixed-government-rows-certain dashboard/src/app.js:343
+CLAIM: 'The government is left-led until 2029: certain, Already true' (UK), with similar rows for Spain until 2028 and Germany ('other') until 2029.
+FIX: Label these as assumptions with a probability, or say 'assumed; early election not modeled'. Start Spain's draw in 2027.
+
+## falsifiability::data-badge-vs-value dashboard/src/countries.js:33
+CLAIM: The US midterm and election rows carry a 'data' badge.
+FIX: Badge these rows 'judgment', or explain the adjustment from the cited base rate.
+
+## falsifiability::trigger-resolution-details dashboard/src/app.js:330
+CLAIM: The trigger is described both as '3 points above its 2025 level' and as 'at or above X%'. The global rows resolve '31 December YEAR'.
+FIX: Make the stated level the criterion. Specify the GDP rule (the latest published quarter as of each unemployment release), the vintage and the resolution date.
+
+## falsifiability::any-size-label dashboard/src/app.js:312
+CLAIM: Checkable soon column 'A UBI of any size enacted by 2030'. The paper intro also says 'a universal payment of any size'.
+FIX: Rename the column to 'at least 1.1% of GDP per head ($1,000 in the US)'.
+
+## falsifiability::anchor-links-and-polish dashboard/src/countries.js:22
+CLAIM: The GLOBAL_NOTES market anchors and the ledger notes.
+FIX: Add URLs for the ScottAlexander ACX market, the RemNi AGI series (2030, 2032, 2035, 2040, 2048) and M_C's >97%-of-jobs market. Round the AUS figure.
+
+## paper::trifecta-mechanism-incomplete paper/index.qmd:142
+CLAIM: "Who wins the 2028 election matters far less: a Democratic trifecta gives 2.7% against 2.4% otherwise, because without a shock even a trifecta rarely endorses."
+FIX: Add the other reasons: '...rarely endorses, and even in a shock the 2029 trifecta usually loses a chamber at the 2031 midterm, while other governments also endorse during a shock.' Or report the conditional figures.
+
+## paper::test-coverage-overstated paper/index.qmd:102
+CLAIM: "...which is conservation of expected evidence, and the tests check it for every signpost." Line 172: "Each country and each history has its own random stream, so a change to one country's inputs leaves the others' results unchanged."
+FIX: Say 'the identity holds by construction and a property test checks it' and add 'except under the policy-diffusion switch' to the random-stream sentence. Optionally, loop the property test over all signpostDefs.
+
+## paper::fig-signposts-title-clipped paper/scripts/build_assets.py:216
+CLAIM: The fig_signposts_us.png title reads 'United States, UBI by 2040. Filled: if yes. Hollow: if no. Line: today's forecast.'
+FIX: Shorten the title (the caption already explains the dots) or set the title's x or loc so it wraps, then rebuild.
+
+## paper::onset-float32-mismatch dashboard/src/engine.js:198
+CLAIM: The signposts 'The US trigger is met by the end of 2030/2035' and 'has not been met by 2040' use the stored onset (Float32Array), while 'Checkable soon' and triggerYear use float64 floor(on).
+FIX: Store onset as Float64Array (in engine.js and app.js run buffers), or compute the signpost masks from triggerYear.
+
+## paper::hardcoded-derived-claims paper/index.qmd:42
+CLAIM: Several derived statements are typed by hand, not generated: 'price every question at eight or more times the model's answer' (42); 'none has more than 50 traders' (50); 'gives the same {{mk_usa_partial_2030_price}}' (32); 'Australia ..., Canada ..., the United Kingdom ... and the United States ... lead' (132); 'Passage is the strongest lever' (154). Line 190 says results.mjs 'writes every number in this paper', and the build_assets.py docstring says 'the text cannot drift from the model'.
+FIX: Generate the ratio, trader maximum, leader list and strongest-lever statements in build_assets.py as variables, or add a build-time assertion. Soften line 190 to 'every model output'.
+
+## paper::sensitivity-default-mismatch paper/_includes/table_scenarios.md:3
+CLAIM: The sensitivity table's Default row shows US 2.6% (100,000 histories), while the headline is 2.5% (200,000 histories).
+FIX: Run the scenarios at N=200,000 (the base run takes about 13 s, so the full set takes about 4 minutes) so the Default row equals the headline.
+
+## paper::minor-wording-and-labels paper/index.qmd:164
+CLAIM: Minor accuracy and labeling points in the prose and tables, listed below.
+FIX: (a) '...the model discounted the AI markets too heavily'. (b) 'Lee's own proposals have been worth about 2-3.5% of GDP per head'. (c) Rename the column 'By 2040 if the US trigger is not met'. (d) Label lag and amount as 'most likely' and relabel the election column as 'Government from'. (e) Reconcile the two statements. (f) Cite the Kalshi contract with a date. (g) Add '(11 months)'.
+
+## paper::unused-generated-assets paper/scripts/build_assets.py:197
+CLAIM: build_assets.py builds fig_any.png and _includes/table_signposts_all.md.
+FIX: Include them, which would support the '17.8% for at least one of the ten' headline with its own signposts, or stop generating them.
+
+## decision::markets-json-own-stale dashboard/src/markets.json:90
+CLAIM: The entries for the owner's own markets read 'same definition as this dashboard. Opened at this model's odds.' (line 90) and 'Opened at this model's odds.' (line 106), with traders '0' and price '10% by 2040'.
+FIX: Change the strings to 'Opened at revision 1's odds' and 'close to this dashboard's $6,000 line'. Optionally refresh the price and trader snapshot.
+
+## decision::paper-own-markets-wording paper/index.qmd:52
+CLAIM: 'I created five further Manifold markets on this question on 29 September 2026, seeded at an earlier version of this model's odds'
+FIX: Say 'five related Manifold markets (29 September ET), three of them seeded at revision 1's odds'.
+
+## decision::rev1-publication-date paper/index.qmd:186
+CLAIM: 'The first version of this model, published on the dashboard on 29 and 30 September 2026'. The dashboard's revision note likewise says 'Revision 1 (29 September)'.
+FIX: Say 'dated 29 September and published on 30 September', or confirm where it ran on 29 Sep.
+
+## decision::lee-characterization-and-kor-label paper/index.qmd:38
+CLAIM: 'South Korea, led by the most prominent basic-income advocate among heads of government'
+FIX: Needs the owner's judgment. For example: 'led by a president who pledged a universal payment in 2022 and has since shelved it'. Relabel KOR L_normal as judgment.
+
+## decision::endorsement-data-vs-judgment paper/index.qmd:176
+CLAIM: 'Endorsement and passage priors are judgments informed by the base rates in the ledger, not estimates from data'
+FIX: Say that no-shock endorsement is calibrated to the record, while shock-state endorsement and passage are judgments.
+
+## decision::author-line-disclosure paper/index.qmd:3
+CLAIM: The author line reads 'Max Ghenis' (url maxghenis.com), with no affiliation or disclosure.
+FIX: The owner's call whether to add an affiliation or a one-line disclosure.
+
+## decision::rev1-share-links-reset dashboard/src/app.js:37
+CLAIM: Share links carry the view state in the URL hash.
+FIX: Optionally show a one-line notice when an unknown hash parameter is present.

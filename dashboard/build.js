@@ -9,7 +9,9 @@ async function bundle(entry) {
 const app = await bundle("./src/app.js");
 const worker = await bundle("./src/worker.js");
 const safe = (s) => s.replaceAll("</script", "<\\/script");
+const og = JSON.parse(readFileSync("./og/og.json", "utf8"));   // the social image rendered by og/build_og.py
 const html = readFileSync("./src/template.html", "utf8")
+  .replaceAll("{{OG_IMAGE}}", og.file)
   .replace("/*WORKER*/", () => safe(worker))
   .replace("/*APP*/", () => safe(app));
 mkdirSync("./dist", { recursive: true });

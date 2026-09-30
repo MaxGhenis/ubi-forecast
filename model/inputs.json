@@ -1,36 +1,36 @@
 {
  "shock_by_2028": {
-  "lo": 0.04,
-  "mode": 0.08,
-  "hi": 0.15,
+  "lo": 0.008,
+  "mode": 0.016,
+  "hi": 0.03,
   "note": "Onset by end-2028.",
   "anchor": "Manifold ACX 'visible break in US macro trend attributed to AI by 2028' 30% (643 traders), but that also counts positive GDP or productivity breaks, so the unemployment part is well below it."
  },
  "shock_by_2030": {
-  "lo": 0.1,
-  "mode": 0.18,
-  "hi": 0.28,
+  "lo": 0.033,
+  "mode": 0.063,
+  "hi": 0.11,
   "note": "Onset by end-2030.",
   "anchor": "Manifold 'AI causes US unemployment > 10% before 2030' 23% (175 traders; needs >= 3 pp attributable to AI), discounted for Manifold's pro-AI skew."
  },
  "shock_by_2035": {
-  "lo": 0.2,
-  "mode": 0.33,
-  "hi": 0.48,
+  "lo": 0.1,
+  "mode": 0.17,
+  "hi": 0.25,
   "note": "Onset by end-2035.",
   "anchor": "Manifold AGI series (RemNi): 58% before 2032, 63% before 2035; times P(shock | AGI) about 0.5-0.6."
  },
  "shock_by_2040": {
-  "lo": 0.28,
-  "mode": 0.43,
-  "hi": 0.6,
+  "lo": 0.15,
+  "mode": 0.24,
+  "hi": 0.34,
   "note": "Onset by end-2040.",
   "anchor": "Manifold 'AGI before 2040' 72% (98 traders) times P(shock | AGI) about 0.6."
  },
  "shock_by_2050": {
-  "lo": 0.35,
-  "mode": 0.55,
-  "hi": 0.75,
+  "lo": 0.2,
+  "mode": 0.32,
+  "hi": 0.44,
   "note": "Onset by end-2050.",
   "anchor": "Manifold 'AGI before 2048' 87%; '>97% of jobs automated before 2075' 63%."
  },
@@ -83,47 +83,68 @@
   "note": "A trifecta survives the midterm.",
   "anchor": "Of the six trifectas that started a presidential term from 1993 to 2021, only the 2001 one survived its midterm (2002); 1994, 2006, 2010, 2018 and 2022 each flipped a chamber."
  },
- "q_any_D_normal": {
-  "lo": 0.01,
-  "mode": 0.03,
-  "hi": 0.07,
-  "note": "D trifecta, no AI shock.",
-  "anchor": "JUDGMENT; the 2009 and 2021 D trifectas enacted no UBI (2021: temporary CTC, one-time $1,400 checks)."
- },
- "q_any_R_normal": {
-  "lo": 0.005,
-  "mode": 0.02,
-  "hi": 0.05,
-  "note": "R trifecta, no AI shock.",
-  "anchor": "JUDGMENT; recurring tariff or sovereign-fund 'dividends' are the plausible R route (Kalshi: a new Trump dividend program by 2027 at 5.2%)."
- },
- "q_any_div_normal": {
+ "e_D_normal": {
   "lo": 0.0,
-  "mode": 0.003,
-  "hi": 0.01,
-  "note": "Divided government, no AI shock.",
+  "mode": 0.0517,
+  "hi": 0.2697,
+  "note": "D trifecta endorses, no shock.",
+  "anchor": "DATA: fitted to the verified 2000-2026 record of all ten countries (research/endorsement/fit.py)."
+ },
+ "e_R_normal": {
+  "lo": 0.0,
+  "mode": 0.0188,
+  "hi": 0.041,
+  "note": "R trifecta endorses, no shock.",
+  "anchor": "DATA: same record."
+ },
+ "e_div_normal": {
+  "lo": 0.0,
+  "mode": 0.0,
+  "hi": 0.1378,
+  "note": "The President endorses under divided government, no shock.",
+  "anchor": "DATA: same record."
+ },
+ "e_D_shock": {
+  "lo": 0.35,
+  "mode": 0.6,
+  "hi": 0.85,
+  "note": "D trifecta endorses during a shock.",
+  "anchor": "JUDGMENT: no trigger-type shock in the record."
+ },
+ "e_R_shock": {
+  "lo": 0.1,
+  "mode": 0.35,
+  "hi": 0.65,
+  "note": "R trifecta endorses during a shock.",
   "anchor": "JUDGMENT."
  },
- "q_any_D_shock": {
-  "lo": 0.25,
-  "mode": 0.45,
+ "e_div_shock": {
+  "lo": 0.15,
+  "mode": 0.4,
   "hi": 0.7,
-  "note": "D trifecta during an AI shock.",
-  "anchor": "JUDGMENT; Manifold 'UBI policy after AI mass unemployment' puts 'No UBI' at 76% (21 traders; that is over all governments)."
+  "note": "The President endorses under divided government during a shock.",
+  "anchor": "JUDGMENT."
  },
- "q_any_R_shock": {
-  "lo": 0.1,
-  "mode": 0.25,
-  "hi": 0.45,
-  "note": "R trifecta during an AI shock.",
-  "anchor": "JUDGMENT; populist-right 'universal high income' route."
+ "pass_D": {
+  "lo": 0.3,
+  "mode": 0.5,
+  "hi": 0.7,
+  "note": "An endorsed UBI passes under a D trifecta.",
+  "anchor": "DATA: about half of US trifectas' flagship priorities since 1993 passed."
  },
- "q_any_div_shock": {
+ "pass_R": {
+  "lo": 0.3,
+  "mode": 0.5,
+  "hi": 0.7,
+  "note": "An endorsed UBI passes under an R trifecta.",
+  "anchor": "DATA: same record."
+ },
+ "pass_div": {
   "lo": 0.03,
-  "mode": 0.08,
-  "hi": 0.15,
-  "note": "Divided government during an AI shock.",
-  "anchor": "JUDGMENT; the 2020 CARES checks passed under divided government, but they were temporary."
+  "mode": 0.1,
+  "hi": 0.2,
+  "note": "An endorsed UBI passes under divided government.",
+  "anchor": "JUDGMENT."
  },
  "amount_median_normal": {
   "lo": 1000,

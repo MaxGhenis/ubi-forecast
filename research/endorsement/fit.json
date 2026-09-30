@@ -1,0 +1,258 @@
+{
+ "method": "Fit no-shock endorsement rates from the verified 2000-2026 record (record.json).",
+ "types": {
+  "L": {
+   "a": 0.1870831130803189,
+   "b": 3.1921698796246596,
+   "how": "negative-binomial marginal likelihood",
+   "events": 3,
+   "exposure_years": 75.1
+  },
+  "R": {
+   "a": 0.05742618532677202,
+   "b": 1.6616991780914347,
+   "how": "negative-binomial marginal likelihood",
+   "events": 1,
+   "exposure_years": 91.8
+  },
+  "O": {
+   "a": 0.5,
+   "b": 0.0,
+   "how": "Jeffreys Gamma(0.5, 0); no events of this type",
+   "events": 0,
+   "exposure_years": 84.1
+  }
+ },
+ "countries": {
+  "USA": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.4203,
+    "events": 0,
+    "exposure_years": 4.0
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1216,
+    "events": 0,
+    "exposure_years": 8.2
+   },
+   "O_normal": {
+    "lo": 0.0005,
+    "mode": 0.0005,
+    "hi": 0.4095,
+    "events": 0,
+    "exposure_years": 14.6
+   }
+  },
+  "GBR": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.2671,
+    "events": 0,
+    "exposure_years": 12.6
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1741,
+    "events": 0,
+    "exposure_years": 6.7
+   },
+   "O_normal": {
+    "lo": 0.0013,
+    "mode": 0.0013,
+    "hi": 0.7221,
+    "events": 0,
+    "exposure_years": 7.5
+   }
+  },
+  "CAN": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.2767,
+    "events": 0,
+    "exposure_years": 8.9
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1891,
+    "events": 0,
+    "exposure_years": 4.4
+   },
+   "O_normal": {
+    "lo": 0.0006,
+    "mode": 0.0006,
+    "hi": 0.436,
+    "events": 0,
+    "exposure_years": 13.4
+   }
+  },
+  "DEU": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.2704,
+    "events": 0,
+    "exposure_years": 9.2
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1964,
+    "events": 0,
+    "exposure_years": 4.2
+   },
+   "O_normal": {
+    "lo": 0.0006,
+    "mode": 0.0006,
+    "hi": 0.438,
+    "events": 0,
+    "exposure_years": 13.3
+   }
+  },
+  "FRA": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.4537,
+    "events": 0,
+    "exposure_years": 4.9
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1285,
+    "events": 0,
+    "exposure_years": 9.9
+   },
+   "O_normal": {
+    "lo": 0.0008,
+    "mode": 0.0008,
+    "hi": 0.5533,
+    "events": 0,
+    "exposure_years": 11.9
+   }
+  },
+  "ESP": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1947,
+    "events": 0,
+    "exposure_years": 14.9
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1042,
+    "events": 0,
+    "exposure_years": 9.9
+   },
+   "O_normal": {
+    "lo": 0.0041,
+    "mode": 0.0041,
+    "hi": 0.9818,
+    "events": 0,
+    "exposure_years": 1.9
+   }
+  },
+  "BRA": {
+   "L_normal": {
+    "lo": 0.2185,
+    "mode": 0.4913,
+    "hi": 0.9434,
+    "events": 2,
+    "exposure_years": 3.8
+   },
+   "R_normal": {
+    "lo": 0.0663,
+    "mode": 0.0663,
+    "hi": 0.9677,
+    "events": 1,
+    "exposure_years": 2.0
+   },
+   "O_normal": {
+    "lo": 0.0014,
+    "mode": 0.0014,
+    "hi": 0.7526,
+    "events": 0,
+    "exposure_years": 5.5
+   }
+  },
+  "KOR": {
+   "L_normal": {
+    "lo": 0.0376,
+    "mode": 0.0765,
+    "hi": 0.7595,
+    "events": 1,
+    "exposure_years": 6.2
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.1236,
+    "events": 0,
+    "exposure_years": 8.0
+   },
+   "O_normal": {
+    "lo": 0.0007,
+    "mode": 0.0007,
+    "hi": 0.4873,
+    "events": 0,
+    "exposure_years": 11.5
+   }
+  },
+  "JPN": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.4517,
+    "events": 0,
+    "exposure_years": 3.3
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.0522,
+    "events": 0,
+    "exposure_years": 22.1
+   },
+   "O_normal": {
+    "lo": 0.0059,
+    "mode": 0.0059,
+    "hi": 0.9969,
+    "events": 0,
+    "exposure_years": 1.3
+   }
+  },
+  "AUS": {
+   "L_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.2472,
+    "events": 0,
+    "exposure_years": 7.2
+   },
+   "R_normal": {
+    "lo": 0.0,
+    "mode": 0.0,
+    "hi": 0.0513,
+    "events": 0,
+    "exposure_years": 16.5
+   },
+   "O_normal": {
+    "lo": 0.0019,
+    "mode": 0.0019,
+    "hi": 0.8457,
+    "events": 0,
+    "exposure_years": 3.1
+   }
+  }
+ }
+}

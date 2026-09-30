@@ -1,7 +1,8 @@
 """Specs for Max's US UBI Manifold slate (2026-09-29, revision 2).
 
-Revision 2 applies the adversarial review (B1-B2, S1-S14, N1-N5) and takes the
-opening odds from the decomposed model in ../model (results.json -> seeds).
+Revision 2 of these specs applies the adversarial review (B1-B2, S1-S14, N1-N5). The opening
+odds came from revision 1 of the decomposed model and are frozen in opening_seeds.json, so
+later model revisions don't rewrite the record of what the markets opened at.
 build(links) returns create-market payloads; links fills cross-market URLs.
 """
 import datetime
@@ -10,7 +11,7 @@ import zoneinfo
 from pathlib import Path
 
 ET = zoneinfo.ZoneInfo("America/New_York")
-SEEDS = json.loads((Path(__file__).parent.parent / "model" / "results.json").read_text())["seeds"]
+SEEDS = json.loads((Path(__file__).parent / "opening_seeds.json").read_text())["seeds"]
 
 
 def ms(y, m, d, hh=23, mm=59):

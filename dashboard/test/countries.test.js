@@ -3,7 +3,7 @@ import { COUNTRIES, GLOBALS } from "../src/countries.js";
 import { FIRST_YEAR, LAST_YEAR } from "../src/engine.js";
 
 const ranges = (c) => [
-  ...Object.values(c.q), c.exposure, c.ratchet, c.amount.normal, c.amount.shock,
+  ...Object.values(c.endorse), ...Object.values(c.pass), c.exposure, c.ratchet, c.amount.normal, c.amount.shock,
   ...c.periods.flatMap((p) => (p.kind === "draw" ? [p.pL, p.pR] : p.kind === "keep" ? [p.keep] : [])),
 ];
 
@@ -18,7 +18,7 @@ describe("country configurations", () => {
         for (const r of [...ranges(c), c.lag]) { expect(r.lo).toBeLessThanOrEqual(r.mode); expect(r.mode).toBeLessThanOrEqual(r.hi); }
       });
       it("probabilities sit in [0, 1]", () => {
-        for (const r of [...Object.values(c.q), c.exposure, c.ratchet, ...c.periods.flatMap((p) => (p.kind === "draw" ? [p.pL, p.pR] : p.kind === "keep" ? [p.keep] : []))]) {
+        for (const r of [...Object.values(c.endorse), ...Object.values(c.pass), c.exposure, c.ratchet, ...c.periods.flatMap((p) => (p.kind === "draw" ? [p.pL, p.pR] : p.kind === "keep" ? [p.keep] : []))]) {
           expect(r.lo).toBeGreaterThanOrEqual(0); expect(r.hi).toBeLessThanOrEqual(1);
         }
       });
@@ -35,8 +35,8 @@ describe("country configurations", () => {
       it("cites sources for its facts", () => {
         if (c.iso3 !== "USA") { expect(c.facts.length).toBeGreaterThanOrEqual(3); for (const f of c.facts) expect(f.url).toMatch(/^https:\/\//); }
       });
-      it("a shock never lowers a government's enactment chance", () => {
-        for (const s of ["L", "R", "O"]) expect(c.q[`${s}_shock`].mode).toBeGreaterThanOrEqual(c.q[`${s}_normal`].mode);
+      it("a shock never lowers a government's chance of endorsing", () => {
+        for (const s of ["L", "R", "O"]) expect(c.endorse[`${s}_shock`].mode).toBeGreaterThanOrEqual(c.endorse[`${s}_normal`].mode);
       });
     });
   }

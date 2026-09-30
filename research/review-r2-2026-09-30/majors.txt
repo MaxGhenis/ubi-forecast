@@ -1,0 +1,218 @@
+
+## engine::shock-under-way-undefined-permanent [PLAUSIBLE] dashboard/src/engine.js:274
+CLAIM: The ledger conditions six endorsement inputs per country on 'while the shock is under way' / 'with no shock under way' (app.js:353), resolved 'Only if that government holds power under that condition'. The paper says endorsement depends on 'whether the trigger's shock is under way' (index.qmd:86).
+FIX: Define the condition observably in the ledger and paper, e.g. 'from 1 to 3 calendar years after the trigger year through 2050, whatever unemployment does afterwards'. Alternatively, model shock end if that is intended.
+IMPACT: Does not change the headline. It leaves half of each country's conditional endorsement inputs unresolvable as written, which undercuts the 'everything falsifiable' goal. Fix before publishing.
+
+## python-parity::us-endorsement-lapses-at-midterm [PLAUSIBLE] dashboard/src/engine.js:276
+CLAIM: An endorsement lapses whenever the government type changes, and US endorsement chances are stated per 4-year term. Paper line 86 says: 'An endorsement means a statement by the head of government, or a governing party's platform ... It lapses when the type of government changes.' The ledger (app.js ~l.351) says a US left-led government 'endorses a qualifying UBI within its 4-year term' at 60% during a shock.
+FIX: For the US (and other presidential systems), tie endorsement to the head of government. Lapse only when the presidency changes hands or party, not at midterms. Or state and justify the midterm lapse explicitly. Phrase the ledger proposition over the government's actual tenure, or show the tenure-implied probability. Apply the same change to ubi_model.py so parity holds.
+IMPACT: This is not a code bug: the code does what the paper says. But the stated rule conflicts with the paper's own definition of endorsement for the US. Under the no-midterm-lapse reading, the US headline moves from 2.5% to 3.0% by 2040 and from 7.4% to 9.4% by 2050. The owner should decide before publishing whether to keep the rule, with a justificatio
+
+## python-parity::model-readme-stale-rev1 [PLAUSIBLE] model/README.md:14
+CLAIM: The model README presents the Python reference's current result as 9.6% by 2040 and 23.0% by 2050, with revision-1 signposts, sensitivities and attribution.
+FIX: Rewrite model/README.md from the current results.json (revision-2 structure: endorsement, then passage, then the measurable trigger), or trim it to a pointer to the paper. Remove the stale tables.
+IMPACT: The dashboard and paper headline do not change. But once PR #1 merges, the public reference model's README would contradict the paper (9.6% vs 2.5%). Fix before merging or publishing revision 2.
+
+## claims::revisions-misattributes-drop [CONFIRMED] dashboard/src/app.js:379
+CLAIM: Revisions: revision 2 'replaces the "political appetite" and "generosity" multipliers with explicit probabilities and amounts' and puts the US lower 'because endorsing first and passing later takes time, an endorsement lapses when the government changes, and the record rules out the no-shock rates revision 1 implied'. Paper (index.qmd:186): 'Both changes lower the forecast.'
+FIX: Rewrite: the drop comes mainly from the lapse and two-step structure (about 3 to 4.5 points) and from lower shock-state endorsement and passage judgments (about 1.5 to 3 points), while the no-shock recalibration moves it by about 0.1 points. Drop the claim about 'generosity' and amounts.
+IMPACT: The Revisions text explains the forecast change with reasons that do not drive it and omits a judgment change that does. Fix before publishing; no number changes.
+
+## claims::endorsement-record-contradicted [CONFIRMED] dashboard/src/countries.js:47
+CLAIM: endorseBaseNote (shown in every country's ledger, labeled 'data'), the Revisions text and the paper say: 'None of the ten governments endorsed a strict UBI in about 75 government terms since 2000 ... with that rate the clean record had about a 47% chance, against 11% under a 3% rate.' The endorsement resolution text counts 'a statement by the head of government, or the governing party's platform or coalition agreement' (app.js:313); the paper says 'a governing party's platform' (index.qmd:86).
+FIX: Tighten one endorsement definition across dashboard and paper (whether pre-election platforms of a governing party and junior coalition partners count), recount the record under it, cite the tally, and correct 11% to 10%. If Brazil 2004 or Korea 2022 count, recalibrate the no-shock rate (1 to 2 events in about 75 terms gives about 1.3% to 2.7% per term) and label it accordingly.
+IMPACT: This is a factual claim labeled 'data', and it anchors the 'Checkable soon' endorsement predictions. The headline moves little (no-shock rates contribute about 0.1 points), but the claim is unsupported as written. Fix before publishing.
+
+## claims::country-triggers-only-via-us [CONFIRMED] dashboard/src/app.js:373
+CLAIM: 'Each other country may meet its own version of the trigger, with its own chance and lag.' The paper: 'Each other country meets its own trigger, defined the same way on its own unemployment and GDP series' (index.qmd:78). 'Checkable soon' says 'Triggers resolve from each country's official unemployment and GDP series'.
+FIX: State the assumption as a ledger proposition ('If the US trigger is not met, no other country's is': 100%), or add an independent per-country trigger chance. The per-country 'Trigger met by 2028/2030' predictions should note that the model treats a US-independent trigger as impossible.
+IMPACT: This is an unstated assumption that the record contradicts, and it affects the non-US and 'at least one of the ten' numbers (17.8%). Fix the copy before publishing; a model change would move numbers.
+
+## claims::ledger-amounts-and-hidden-inputs [CONFIRMED] dashboard/src/app.js:358
+CLAIM: Ledger rows 'If a UBI passes during a shock, its first-year amount per adult: 4.4%–15.6%, most likely 8.9% of GDP per head (most likely $8,000)', the no-shock amount range ($1,000–$3,500 for the US), and 'a governing majority raises it in a given year: 13%'. The abstract says 'Every input is stated as a proposition with a resolution date and a data source' (index.qmd:8), and the wrapper says 'every input stated as something that can turn out wrong' (build_wrapper.py:16).
+FIX: Label the amount rows as 'median of the amount distribution' and add the dispersion, or show the model-implied first-year amount range. Reword the ratchet row as a redraw chance. Add ledger rows (or a 'fixed structural choices' list) for sigma, the floor and shock permanence, or soften 'every input'.
+IMPACT: The 'everything falsifiable' claim is overstated, and the amount rows misdescribe what the model draws. The headline is unaffected. Fix the copy before publishing.
+
+## claims::paper-amounts-dividend-scale [CONFIRMED] paper/index.qmd:94
+CLAIM: 'its first-year amount is drawn ... small without a shock (dividend-scale, like Alaska's) and larger during one.'
+FIX: Say that the US no-shock prior is dividend-scale, while most other countries' no-shock priors sit near their existing minimum-income benefits (8 to 11% of GDP per head).
+IMPACT: This misdescribes the inputs for most countries and matters when reading the non-US and 'any of ten' results. Fix before publishing.
+
+## claims::wrapper-6000-for-all-ten [CONFIRMED] paper/scripts/build_wrapper.py:17
+CLAIM: The wrapper description (also its meta and og description): 'It puts a US UBI worth $6,000 a year at 2.5% by 2040 ... and 17.8% that at least one of the ten enacts one by 2040.'
+FIX: Write '... and 17.8% that at least one of the ten enacts one worth 6.7% of its GDP per head by 2040'. Where $6,000 appears, add 'at 2025 GDP per head'.
+IMPACT: This misstates what a headline number means on the paper's landing page and in link previews. The fix is a one-line copy change.
+
+## claims::meta-every-assumption-adjustable [CONFIRMED] dashboard/src/template.html:12
+CLAIM: meta description: 'with every assumption adjustable'; og:description: 'with every assumption adjustable and every input sourced'. The ledger lede defines judgment as 'an estimate from the evidence listed' (template.html:304).
+FIX: Use 'with the key assumptions adjustable', drop 'every input sourced' or add notes to those rows, and adjust the ledger lede.
+IMPACT: False claims in link-preview copy, with no number impact. Quick fix.
+
+## record::korea-current-status-undecidable [PLAUSIBLE] dashboard/src/countries.js:322
+CLAIM: The Korea note says Lee pledged a universal payment in 2022 'then dropped it in 2025'. The engine starts every country un-endorsed in 2027 (engine.js:262). With Korea's left-led government fixed for 2027, the model gives 1.4% that a Korean government endorses by 2028 and 2.9% by 2030. The paper calls endorsements 'the sharpest test' (index.qmd:164).
+FIX: 1. Add the May and June 2026 facts to the Korea note.
+2. Say explicitly whether a hedged statement by a head of government counts. One option: require a concrete universal, unconditional, recurring cash payment to all adults with an amount or a timeline, or a bill or budget line.
+3. If such statements count, start Korea endorsed. Then reconcile that with Korea's left-led passage prior of 0.5-0.9 per term, which would turn the standing endorsement into a roughly 50% chance of a UBI by 2040.
+IMPACT: A reader can score the Korea 'Checkable soon' row on statements that already exist. This must be settled before publishing. If the owner decides these statements count, it becomes a headline-changing blocker.
+
+## record::clean-record-weight-overstated [PLAUSIBLE] dashboard/src/countries.js:47
+CLAIM: 'With that rate the clean record had about a 47% chance, against 11% under a 3% rate.' The revision text (app.js:379, index.qmd:186) adds that 'the record rules out the no-shock rates revision 1 implied'.
+FIX: 1. Compute the likelihood in the model's own units, by government type.
+2. Report the likelihood ratio and drop 'rules out'.
+3. Correct 11% to 10%, or state the N used.
+IMPACT: This overstates the evidence for a prior labeled 'data'. Fix before publishing. It does not change the US headline.
+
+## record::revision-attribution-unsupported [PLAUSIBLE] dashboard/src/app.js:379
+CLAIM: Revision 2 'puts it lower, because endorsing first and passing later takes time, an endorsement lapses when the government changes, and the record rules out the no-shock rates revision 1 implied' (also index.qmd:186).
+FIX: Drop the third reason, or publish a decomposition of the drop from 9.6% to 2.5% by change, computed from real runs.
+IMPACT: This is a mechanism claim in public copy that my run contradicts. Fix before publishing. The headline is unchanged.
+
+## record::endorsement-rule-ambiguous [PLAUSIBLE] paper/index.qmd:86
+CLAIM: 'An endorsement means a statement by the head of government, or a governing party's platform or coalition agreement, backing a universal, unconditional, recurring payment.' The dashboard instead says 'backing a qualifying UBI' (app.js:313), and the base-rate claim uses 'strict UBI'.
+FIX: 1. Adopt one resolution rule in the paper, the dashboard and the base-rate count. Cover amount, all adults versus age bands, junior partners, convention resolutions versus election platforms, standing laws, and whether an endorsement made before 2027 counts as the starting state.
+2. Publish a case table (country, year, actor, text, verdict) so readers can check the base rate.
+IMPACT: The owner's goal is that every assumption is falsifiable. As written, the endorsement rows and the base rate cannot be scored unambiguously. Fix before publishing.
+
+## record::brazil-standing-endorsement [PLAUSIBLE] dashboard/src/countries.js:283
+CLAIM: The Brazil note calls Law 10.835 'a universal statute' and says the 2023 Bolsa Família law 'calls itself a step toward it'. Yet the engine starts Brazil un-endorsed, and the model gives 0.4% that Brazil endorses by 2028.
+FIX: 1. Decide whether Lei 14.601 §1 is a standing endorsement and set Brazil's starting state to match.
+2. State how a re-elected Lula resolves the Brazil 'Checkable soon' row.
+3. Acknowledge that Law 10.835 shows passage without funding, and model it as an outcome or explain why it is excluded.
+IMPACT: This affects Brazil's numbers and its near-term row. Fix before publishing. It does not affect the US headline.
+
+## facts::spain-coalition-claim-wrong [CONFIRMED] dashboard/src/countries.js:234
+CLAIM: ESP passNote: 'Spanish governments are usually minority coalitions; coalitions have 72-76% lower odds of fulfilling pledges (Thomson et al. 2017).'
+FIX: Say that Spain has had minority coalitions since 2020 and that a PP government would probably need Vox, as a coalition or through support. Drop the implication that the coalition penalty describes Spanish governments historically, or cite Spain's high single-party fulfilment alongside it.
+IMPACT: This is a wrong factual claim in the ledger justifying Spain's passage prior (0.5 / 0.4). It does not change the US or all-ten headline, but fix it before publishing.
+
+## facts::australia-senate-delay-wrong [CONFIRMED] dashboard/src/countries.js:378
+CLAIM: AUS passNote: 'Single-party Westminster majorities fulfil pledges at the highest rates (Thomson et al. 2017); the Senate can delay.'
+FIX: Say that the Senate can reject bills (the only remedy is a double dissolution) and that Labor needs the Greens plus at least one more senator. The Greens back 'an unconditional livable income', which may justify keeping a high L prior. Note that Thomson does not cover Australia. Consider a lower R prior, since the Coalition is a coalition.
+IMPACT: This is a wrong mechanism claim supporting the prior of the country with the highest forecast (Australia 4.6% by 2040). The headline is not directly changed; fix before publishing.
+
+## falsifiability::episode-count-script-drops-episodes [CONFIRMED] research/trigger/compute_triggers.py:48
+CLAIM: 'In the official records of all ten countries, eleven episodes saw the 12-month unemployment rate rise three points or more' (paper:74; app.js:373). Ledger notes: 'Since 1955, 3 rises' for Canada (countries.js:129) and 'Since 1986, 1 rise' for Spain (countries.js:232).
+FIX: Record dropped episodes explicitly, or restate each country's span as the GDP-checked span. Fetch longer GDP series, or say 'unverified'. Check Brazil on PNAD Contínua from 2012. Add a test that reads triggers.json and checks countries.js baseline, level and episode counts.
+IMPACT: This is a wrong factual claim in the page and the paper but does not change any number. Fix alongside the blocker.
+
+## falsifiability::prior-event-vs-resolution-event [CONFIRMED] dashboard/src/countries.js:10
+CLAIM: The timing priors are defined (countries.js:10-12) as the chance that 'a sustained, economist-attributed AI displacement of about 3 pp of US unemployment has started'. They are anchored to AI-attributed markets. The ledger (app.js:330) resolves them purely from FRED UNRATE and GDPC1, with no attribution.
+FIX: Either state that the prior covers any cause that meets the statistical trigger and add non-AI mass, or adopt the no-recession definition. That definition has never fired historically, so the AI anchors become a reasonable proxy for it.
+IMPACT: This follows from the blocker, and the same fix resolves it. Without the fix, the ledger 'resolves' a number against an event its sources did not price.
+
+## falsifiability::no-shock-endorsement-record [CONFIRMED] dashboard/src/countries.js:47
+CLAIM: 'None of the ten governments endorsed a strict UBI in about 75 government terms since 2000'. This is badged 'data' on 30 ledger rows, and repeated in app.js:379, paper:186, model/inputs.json and ubi_model.py.
+FIX: Commit the term-by-term record as a data file. State the exclusion rule (for example, no amount, or generic platform language). Apply it explicitly to Brazil 2004 and the PPP in 2020-25, recompute the likelihoods, and correct 11% to 10%.
+IMPACT: The 'data' basis of the no-shock rows is contested by the page's own facts. It drives the 'sharpest test' number (11.7% by 2030) and the all-ten headline. Resolve before publishing, or soften the claim.
+
+## falsifiability::korea-endorsement-ambiguous-now [CONFIRMED] dashboard/src/countries.js:315
+CLAIM: Korea starts 2027 as not endorsed, and the model gives South Korea 1.4% to endorse by 2028 and 0.4% to enact a UBI of any size by 2030. The ledger mentions only the Basic Income Planning Team and a 2027 pilot.
+FIX: Say in Korea's ledger that the May 2026 plan, the pilots and a framework act do not count as endorsement or enactment, and why. Tighten the endorsement definition to a national, universal, unconditional cash payment.
+IMPACT: Nothing has clearly resolved as of 30 Sep 2026, but a lenient reader could score Korea's endorsement as already YES. How it is classified moves the all-ten headline by about 5 points.
+
+## falsifiability::endorsement-definition-inconsistent [CONFIRMED] dashboard/src/app.js:313
+CLAIM: The dashboard defines an endorsement as 'a statement by the head of government, or the governing party's platform or coalition agreement, backing a qualifying UBI'. The paper (index.qmd:86) says 'a governing party's platform … backing a universal, unconditional, recurring payment', with no amount.
+FIX: Use one definition in both places. Name who counts (head of government, the leading party, or a coalition agreement). Say that options lists and age-limited or pilot schemes do not count, and state whether an amount threshold applies.
+IMPACT: The near-term test the paper leans on cannot resolve unambiguously. Fix the wording before publishing.
+
+## falsifiability::falsifiable-overclaim-no-scoring-rule [CONFIRMED] dashboard/src/app.js:375
+CLAIM: 'Every assumption is stated so it can turn out wrong' (app.js:375). The ledger lede says 'Every input, stated so that it can turn out wrong' (template.html:304). Checkable soon says 'If these miss by more than chance allows, the assumptions behind them are wrong' (template.html:292) but defines no test.
+FIX: Say on the page which rows can be scored only in aggregate and which may never resolve. Pre-register a scoring rule (log or Brier) and one or two sharp falsifiers, for example 'two or more endorsements by 2030 with no trigger (0.3% under the model)'.
+IMPACT: The owner's stated goal is 'everything falsifiable incl assumptions'. The dashboard currently overclaims this, while the paper mostly does not. It is a wording and pre-registration fix and does not change the headline.
+
+## falsifiability::ratchet-row-wrong-number [CONFIRMED] dashboard/src/app.js:360
+CLAIM: Ledger row: 'If a UBI exists during a shock, a governing majority raises it in a given year: 13%'.
+FIX: Show 5.6% as the chance of a raise, or reword the row as 'is reconsidered 13% of years and raised if the redraw is larger'.
+IMPACT: The observable proposition would be scored against a number more than twice too high. The headline is not affected.
+
+## falsifiability::exposure-rows-resolution-and-hidden-structure [CONFIRMED] dashboard/src/app.js:338
+CLAIM: 'If the US trigger is met, X's is met too' resolves 'When the US trigger is met'. The paper says each country's trigger has 'a probability conditional on the US trigger'.
+FIX: Reword the row as 'X's trigger is met within [lo, hi] years of the US's'. Add a ledger row stating that no country meets its trigger unless the US does, which a eurozone-only or Korea-only shock would falsify.
+IMPACT: The resolution criterion is imprecise and a falsifiable structural assumption is not disclosed. It should be fixed, but the headline is not affected.
+
+## paper::brazil-trigger-history-unchecked [PLAUSIBLE] paper/index.qmd:74
+CLAIM: "In the official records of all ten countries, eleven episodes saw the 12-month unemployment rate rise three points or more above its level two years earlier ... In all eleven, real GDP was below its previous peak." (The same claim appears in the dashboard's How-it-works text, dashboard/src/app.js around line 373: "all eleven episodes on record across the ten countries".)
+FIX: Say 'in the OECD harmonised (and BLS) series for nine of the ten countries, back to each series' start (1948-1991); Brazil's series was only checked from 2024'. Or extend compute_triggers.py to a long Brazilian series (e.g., PNAD/PME) before making the claim. Fix the dashboard copy the same way.
+IMPACT: This is the empirical basis for the paper's key design choice: the 'jobless growth' condition separates an AI shock from a recession. As written it overclaims coverage. It is quick to fix and does not change any number, but it should be fixed before publishing.
+
+## paper::revision-attribution-noshock [PLAUSIBLE] paper/index.qmd:186
+CLAIM: Revisions: "This version splits enactment into the two observable steps above and calibrates the no-shock endorsement rate to the record ... Both changes lower the forecast: endorsing first and passing later takes time, an endorsement lapses when the government changes, and the record rules out the no-shock rates the first version implied." (The dashboard's Revisions paragraph in app.js renderHow says the same.)
+FIX: Attribute the drop to the two-step endorsement-then-passage structure, with its delay and lapse. Add that restoring revision 1's no-shock rates moves the US 2040 figure only from 2.5% to 2.6%, so the base-rate calibration mainly matters for any-size and near-term endorsement questions. Put that counterfactual in results.mjs so the number is generated rather than typed.
+IMPACT: This is a mechanism claim that a run contradicts, the kind the owner's 'no fabricated mechanisms' rule targets. The headline is unaffected, but the explanation readers get for the 9.6% to 2.5% revision is wrong in emphasis. It should be fixed before publishing.
+
+## paper::endorsement-record-unsourced [PLAUSIBLE] paper/index.qmd:186
+CLAIM: "calibrates the no-shock endorsement rate to the record, which has no endorsement of a strict UBI by any of the ten governments in about 75 terms since 2000" (the same claim sits in every countries.js endorseBaseNote and in model/ubi_model.py e_*_normal notes marked DATA).
+FIX: Commit the endorsement-record research output (the list of terms and candidate endorsements) and cite it. Either count Brazil 2004 (and say why the 2023 Bolsa Familia 'step toward RBC' framing does or does not count) or state the exclusion rule that removes it. Correct 11% to 10%.
+IMPACT: This fact is the only 'data' badge on the no-shock endorsement priors, and the paper's 'falsifiable' framing rests on inputs like it. My counterfactual in revision-attribution-noshock shows the US headline barely depends on it, so this is a sourcing and accuracy fix rather than a number change. It should be fixed before publishing.
+
+## paper::unverified-citations [PLAUSIBLE] paper/references_PENDING_VERIFICATION.txt:1
+CLAIM: The manuscript cites hoynes2019universal, banerjee2019universal, dewispelaere2012feasibility, roosma2020public, parolin2020support, dermont2020automation, steensland2008failed, kangas2021feasibility, verho2022removing, vivalt2024employment, jones2022labor and salehiisfahani2018cash as support (index.qmd lines 62, 88, 118, 120).
+FIX: Run the queued verifier, or verify the 12 by hand, before publishing, and apply any corrections to the attached claims (for example 'Finland's experiment raised employment slightly', 'Alaska's dividend has not reduced employment', 'broadest where social spending is lowest').
+IMPACT: These are specific empirical claims attached to unverified citations. Publishing them conflicts with the owner's rules, so they should be verified before publishing. No model number depends on them.
+
+## decision::process-label-unsupported [CONFIRMED] dashboard/src/template.html:304
+CLAIM: The ledger's label key says a judgment input is 'an estimate from the evidence listed, drafted by a research agent and checked by a second.'
+FIX: Reword the label to what is documented, for example 'judgment: my estimate from the evidence listed; country facts were gathered by a research agent and re-checked by a second.' Alternatively, keep the current wording only after ubi-endorse, ubi-passage and ubi-r2-review have run and their outputs are committed.
+IMPACT: This is an unverified process claim, the 'expert review' kind the owner's rules forbid. Publishing now requires the rewording. Waiting could make the current wording true.
+
+## decision::repo-readmes-describe-rev1 [CONFIRMED] model/README.md:14
+CLAIM: The public repo's README.md and model/README.md describe the model and its results.
+FIX: In PR #1, rewrite both READMEs for revision 2: the trigger, endorsement then passage, 2.5% and 7.4%, a revisions note, and 332 checks. Regenerate or remove the Radiant exports. Merge PR #1 at the same time as PR #62, not after.
+IMPACT: If PR #62 merges alone, the dashboard's code link points at a repo where main is still revision 1. If PR #1 merges as-is, the repo's landing page contradicts the dashboard. This can be fixed during the wait.
+
+## decision::specs-seeds-drift [CONFIRMED] markets/specs.py:13
+CLAIM: The specs.py docstring says it 'takes the opening odds from the decomposed model in ../model (results.json -> seeds)'. README.md:31 describes markets/ as containing 'the creation script for the Manifold markets seeded from this model'.
+FIX: Freeze the opening seeds by copying the seeds from origin/main model/results.json into, for example, markets/opening_seeds.json. Point specs.py at that file and note that the seeds came from revision 1.
+IMPACT: This is the repo's record of the owner's markets, and traders reach it from the market descriptions. Fix it in PR #1 before merging.
+
+## decision::market-descriptions-vs-rev2 [CONFIRMED] markets/specs.py:36
+CLAIM: The m1, m2 and m3 descriptions (live, fetched with GET /v0/market/<id> at 17:10Z) say: 'Opening odds come from my own Monte Carlo model: when an AI labor shock might start, which party controls each Congress, and the chance of enactment under each combination. Prediction-market prices and recent base rates set the shock-timing and party-control inputs; the enactment chances are my judgment. Trade against it.' They also say 'The model and a 10-country dashboard built on it: maxghenis.com/ubi-fore
+FIX: This is the owner's call and a public action. One option is an 'Edited' line in the m1–m3 descriptions saying the opening odds came from revision 1 (9.6% by 2040), revision 2 puts it at 2.5%, and the resolution criteria are unchanged, following the pattern of link_update.py. No trade recommendation.
+IMPACT: Publishing makes the creator's own linked model contradict his markets' opening odds by 4 to 5 times. Waiting does not avoid this, because the numbers are already public on GitHub, so it bears on how to publish more than on when.
+
+## decision::verho-citation-support [CONFIRMED] paper/index.qmd:120
+CLAIM: 'Finland's experiment raised employment slightly and improved wellbeing [@verho2022removing]'
+FIX: Say the experiment had 'at most minor employment effects [@verho2022removing]'. Cite the wellbeing result to a source that reports it, after checking. Let the queued ubi-cite-verify job finish for the rest.
+IMPACT: Not a headline number. Fix the sentence now or wait for the citation verifier.
+
+
+#### DECISION SUMMARY
+ Help deciding on revision 2 (decision-context review, read-only). The numbers hold up. I made a fresh run of the engine at HEAD 2b027ba (200,000 histories, seed 20260929), and it reproduces every headline and every market-model value in paper/results.json exactly: US 2.491% by 2040 and 7.431% by 2050, 17.798% for at least one of the ten, US endorsement by 2030 2.62%, any of the ten 11.74%, and the US with no trigger 0.005%. The staged PR #62 dashboard is byte-identical to a fresh build of HEAD. The nine outside Manifold markets have not moved since the 29 Sep snapshot: trader counts are the same, prices are within half a point, and the latest trade was 27 Sep. The paper's "eight or more times" claim still holds at current prices (the smallest ratio is 8.9x).
+
+Publishing as-is has 1 blocker and 5 majors, none of which change the headline. BLOCKER: the social preview image (og-image.png) still says "9.6% chance". PR #62 does not change it, and the new paper wrapper pairs it with og:description text that says 2.5%. MAJORS: (1) The ledger says judgment inputs were "drafted by a research agent and checked by a second". The Subfleet research and review jobs that would make that true for revision-2 priors (ubi-endorse, ubi-passage, ubi-trigger-data, ubi-r2-review) are all still queued with zero attempts. (2) README.md and model/README.md are unchanged from revision 1 (9.6%, "generosity matters most", parameters that no longer exist), and all five Manifold descriptions link to that repo. (3) markets/specs.py now regenerates revision-2 seeds, not the odds the markets actually opened at. (4) The descriptions of the owner's markets link to "the model" that set their opening odds. After publishing, that model says m1 is 2.5% by 2040 (market 10.9%), the m2 $1,000 rung 1.6% (market 9.0%) and m3 3.2% (market 6.4%). m4 and m5 are unaffected. (5) One of the 12 unverified citations (Verho et al. 2022) is cited for "raised employment slightly and improved wellbeing", but its abstract says "minor employment effects at best" and does not mention wellbeing.
+
+Cost of waiting: revision 1's 9.6% stays live about 12 to 18 more hours (lanes reopen around 05:30 UTC 1 Oct per the brief, not verified, and each job may run up to 6 h). Little else is at stake. The outside markets are dormant. The owner's five markets have 3 traders and M87 in total volume, and he has not traded. The revision-2 numbers are already public in PR #1 on a public repo, so waiting protects no information edge.
+
+What waiting buys: the independent review, the citation check, and the endorsement, passage and trigger research that was meant to set the revision-2 priors. If that research moves the priors, publishing now would force a third headline within days on pages the markets link to.
+
+Lean (the decision is the owner's): fix the blocker and the majors now, since they are copy and asset edits of minutes each. Then publish PR #62 together with PR #1 once ubi-r2-review comes back clean. If the owner prefers to publish now, the minimum is: regenerate the social image under a new filename, reword the ledger label, fix the Verho sentence, and merge PR #1 with updated READMEs and frozen opening seeds at the same time as PR #62. Whether to add an "Edited" note to the market descriptions is the owner's call. I make no trade recommendation. Scratch files are in /private/tmp/claude-501/-Applications/da707ee8-bdb9-43d0-bb83-c08c894e427d/scratchpad/wf-review/decision/ (manifold_raw.json, pr62_*.html, og_live.png, build/check.mjs).
+
+CHECKED:
+ Fetched all 11 markets in markets.json plus the owner's other 3 from the public Manifold API (read-only GETs, 2026-09-30T17:10Z). Each line is current vs the 9/29 snapshot vs the revision-2 model:
+- NoAnswer: 40.0% by 2040 vs 40%, 18 traders (unchanged), M523, last bet 9/14; model 3.5%.
+- vicli full UBI before 2040: 30.2% vs 30%, 37 traders; model 0.6%.
+- JaundicedBaboon: 32.4% vs 32%, 10 traders; model 3.0%.
+- YakshBirla by 2030: 20.2% vs 20%, 36 traders; model 0.1%.
+- vicli before 2030: 29.5% vs 30%, 32 traders; model <0.1%.
+- Nostr0m G7 by 2028: 13.3% vs 13%, 15 traders; model <0.1%.
+- alby OECD before 2033: 68.8% vs 69%, 49 traders; model 4.2%.
+- vicli any country before 2040: 60.9% vs 61%, 50 traders, M11,859; model 6.9%.
+- vicli any EU country before 2040: 46.6% vs 47%, 21 traders; model 2.5%.
+- Owner's m1: 10.9% by 2040 vs 10%, 3 traders vs 0.
+- Owner's m2: $1,000 rung 9.0% vs 9%, 1 trader.
+No outside market has traded since 9/27.
+Re-ran the engine from a git-archive copy of HEAD 2b027ba (200,000 histories, seed 20260929, 14.5 s). All 11 market-model values equal paper/results.json exactly. Headlines: USA 0.02491, 0.07431 by 2050, all ten 0.17798, US endorsement by 2030 0.026235, all ten 0.11743, US with no trigger 0.0000534 (shown as <0.1%). South Korea: 4.1% any size, 1.3% at 6.7% of GDP per head.
+paper/_includes/table_markets.md rounds paper/results.json correctly. The paper's 'eight or more times' holds at current prices (smallest ratio 8.9x, any-country market).
+Paper market claims checked on Manifold: 'at least eight Manifold markets created by other people' (a search found 8 open federal-US UBI markets by other creators); 'most active has 37 traders'; abstract '40% ... 18 traders'; two 'any country' markets resolved YES on 2025-11-28 (48 bettors) and 2025-12-03 (106 bettors); the 175-trader AI-unemployment market is at 23%.
+PR #62 dashboard (public/ubi-forecast/index.html at 48234513) is byte-identical to a fresh `bun build.js` of HEAD 2b027ba. The wrapper's meta and og descriptions (2.5%, 7.4%, 17.8%, <0.1%, 11.7%) match paper/_variables.yml.
+On the scratch copy, vitest passes 82 tests and pytest passes 7.
+Both PRs are OPEN, MERGEABLE and green on every check, with no reviews. PR #62's body says not to merge before d729.
+Engine and countries.js are unchanged since the queued review's snapshot a5eb275. The later commits only change app.js, template.html, build_wrapper.py and tests.
+No 'Nikhil' or 'Woodruff' in any tracked file at HEAD, in the three PR #62 staged files, or in the five market descriptions. All commits are authored by Max Ghenis.
+No intervals around probabilities in the dashboard copy, the paper or the included tables. No 'expert review' wording.
+The research-verification counts in the dashboard and paper match the files: country_research.json has 332 verdicts (264/42/19/7) and fact_link_check.json has 37 facts (16 SUPPORTED, 21 PARTLY). Ledger facts are the same 49 as in revision 1.
+The owner has not traded in any of his five markets (bets API: only TheGreenKnight, ChurlishGambit and JasonMendoza2008Bot). Revision-2 Python outputs for m4 (CTC) and m5 (primary winner) are essentially unchanged from revision 1, so those two markets are unaffected.
+Both repos are public, and PR #1's body already states '9.6% → 2.5%', so the revision-2 numbers are already public.
+All 12 pending citations exist, and Crossref matches their title, authors, year, volume and pages. The Parolin & Siöland and Dermont & Weisstanner abstracts support the paper's sentences. Whether the other citations support their sentences is not verified.
+The dashboard's note on the owner's markets ('opened at revision 1's odds, so they aren't an independent check') is accurate. The live site (maxghenis.com/ubi-forecast) is still revision 1: its code contains 'appetite' and its social image shows 9.6%.
