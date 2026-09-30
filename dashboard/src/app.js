@@ -249,16 +249,23 @@ function renderSignposts(S, t) {
   const rows = signpostDefs().map((d) => { const m = d.mask(); let k = 0; for (const v of m) k += v; return { d, r: signpost(m, U), nYes: k }; })
     .filter((x) => x.r.pS > 0 && x.r.pS < 1);
   const top = niceMax(Math.max(...rows.map((x) => Math.max(x.r.pIfYes, x.r.pIfNo)), 0.02));
-  const W = 170, pad = 6, sx = (p) => pad + (p / top) * (W - 2 * pad);
-  $("signposts").innerHTML = `<table><thead><tr><th>If we observe</th><th class="num">Chance of that</th><th class="num">Forecast if yes</th><th class="num">If no</th><th><span class="sr">Shift</span></th><th></th></tr></thead><tbody>${
-    rows.map(({ d, r, nYes }) => `<tr class="${state.cond === d.id ? "active" : ""}"><td>${esc(d.label)}</td><td class="num">${fmtP(r.pS, sim.n)}</td><td class="num">${fmtP(r.pIfYes, nYes)}</td><td class="num">${fmtP(r.pIfNo, sim.n - nYes)}</td>
-      <td><svg width="${W}" height="18" role="img" aria-label="Forecast ${fmtP(r.pU, sim.n)} today; ${fmtP(r.pIfYes, nYes)} if yes; ${fmtP(r.pIfNo, sim.n - nYes)} if no">
+  // Narrow cards (folding phones, split screens) put the plot and the button under the label,
+  // so the whole row fits without sideways scrolling.
+  const narrow = $("signposts").clientWidth < 640;
+  const W = narrow ? 140 : 170, pad = 6, sx = (p) => pad + (p / top) * (W - 2 * pad);
+  const plot = (r, nYes) => `<svg width="${W}" height="18" role="img" aria-label="Forecast ${fmtP(r.pU, sim.n)} today; ${fmtP(r.pIfYes, nYes)} if yes; ${fmtP(r.pIfNo, sim.n - nYes)} if no">
         <line x1="${pad}" x2="${W - pad}" y1="9" y2="9" stroke="var(--hairline)"/>
         <line x1="${sx(r.pU)}" x2="${sx(r.pU)}" y1="3" y2="15" stroke="var(--ink-2)"/>
         <line x1="${sx(Math.min(r.pIfNo, r.pIfYes))}" x2="${sx(Math.max(r.pIfNo, r.pIfYes))}" y1="9" y2="9" stroke="var(--series-1)" stroke-width="2"/>
         <circle cx="${sx(r.pIfNo)}" cy="9" r="4" fill="var(--surface)" stroke="var(--series-1)" stroke-width="2"/>
-        <circle cx="${sx(r.pIfYes)}" cy="9" r="4" fill="var(--series-1)" stroke="var(--surface)" stroke-width="1.5"/></svg></td>
-      <td><button class="btn" type="button" data-cond="${d.id}" aria-pressed="${state.cond === d.id}">${state.cond === d.id ? "Supposed" : "Suppose this"}</button></td></tr>`).join("")}</tbody></table>
+        <circle cx="${sx(r.pIfYes)}" cy="9" r="4" fill="var(--series-1)" stroke="var(--surface)" stroke-width="1.5"/></svg>`;
+  const button = (d) => `<button class="btn" type="button" data-cond="${d.id}" aria-pressed="${state.cond === d.id}">${state.cond === d.id ? "Supposed" : "Suppose this"}</button>`;
+  const nums = (r, nYes) => `<td class="num">${fmtP(r.pS, sim.n)}</td><td class="num">${fmtP(r.pIfYes, nYes)}</td><td class="num">${fmtP(r.pIfNo, sim.n - nYes)}</td>`;
+  const head = `<th>If we observe</th><th class="num">Chance of that</th><th class="num">Forecast if yes</th><th class="num">If no</th>`;
+  $("signposts").innerHTML = `<table class="${narrow ? "narrow" : ""}"><thead><tr>${head}${narrow ? "" : `<th><span class="sr">Shift</span></th><th></th>`}</tr></thead><tbody>${
+    rows.map(({ d, r, nYes }) => `<tr class="${state.cond === d.id ? "active" : ""}">${narrow
+      ? `<td>${esc(d.label)}<div class="sp-row">${plot(r, nYes)}${button(d)}</div></td>${nums(r, nYes)}`
+      : `<td>${esc(d.label)}</td>${nums(r, nYes)}<td>${plot(r, nYes)}</td><td>${button(d)}</td>`}</tr>`).join("")}</tbody></table>
     <p class="help">Filled dot: forecast if yes. Hollow dot: if no. Tick: today's forecast. Scale 0 to ${fmtTick(top)}. An AI labor shock is a sustained rise in US unemployment of about 3 points that economists attribute to AI; each country gets it with its own chance and lag.</p>`;
   for (const b of document.querySelectorAll("[data-cond]")) b.onclick = () => { state.cond = state.cond === b.dataset.cond ? null : b.dataset.cond; update(); };
 }
@@ -272,9 +279,10 @@ function renderMarkets() {
     const p = cumulative(sim, isos.map((iso) => byIso[iso]), mk.model.t).curve.find((r) => r.year === mk.model.year).p;
     return { mk, p, missing };
   }).filter(Boolean);
-  $("markets").innerHTML = `<table><thead><tr><th>Market</th><th class="num">Price</th><th class="num">This model</th><th>Model's version of the question</th></tr></thead><tbody>${
-    rows.map(({ mk, p, missing }) => `<tr><td><a href="${esc(mk.url)}" target="_blank" rel="noopener">${esc(mk.question)}</a><div class="help">${esc(mk.platform)}, ${esc(mk.traders)} traders. ${esc(mk.definition)}</div></td>
-      <td class="num">${esc(mk.price)}</td><td class="num">${fmtP(p, sim.n)}</td><td>${esc(mk.model.note)}${missing.length ? ` Not modeled: ${esc(missing.map(nameOf).join(", "))}.` : ""}</td></tr>`).join("")}</tbody></table>
+  $("markets").innerHTML = `<table><thead><tr><th>Market</th><th class="num">Price</th><th class="num">This model</th></tr></thead><tbody>${
+    rows.map(({ mk, p, missing }) => `<tr><td><a href="${esc(mk.url)}" target="_blank" rel="noopener">${esc(mk.question)}</a><div class="help">${esc(mk.platform)}, ${esc(mk.traders)} traders. ${esc(mk.definition)}</div>
+      <div class="help">Model's version: ${esc(mk.model.note)}${missing.length ? ` Not modeled: ${esc(missing.map(nameOf).join(", "))}.` : ""}</div></td>
+      <td class="num">${esc(mk.price)}</td><td class="num">${fmtP(p, sim.n)}</td></tr>`).join("")}</tbody></table>
     <p class="help">Market prices as of ${esc(MARKETS.asOf)}. The model column uses the current assumptions, without any supposition. My own markets on this question opened at this model's odds, so they aren't an independent check: ${own.map((mk) => `<a href="${esc(mk.url)}" target="_blank" rel="noopener">${esc(mk.question)}</a> (${esc(mk.price)})`).join("; ")}.</p>`;
 }
 
