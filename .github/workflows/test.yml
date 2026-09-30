@@ -1,0 +1,19 @@
+name: test
+on: [push, pull_request]
+jobs:
+  dashboard:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: dashboard } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: bunx vitest run
+      - run: bun build.js
+  model:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: model } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --with numpy --with pytest --with hypothesis python -m pytest -q
